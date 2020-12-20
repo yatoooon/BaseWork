@@ -1,0 +1,2 @@
+include ':umeng'
+include ':demo', ':baselibrary'

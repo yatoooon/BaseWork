@@ -1,0 +1,259 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-aspectjx'
+apply from: 'proguard.gradle'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+    useLibrary 'org.apache.http.legacy'
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId "com.yatoooon.demo"
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+        testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
+        // 仅保留中文语种的资源
+        resConfigs 'zh'
+
+        // 仅保留 xxhdpi 图片资源（目前主流分辨率 1920 * 1080）
+        resConfig 'xxhdpi'
+
+        // 仅保留两种架构的 so 库，根据 Bugly 统计得出
+        ndk {
+            // armeabi：万金油架构平台（占用率：0%）
+            // armeabi-v7a：曾经主流的架构平台（占用率：10%）
+            // arm64-v8a：目前主流架构平台（占用率：90%）
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+
+        // 混淆配置
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-app.pro'
+    }
+    signingConfigs {
+        config {
+            storeFile file(StoreFile)
+            storePassword StorePassword
+            keyAlias KeyAlias
+            keyPassword KeyPassword
+        }
+    }
+    buildTypes {
+        debug {
+
+            jniDebuggable true
+            // 移除无用的资源文件
+            shrinkResources false
+            // ZipAlign 优化
+            zipAlignEnabled false
+            // 设置混淆
+            minifyEnabled false
+            // 开发环境下的 BuglyId
+            buildConfigField 'String', 'BUGLY_ID', '\"请自行替换 Bugly 上面的 AppID\"'
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+
+            signingConfig signingConfigs.config
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+
+            debuggable false
+            jniDebuggable false
+            // 移除无用的资源文件
+            shrinkResources true
+            // ZipAlign 优化
+            zipAlignEnabled true
+            // 设置混淆
+            minifyEnabled true
+            // 正式环境下的 BuglyId
+            buildConfigField 'String', 'BUGLY_ID', '\"请自行替换 Bugly 上面的 AppID\"'
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+
+            signingConfig signingConfigs.config
+        }
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
+        disable "ResourceType"
+        abortOnError false
+    }
+
+    packagingOptions {
+        // 剔除这个包下的所有文件（除了签名信息）
+        exclude 'META-INF/*******'
+    }
+
+    // AOP 配置
+    aspectjx {
+        // 排除一些第三方库的包名（Gson、 LeakCanary 和 AOP 有冲突）
+        // 否则就会起冲突：ClassNotFoundException: Didn't find class on path: DexPathList
+        exclude 'androidx', 'com.google', 'com.squareup', 'com.alipay', 'com.taobao', 'org.apache'
+    }
+
+    applicationVariants.all { variant ->
+
+        // Apk 输出文件名配置
+        variant.outputs.all { output ->
+            outputFileName = rootProject.getName() + '_v' + variant.versionName + '_' + variant.buildType.name
+            if (variant.buildType.name == buildTypes.release.getName()) {
+                outputFileName += '_' + new Date().format('MMdd')
+            }
+            outputFileName += '.apk'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    //androidx
+    implementation rootProject.ext.dependencies["cardview"]
+
+    //tools
+    //注意 Arms 核心库现在并不会依赖某个 EventBus, 要想使用 EventBus, 还请在项目中自行依赖对应的 EventBus
+    //现在支持两种 EventBus, greenrobot 的 EventBus 和畅销书 《Android源码设计模式解析与实战》的作者 何红辉 所作的 AndroidEventBus
+    //依赖后 Arms 会自动检测您依赖的 EventBus 并自动注册
+    //建议使用 AndroidEventBus, 特别是组件化项目, 原因请看 https://github.com/hehonghui/AndroidEventBus/issues/49
+    //这种做法可以让使用者有自行选择三方库的权利, 并且还可以减轻 Arms 的体积
+    implementation rootProject.ext.dependencies["androideventbus"]
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+//    implementation rootProject.ext.dependencies["eventbus"]
+
+    annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
+    implementation rootProject.ext.dependencies["progressmanager"]
+    implementation rootProject.ext.dependencies["retrofit-url-manager"]
+    implementation rootProject.ext.dependencies["lifecyclemodel"]
+
+    //view
+    annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
+        exclude module: 'annotation'
+    }
+    implementation(rootProject.ext.dependencies["paginate"]) {
+        exclude module: 'recyclerview'
+    }
+
+    //arms
+    implementation project(':baselibrary')
+//    implementation 'me.jessyan:arms:2.5.2'
+
+    //Arms 核心库不再包含 AndroidAutoLayout, 现在可自行选择屏幕适配方案, 不想使用 AndroidAutoLayout 就不要依赖 arms-autolayout
+//    implementation 'me.jessyan:arms-autolayout:2.5.2'
+
+    //现在已经将 Demo 中的屏幕适配框架从 AndroidAutoLayout 替换为 AndroidAutoSize, AndroidAutoLayout 和 AndroidAutoSize 可以在项目中共存
+    //所以旧项目只要依赖 arms-autolayout 即可兼容之前的旧页面, 新页面可以使用 AndroidAutoSize 进行适配, 等有时间了再将旧页面全部替换为 AndroidAutoSize
+    implementation rootProject.ext.dependencies["autosize"]
+
+    //Arms 核心库不再包含 Glide, 想使用其他图片加载框架或者想自行扩展 ImageLoaderStrategy 就不要依赖 arms-imageloader-glide
+    //依赖 arms-imageloader-glide 后还需要在 GlobalConfiguration 中手动注册 GlideImageLoaderStrategy
+//    implementation 'me.jessyan:arms-imageloader-glide:2.5.2'
+//    implementation project(':arms-imageloader-glide')
+
+    //test
+    testImplementation rootProject.ext.dependencies["junit"]
+    debugImplementation rootProject.ext.dependencies["canary-debug"]
+
+
+
+
+
+
+
+
+
+
+    implementation 'org.conscrypt:conscrypt-android:2.2.1'
+
+
+
+
+
+
+
+
+    implementation project(':umeng')
+
+
+    // 网络请求框架：https://github.com/getActivity/EasyHttp
+    implementation 'com.hjq:http:6.9'
+
+    // 权限请求框架：https://github.com/getActivity/XXPermissions
+    implementation 'com.hjq:xxpermissions:6.5'
+
+    // 标题栏框架：https://github.com/getActivity/TitleBar
+    implementation 'com.hjq:titlebar:6.5'
+
+    // 吐司框架：https://github.com/getActivity/ToastUtils
+    implementation 'com.hjq:toast:8.6'
+
+    // OkHttp 框架：https://github.com/square/okhttp
+    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+
+    // JSON 解析框架：https://github.com/google/gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    // AOP 插件库：https://mvnrepository.com/artifact/org.aspectj/aspectjrt
+    implementation 'org.aspectj:aspectjrt:1.9.5'
+
+    // 图片加载框架：https://github.com/bumptech/glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    // 状态栏沉浸：https://github.com/gyf-dev/ImmersionBar
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
+
+    // 手势 ImageView：https://github.com/chrisbanes/PhotoView
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    // ViewPager 指示器：https://github.com/romandanylyk/PageIndicatorView
+    implementation 'com.romandanylyk:pageindicatorview:1.0.3'
+
+    // Bugly 异常捕捉：https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190418140644
+    implementation 'com.tencent.bugly:crashreport:3.1.9'
+    implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
+
+    // 动画解析库：https://github.com/airbnb/lottie-android
+    // 动画资源：https://lottiefiles.com、https://icons8.com/animated-icons
+    implementation 'com.airbnb.android:lottie:3.4.1'
+
+    // 上拉刷新下拉加载：https://github.com/scwang90/SmartRefreshLayout
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
+    // SmartRefreshLayout 刷新样式集合库
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.2'
+
+    // 侧滑框架：https://github.com/luckybilly/SmartSwipe
+    implementation 'com.billy.android:smart-swipe:1.1.2'
+    implementation 'com.billy.android:smart-swipe-x:1.1.0'
+
+    // 日志调试：https://github.com/getActivity/Logcat
+    debugImplementation 'com.hjq:logcat:8.2'
+
+    // 内存泄漏：https://github.com/square/leakcanary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
+
+
+    // 谷歌兼容库：https://developer.android.google.cn/jetpack/androidx/releases/appcompat?hl=zh-cn
+    implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
+    implementation 'com.google.android.material:material:1.3.0-alpha04'
+    // 国际化：https://github.com/getActivity/MultiLanguages
+    // 悬浮窗：https://github.com/getActivity/XToast
+    // 工具类：https://github.com/Blankj/AndroidUtilCode
+    // 平板适配：https://github.com/JessYanCoding/AndroidAutoSize
+    // 轮播图：https://github.com/bingoogolapple/BGABanner-Android
+    // 二维码：https://github.com/bingoogolapple/BGAQRCode-Android
+    // 跑马灯：https://github.com/sunfusheng/MarqueeView
+    // 第三方支付：https://github.com/Cuieney/RxPay
+    // Log 打印：https://github.com/JakeWharton/timber
+    // 图片裁剪：https://github.com/Yalantis/uCrop
+    // 图片压缩：https://github.com/Curzibn/Luban
+    // 对象存储：https://github.com/leavesC/DoKV
+    // 对象注解：https://www.jianshu.com/p/f1f888e4a35f
+}
