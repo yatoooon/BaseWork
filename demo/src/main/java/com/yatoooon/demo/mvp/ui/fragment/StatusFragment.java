@@ -16,7 +16,6 @@ import com.yatoooon.baselibrary.base.BaseAdapter;
 import com.yatoooon.baselibrary.di.component.AppComponent;
 import com.yatoooon.baselibrary.widget.layout.WrapRecyclerView;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.common.MyActivity;
 import com.yatoooon.demo.app.common.MyFragment;
 import com.yatoooon.demo.di.component.DaggerStatusComponent;
 import com.yatoooon.demo.mvp.contract.StatusContract;

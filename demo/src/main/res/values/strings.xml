@@ -71,6 +71,7 @@
 
     <string name="update_permission_hint">必须先要授予权限才能正常下载更新哦</string>
 
+    <string name="update_status_starting">开始下载</string>
     <string name="update_status_start">正在下载</string>
     <string name="update_status_running">下载中 %d%%</string>
     <string name="update_status_successful">下载完成，点击安装</string>

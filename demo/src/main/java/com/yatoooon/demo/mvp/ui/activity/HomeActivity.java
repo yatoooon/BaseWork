@@ -23,6 +23,8 @@ import com.yatoooon.demo.mvp.contract.HomeContract;
 import com.yatoooon.demo.mvp.presenter.HomePresenter;
 import com.yatoooon.demo.mvp.ui.fragment.FindFragment;
 import com.yatoooon.demo.mvp.ui.fragment.HomeFragment;
+import com.yatoooon.demo.mvp.ui.fragment.MeFragment;
+import com.yatoooon.demo.mvp.ui.fragment.MessageFragment;
 
 import javax.inject.Inject;
 
@@ -82,8 +84,8 @@ public class HomeActivity extends MyActivity<HomePresenter> implements HomeContr
     public void initData(@Nullable Bundle savedInstanceState) {
         mPagerAdapter.addFragment(HomeFragment.newInstance());
         mPagerAdapter.addFragment(FindFragment.newInstance());
-        mPagerAdapter.addFragment(HomeFragment.newInstance());
-        mPagerAdapter.addFragment(HomeFragment.newInstance());
+        mPagerAdapter.addFragment(MessageFragment.newInstance());
+        mPagerAdapter.addFragment(MeFragment.newInstance());
         // 设置成懒加载模式
         mPagerAdapter.setLazyMode(true);
         vpHomePager.setAdapter(mPagerAdapter);

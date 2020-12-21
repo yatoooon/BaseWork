@@ -15,14 +15,30 @@
  */
 package com.yatoooon.demo.mvp.model.api.service;
 
+
+import io.reactivex.Observable;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
+
 /**
  * ================================================
  * 存放通用的一些 API
  * <p>
  * Created by JessYan on 08/05/2016 12:05
-
+ * <p>
  * ================================================
  */
 public interface CommonService {
-
+    /**
+     * 文件
+     *
+     * @param fileUrl
+     * @return
+     */
+    @Streaming //大文件时要加不然会OOM
+    @GET
+    Observable<ResponseBody> downloadFile(@Url String fileUrl);
 }

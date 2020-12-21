@@ -30,7 +30,7 @@ android {
             // armeabi：万金油架构平台（占用率：0%）
             // armeabi-v7a：曾经主流的架构平台（占用率：10%）
             // arm64-v8a：目前主流架构平台（占用率：90%）
-            abiFilters 'armeabi-v7a', 'arm64-v8a'
+            abiFilters 'armeabi-v7a', 'arm64-v8a','x86_64'
         }
 
         // 混淆配置
@@ -164,25 +164,19 @@ dependencies {
     debugImplementation rootProject.ext.dependencies["canary-debug"]
 
 
-
-
-
-
-
-
+    //okdownload
+// core
+    implementation 'com.liulishuo.okdownload:okdownload:1.0.3'
+// provide sqlite to store breakpoints
+    implementation 'com.liulishuo.okdownload:sqlite:1.0.3'
+// provide okhttp to connect to backend
+    implementation 'com.liulishuo.okdownload:okhttp:1.0.3'
 
 
     implementation 'org.conscrypt:conscrypt-android:2.2.1'
 
 
-
-
-
-
-
-
     implementation project(':umeng')
-
 
 
     // 权限请求框架：https://github.com/getActivity/XXPermissions
