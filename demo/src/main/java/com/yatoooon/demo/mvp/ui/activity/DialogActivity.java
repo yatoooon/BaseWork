@@ -8,9 +8,9 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 
-import com.hjq.demo.wxapi.WXEntryActivity;
-import com.hjq.umeng.Platform;
-import com.hjq.umeng.UmengShare;
+import com.yatoooon.demo.wxapi.WXEntryActivity;
+import com.yatoooon.umeng.Platform;
+import com.yatoooon.umeng.UmengShare;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
@@ -35,7 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DialogActivity extends MyActivity {

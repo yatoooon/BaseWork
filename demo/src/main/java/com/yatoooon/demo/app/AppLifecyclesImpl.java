@@ -27,7 +27,7 @@ import com.hjq.bar.TitleBar;
 import com.hjq.bar.style.TitleBarLightStyle;
 import com.hjq.toast.ToastInterceptor;
 import com.hjq.toast.ToastUtils;
-import com.hjq.umeng.UmengClient;
+import com.yatoooon.umeng.UmengClient;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;

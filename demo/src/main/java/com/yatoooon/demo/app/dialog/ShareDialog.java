@@ -19,9 +19,9 @@ import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.common.MyAdapter;
 import com.hjq.toast.ToastUtils;
-import com.hjq.umeng.Platform;
-import com.hjq.umeng.UmengClient;
-import com.hjq.umeng.UmengShare;
+import com.yatoooon.umeng.Platform;
+import com.yatoooon.umeng.UmengClient;
+import com.yatoooon.umeng.UmengShare;
 
 import java.util.ArrayList;
 import java.util.List;

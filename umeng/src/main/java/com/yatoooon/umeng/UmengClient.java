@@ -1,4 +1,4 @@
-package com.hjq.umeng;
+package com.yatoooon.umeng;
 
 import android.app.Activity;
 import android.app.Application;

@@ -41,13 +41,6 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import me.jessyan.progressmanager.ProgressListener;
-import me.jessyan.progressmanager.ProgressManager;
-import me.jessyan.progressmanager.body.ProgressInfo;
-import okhttp3.Call;
-import okhttp3.ResponseBody;
 
 /**
  * author : Android 轮子哥
@@ -189,7 +182,7 @@ public final class UpdateDialog {
             DownloadTask downloadTask = new DownloadTask.Builder(mDownloadUrl, DownloadUtil.getParentFile(getContext()))
                     .setFilename(mApkFile.getName())
                     .setMinIntervalMillisCallbackProcess(16)
-                    .setPassIfAlreadyCompleted(false)
+                    .setPassIfAlreadyCompleted(true)    // okdownload里用文件名校验的   没有用md5校验
                     .build();
             //开始下载
             downloadTask.enqueue(this);
@@ -260,16 +253,16 @@ public final class UpdateDialog {
         @Override
         public void taskEnd(@NonNull DownloadTask task, @NonNull EndCause cause, @Nullable Exception realCause) {
             if (cause == EndCause.COMPLETED) {
-                if (!TextUtils.isEmpty(mFileMd5) && mApkFile.exists() && mApkFile.isFile() && mFileMd5.equalsIgnoreCase(DownloadUtil.getFileMd5(mApkFile))) {
-                    mUpdateView.setText(R.string.update_status_successful);
-                    mDownloadComplete = true;
-                    installApk();
-                }
+                mUpdateView.setText(R.string.update_status_successful);
+                mDownloadComplete = true;
+                installApk();
             }
             if (cause == EndCause.ERROR) {
                 mUpdateView.setText(R.string.update_status_failed);
                 // 删除下载的文件
-                task.getFile().delete();
+                if (task.getFile() != null) {
+                    task.getFile().delete();
+                }
             }
 
             // 更新进度条
