@@ -31,10 +31,7 @@ import com.yatoooon.demo.mvp.model.entity.User;
 
 import java.util.List;
 
-/**
- * ================================================
- * ================================================
- */
+
 public class UserAdapter extends MyAdapter<User> {
     public UserAdapter(@NonNull Context context, List<User> list) {
         super(context);

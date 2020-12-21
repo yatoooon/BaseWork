@@ -23,26 +23,14 @@ import com.yatoooon.demo.app.widget.XCollapsingToolbarLayout;
 import com.yatoooon.demo.di.component.DaggerHomeComponent;
 import com.yatoooon.demo.mvp.contract.HomeContract;
 import com.yatoooon.demo.mvp.presenter.HomePresenter;
-import com.yatoooon.demo.mvp.ui.activity.HomeActivity;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 
 
-/**
- * ================================================
- * Description:
- * <p>
- * Created by MVPArmsTemplate on 12/20/2020 13:53
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
- * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
- * <a href="https://github.com/JessYanCoding/MVPArms/wiki">See me</a>
- * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
- * ================================================
- */
-public class HomeFragment extends MyFragment<HomePresenter, HomeActivity> implements HomeContract.View, XCollapsingToolbarLayout.OnScrimsListener {
+
+public class HomeFragment extends MyFragment<HomePresenter> implements HomeContract.View, XCollapsingToolbarLayout.OnScrimsListener {
 
     @BindView(R.id.tb_home_title)
     Toolbar tbHomeTitle;
@@ -100,47 +88,6 @@ public class HomeFragment extends MyFragment<HomePresenter, HomeActivity> implem
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
-    }
-
-    /**
-     * 通过此方法可以使 Fragment 能够与外界做一些交互和通信, 比如说外部的 Activity 想让自己持有的某个 Fragment 对象执行一些方法,
-     * 建议在有多个需要与外界交互的方法时, 统一传 {@link Message}, 通过 what 字段来区分不同的方法, 在 {@link #setData(Object)}
-     * 方法中就可以 {@code switch} 做不同的操作, 这样就可以用统一的入口方法做多个不同的操作, 可以起到分发的作用
-     * <p>
-     * 调用此方法时请注意调用时 Fragment 的生命周期, 如果调用 {@link #setData(Object)} 方法时 {@link Fragment#onCreate(Bundle)} 还没执行
-     * 但在 {@link #setData(Object)} 里却调用了 Presenter 的方法, 是会报空的, 因为 Dagger 注入是在 {@link Fragment#onCreate(Bundle)} 方法中执行的
-     * 然后才创建的 Presenter, 如果要做一些初始化操作,可以不必让外部调用 {@link #setData(Object)}, 在 {@link #initData(Bundle)} 中初始化就可以了
-     * <p>
-     * Example usage:
-     * <pre>
-     * public void setData(@Nullable Object data) {
-     *     if (data != null && data instanceof Message) {
-     *         switch (((Message) data).what) {
-     *             case 0:
-     *                 loadData(((Message) data).arg1);
-     *                 break;
-     *             case 1:
-     *                 refreshUI();
-     *                 break;
-     *             default:
-     *                 //do something
-     *                 break;
-     *         }
-     *     }
-     * }
-     *
-     * // call setData(Object):
-     * Message data = new Message();
-     * data.what = 0;
-     * data.arg1 = 1;
-     * fragment.setData(data);
-     * </pre>
-     *
-     * @param data 当不需要参数时 {@code data} 可以为 {@code null}
-     */
-    @Override
-    public void setData(@Nullable Object data) {
 
     }
 

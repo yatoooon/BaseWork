@@ -29,8 +29,7 @@ import com.yatoooon.baselibrary.http.imageloader.ImageLoader;
  * 其他操作同理
  * <p>
  * Created by JessYan on 8/5/16 15:19
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
+
  * ================================================
  */
 public class ImageConfigImpl extends ImageConfig {

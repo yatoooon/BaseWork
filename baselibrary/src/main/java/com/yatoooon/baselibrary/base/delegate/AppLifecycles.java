@@ -26,8 +26,7 @@ import androidx.annotation.NonNull;
  *
  * @see AppDelegate
  * Created by JessYan on 18/07/2017 17:43
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
+
  * ================================================
  */
 public interface AppLifecycles {

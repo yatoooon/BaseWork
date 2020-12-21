@@ -1,9 +1,7 @@
 package com.yatoooon.demo.app.other;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/05/09
+
  *    desc   : Intent Key 管理
  */
 public final class IntentKey {

@@ -3,10 +3,7 @@ package com.yatoooon.demo.app.other;
 import com.yatoooon.demo.BuildConfig;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/09/02
- *    desc   : App 配置管理类
+ * App 配置管理类
  */
 public final class AppConfig {
 
@@ -38,10 +35,10 @@ public final class AppConfig {
         return BuildConfig.VERSION_CODE;
     }
 
-//    /**
-//     * 获取 BuglyId
-//     */
-//    public static String getBuglyId() {
-//        return BuildConfig.BUGLY_ID;
-//    }
+    /**
+     * 获取 BuglyId
+     */
+    public static String getBuglyId() {
+        return BuildConfig.BUGLY_ID;
+    }
 }

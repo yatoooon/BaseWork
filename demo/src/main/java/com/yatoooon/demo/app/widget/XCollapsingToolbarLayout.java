@@ -6,9 +6,7 @@ import android.util.AttributeSet;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 /**
- * author : Android 轮子哥
- * github : https://github.com/getActivity/AndroidProject
- * time   : 2018/10/18
+
  * desc   : 支持监听渐变的 CollapsingToolbarLayout
  */
 public final class XCollapsingToolbarLayout extends CollapsingToolbarLayout {

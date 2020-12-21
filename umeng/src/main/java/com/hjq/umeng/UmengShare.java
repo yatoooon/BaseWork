@@ -10,12 +10,7 @@ import com.umeng.socialize.media.UMWeb;
 
 import java.lang.ref.SoftReference;
 
-/**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/04/03
- *    desc   : 友盟第三方分享
- */
+
 public final class UmengShare {
 
     public static final class ShareData {

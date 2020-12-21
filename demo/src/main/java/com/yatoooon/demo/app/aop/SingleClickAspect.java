@@ -11,10 +11,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import java.util.Calendar;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/12/06
- *    desc   : 防重复点击处理
+ * 防重复点击处理
  */
 @Aspect
 public class SingleClickAspect {

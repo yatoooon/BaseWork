@@ -15,12 +15,7 @@ import com.yatoooon.baselibrary.action.ResourcesAction;
 import com.zhy.autolayout.utils.AutoUtils;
 
 
-/**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2018/10/18
- *    desc   : RecyclerView 适配器基类
- */
+
 public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder>
         extends RecyclerView.Adapter<VH> implements ResourcesAction {
 

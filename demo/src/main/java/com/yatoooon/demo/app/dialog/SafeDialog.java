@@ -9,18 +9,10 @@ import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.baselibrary.widget.view.CountdownView;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.hjq.http.EasyHttp;
-import com.hjq.http.listener.OnHttpListener;
 import com.hjq.toast.ToastUtils;
-import com.yatoooon.demo.app.http.model.HttpData;
-import com.yatoooon.demo.app.http.request.GetCodeApi;
-import com.yatoooon.demo.app.http.request.VerifyCodeApi;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2020/02/06
- *    desc   : 身份校验对话框
+ * 身份校验对话框
  */
 public final class SafeDialog {
 
@@ -72,24 +64,24 @@ public final class SafeDialog {
                         return;
                     }
 
-                    // 获取验证码
-                    EasyHttp.post(this)
-                            .api(new GetCodeApi()
-                                    .setPhone(mPhoneNumber))
-                            .request(new OnHttpListener<HttpData<Void>>() {
-
-                                @Override
-                                public void onSucceed(HttpData<Void> data) {
-                                    ToastUtils.show(R.string.common_code_send_hint);
-                                    mCountdownView.start();
-                                    setCancelable(false);
-                                }
-
-                                @Override
-                                public void onFail(Exception e) {
-                                    ToastUtils.show(e.getMessage());
-                                }
-                            });
+//                    // 获取验证码
+//                    EasyHttp.post(this)
+//                            .api(new GetCodeApi()
+//                                    .setPhone(mPhoneNumber))
+//                            .request(new OnHttpListener<HttpData<Void>>() {
+//
+//                                @Override
+//                                public void onSucceed(HttpData<Void> data) {
+//                                    ToastUtils.show(R.string.common_code_send_hint);
+//                                    mCountdownView.start();
+//                                    setCancelable(false);
+//                                }
+//
+//                                @Override
+//                                public void onFail(Exception e) {
+//                                    ToastUtils.show(e.getMessage());
+//                                }
+//                            });
                     break;
                 case R.id.tv_ui_confirm:
                     if (mCodeView.getText().toString().length() != getResources().getInteger(R.integer.sms_code_length)) {
@@ -106,25 +98,25 @@ public final class SafeDialog {
                     }
 
                     // 验证码校验
-                    EasyHttp.post(this)
-                            .api(new VerifyCodeApi()
-                                    .setPhone(mPhoneNumber)
-                                    .setCode(mCodeView.getText().toString()))
-                            .request(new OnHttpListener<HttpData<Void>>() {
-
-                                @Override
-                                public void onSucceed(HttpData<Void> data) {
-                                    autoDismiss();
-                                    if (mListener != null) {
-                                        mListener.onConfirm(getDialog(), mPhoneNumber, mCodeView.getText().toString());
-                                    }
-                                }
-
-                                @Override
-                                public void onFail(Exception e) {
-                                    ToastUtils.show(e.getMessage());
-                                }
-                            });
+//                    EasyHttp.post(this)
+//                            .api(new VerifyCodeApi()
+//                                    .setPhone(mPhoneNumber)
+//                                    .setCode(mCodeView.getText().toString()))
+//                            .request(new OnHttpListener<HttpData<Void>>() {
+//
+//                                @Override
+//                                public void onSucceed(HttpData<Void> data) {
+//                                    autoDismiss();
+//                                    if (mListener != null) {
+//                                        mListener.onConfirm(getDialog(), mPhoneNumber, mCodeView.getText().toString());
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onFail(Exception e) {
+//                                    ToastUtils.show(e.getMessage());
+//                                }
+//                            });
                     break;
                 case R.id.tv_ui_cancel:
                     autoDismiss();

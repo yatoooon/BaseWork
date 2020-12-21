@@ -60,11 +60,10 @@ import io.reactivex.subjects.Subject;
  * @see <a href="https://github.com/JessYanCoding/MVPArms/wiki/Issues">常见 Issues, 踩坑必看!</a>
  * @see <a href="https://github.com/JessYanCoding/ArmsComponent/wiki">MVPArms 官方组件化方案 ArmsComponent, 进阶指南!</a>
  * Created by JessYan on 22/03/2016
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
+
  * ================================================
  */
-public abstract class BaseFragment<P extends IPresenter, A extends BaseActivity> extends Fragment implements IFragment, FragmentLifecycleable, ActivityAction, ResourcesAction, HandlerAction, ClickAction, BundleAction {
+public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IFragment, FragmentLifecycleable, ActivityAction, ResourcesAction, HandlerAction, ClickAction, BundleAction {
     protected final String TAG = this.getClass().getSimpleName();
     private final BehaviorSubject<FragmentEvent> mLifecycleSubject = BehaviorSubject.create();
     @Inject
@@ -75,7 +74,7 @@ public abstract class BaseFragment<P extends IPresenter, A extends BaseActivity>
     /**
      * Activity 对象
      */
-    private A mActivity;
+    private Activity mActivity;
     /**
      * 根布局
      */
@@ -106,7 +105,7 @@ public abstract class BaseFragment<P extends IPresenter, A extends BaseActivity>
     public void onAttach(Context context) {
         super.onAttach(context);
         // 获得全局的 Activity
-        mActivity = (A) requireActivity();
+        mActivity = requireActivity();
     }
 
     @Nullable
@@ -154,7 +153,7 @@ public abstract class BaseFragment<P extends IPresenter, A extends BaseActivity>
     /**
      * 获取绑定的 Activity，防止出现 getActivity 为空
      */
-    public A getAttachActivity() {
+    public Activity getAttachActivity() {
         return mActivity;
     }
 

@@ -37,8 +37,7 @@ import com.yatoooon.baselibrary.integration.cache.LruCache;
  *
  * @see BaseFragment
  * Created by JessYan on 29/04/2017 14:31
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
+
  * ================================================
  */
 public interface IFragment {
@@ -134,5 +133,7 @@ public interface IFragment {
      *
      * @param data 当不需要参数时 {@code data} 可以为 {@code null}
      */
-    void setData(@Nullable Object data);
+    default void setData(@Nullable Object data) {
+        //空实现,需要的时候子类重写
+    }
 }

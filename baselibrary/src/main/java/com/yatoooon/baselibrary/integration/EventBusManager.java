@@ -30,8 +30,7 @@ import static com.yatoooon.baselibrary.base.Platform.DEPENDENCY_EVENTBUS;
  * 允许同时使用两个 EventBus 但不建议这样做, 建议使用 AndroidEventBus, 特别是组件化项目, 原因请看 https://github.com/hehonghui/AndroidEventBus/issues/49
  * <p>
  * Created by JessYan on 2018/8/1 15:28
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
+
  * ================================================
  */
 public final class EventBusManager {

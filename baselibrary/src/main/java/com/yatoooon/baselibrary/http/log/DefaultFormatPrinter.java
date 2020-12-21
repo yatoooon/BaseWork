@@ -36,8 +36,7 @@ import okhttp3.Request;
  *
  * @see GlobalConfigModule.Builder#formatPrinter(FormatPrinter)
  * Created by JessYan on 25/01/2018 14:51
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
+
  * ================================================
  */
 public class DefaultFormatPrinter implements FormatPrinter {

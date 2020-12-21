@@ -12,10 +12,7 @@ import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/02/27
- *    desc   : 输入对话框
+ *    输入对话框
  */
 public final class InputDialog {
 

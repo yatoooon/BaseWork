@@ -18,8 +18,7 @@ package com.yatoooon.baselibrary.utils;
 /**
  * ================================================
  * Created by JessYan on 2018/9/14 14:10
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
+
  * ================================================
  */
 public class UrlEncoderUtils {

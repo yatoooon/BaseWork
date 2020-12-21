@@ -22,8 +22,7 @@ import org.jetbrains.annotations.NotNull;
  * User 实体类
  * <p>
  * Created by JessYan on 04/09/2016 17:14
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
+
  * ================================================
  */
 public class User {

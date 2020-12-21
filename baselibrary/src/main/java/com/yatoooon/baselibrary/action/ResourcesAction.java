@@ -12,10 +12,7 @@ import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/09/15
- *    desc   : Context 意图处理（扩展非 Context 类的方法，禁止 Context 类实现此接口）
+ *  Context 意图处理（扩展非 Context 类的方法，禁止 Context 类实现此接口）
  */
 public interface ResourcesAction {
 

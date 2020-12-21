@@ -32,8 +32,7 @@ import java.security.MessageDigest;
  * 高斯模糊
  * <p>
  * Created by JessYan on 03/04/2018 15:14
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
+
  * ================================================
  */
 public class BlurTransformation extends BitmapTransformation {

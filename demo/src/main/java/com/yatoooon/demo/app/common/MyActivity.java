@@ -10,7 +10,6 @@ import androidx.annotation.StringRes;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.TitleBar;
-import com.hjq.http.listener.OnHttpListener;
 import com.yatoooon.baselibrary.base.BaseActivity;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.baselibrary.mvp.IPresenter;
@@ -19,16 +18,10 @@ import com.yatoooon.demo.app.action.SwipeAction;
 import com.yatoooon.demo.app.action.TitleBarAction;
 import com.yatoooon.demo.app.action.ToastAction;
 import com.yatoooon.demo.app.dialog.WaitDialog;
-import com.yatoooon.demo.app.http.model.HttpData;
 
 import okhttp3.Call;
 
-/**
- * author : Android 轮子哥
- * github : https://github.com/getActivity/AndroidProject
- * time   : 2018/10/18
- * desc   : 项目中的 Activity 基类
- */
+
 public abstract class MyActivity<P extends IPresenter> extends BaseActivity<P>
         implements ToastAction, TitleBarAction, SwipeAction {
 

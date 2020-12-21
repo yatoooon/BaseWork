@@ -3,10 +3,7 @@ package com.yatoooon.demo.app.helper;
 import android.os.SystemClock;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2018/10/18
- *    desc   : 防双击判断工具类
+ *  防双击判断工具类
  */
 public final class DoubleClickHelper {
 

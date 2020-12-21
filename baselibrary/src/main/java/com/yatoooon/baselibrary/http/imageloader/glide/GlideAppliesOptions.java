@@ -30,8 +30,7 @@ import com.yatoooon.baselibrary.http.imageloader.BaseImageLoaderStrategy;
  * 的实现类也必须实现 {@link GlideAppliesOptions}
  * <p>
  * Created by JessYan on 13/08/2017 22:02
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
+
  * ================================================
  */
 public interface GlideAppliesOptions {

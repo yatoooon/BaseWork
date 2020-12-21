@@ -133,6 +133,7 @@ dependencies {
     implementation rootProject.ext.dependencies["progressmanager"]
     implementation rootProject.ext.dependencies["retrofit-url-manager"]
     implementation rootProject.ext.dependencies["lifecyclemodel"]
+    implementation rootProject.ext.dependencies["multidex"]
 
     //view
     annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
@@ -183,8 +184,6 @@ dependencies {
     implementation project(':umeng')
 
 
-    // 网络请求框架：https://github.com/getActivity/EasyHttp
-    implementation 'com.hjq:http:6.9'
 
     // 权限请求框架：https://github.com/getActivity/XXPermissions
     implementation 'com.hjq:xxpermissions:6.5'

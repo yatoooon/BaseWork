@@ -1,5 +1,6 @@
 package com.yatoooon.demo.app.common;
 
+import android.app.Activity;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -7,22 +8,17 @@ import androidx.annotation.Nullable;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.TitleBar;
-import com.hjq.http.listener.OnHttpListener;
 import com.yatoooon.baselibrary.base.BaseFragment;
 import com.yatoooon.baselibrary.mvp.IPresenter;
 import com.yatoooon.demo.app.action.TitleBarAction;
 import com.yatoooon.demo.app.action.ToastAction;
-import com.yatoooon.demo.app.http.model.HttpData;
 
 import okhttp3.Call;
 
 /**
- * author : Android 轮子哥
- * github : https://github.com/getActivity/AndroidProject
- * time   : 2018/10/18
- * desc   : 项目中 Fragment 懒加载基类
+ *  项目中 Fragment 懒加载基类
  */
-public abstract class MyFragment<P extends IPresenter, A extends MyActivity<P>> extends BaseFragment<P, A>
+public abstract class MyFragment<P extends IPresenter> extends BaseFragment<P>
         implements ToastAction, TitleBarAction {
 
     /**
@@ -103,9 +99,9 @@ public abstract class MyFragment<P extends IPresenter, A extends MyActivity<P>> 
      * 当前加载对话框是否在显示中
      */
     public boolean isShowDialog() {
-        A activity = getAttachActivity();
-        if (activity != null) {
-            return activity.isShowDialog();
+        Activity activity = getAttachActivity();
+        if (activity instanceof MyActivity) {
+            return ((MyActivity) activity).isShowDialog();
         } else {
             return false;
         }
@@ -115,9 +111,9 @@ public abstract class MyFragment<P extends IPresenter, A extends MyActivity<P>> 
      * 显示加载对话框
      */
     public void showDialog() {
-        A activity = getAttachActivity();
-        if (activity != null) {
-            activity.showDialog();
+        Activity activity = getAttachActivity();
+        if (activity instanceof MyActivity) {
+            ((MyActivity) activity).showDialog();
         }
     }
 
@@ -125,9 +121,9 @@ public abstract class MyFragment<P extends IPresenter, A extends MyActivity<P>> 
      * 隐藏加载对话框
      */
     public void hideDialog() {
-        A activity = getAttachActivity();
-        if (activity != null) {
-            activity.hideDialog();
+        Activity activity = getAttachActivity();
+        if (activity instanceof MyActivity) {
+            ((MyActivity) activity).hideDialog();
         }
     }
 

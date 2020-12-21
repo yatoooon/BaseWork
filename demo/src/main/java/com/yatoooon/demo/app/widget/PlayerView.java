@@ -36,9 +36,7 @@ import java.util.Formatter;
 import java.util.Locale;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/02/16
+
  *    desc   : 视频播放控件
  */
 public final class PlayerView extends SimpleLayout

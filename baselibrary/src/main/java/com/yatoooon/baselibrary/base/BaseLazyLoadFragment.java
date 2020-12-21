@@ -13,7 +13,7 @@ import javax.inject.Inject;
 /**
  * 子类覆写{@link BaseLazyLoadFragment}lazyLoadData可快速实现Fragment懒加载
  */
-public abstract class BaseLazyLoadFragment<P extends IPresenter,A extends BaseActivity<P>> extends BaseFragment<P,A> {
+public abstract class BaseLazyLoadFragment<P extends IPresenter> extends BaseFragment<P> {
 
     @Inject
     Unused mUnused;

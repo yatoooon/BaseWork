@@ -23,10 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2018/12/2
- *    desc   : 菜单选择框
+ * 菜单选择框
  */
 public final class MenuDialog {
 

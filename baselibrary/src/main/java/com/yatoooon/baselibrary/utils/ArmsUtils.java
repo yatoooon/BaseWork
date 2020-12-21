@@ -50,8 +50,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * 一些框架常用的工具
  * <p>
  * Created by JessYan on 2015/11/23.
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
+
  * ================================================
  */
 public class ArmsUtils {

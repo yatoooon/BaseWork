@@ -47,8 +47,7 @@ import dagger.Lazy;
  *
  * @see <a href="http://www.jianshu.com/p/75a5c24174b2">ActivityLifecycleCallbacks 分析文章</a>
  * Created by JessYan on 21/02/2017 14:23
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
+
  * ================================================
  */
 @Singleton

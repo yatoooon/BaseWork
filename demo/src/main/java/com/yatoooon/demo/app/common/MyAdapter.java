@@ -15,12 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2018/12/19
- *    desc   : 项目中 RecyclerView 适配器基类
- */
+
 public abstract class MyAdapter<T> extends BaseAdapter<BaseAdapter.ViewHolder> {
 
     /** 列表数据 */

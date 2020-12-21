@@ -36,8 +36,7 @@ import com.yatoooon.baselibrary.integration.cache.LruCache;
  *
  * @see BaseActivity
  * Created by JessYan on 26/04/2017 21:42
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
+
  * ================================================
  */
 public interface IActivity {

@@ -15,10 +15,7 @@ import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.widget.HintLayout;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/12/08
- *    desc   : 界面状态提示
+ * 界面状态提示
  */
 public interface StatusAction {
 

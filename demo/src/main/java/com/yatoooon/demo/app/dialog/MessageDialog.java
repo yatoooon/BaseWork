@@ -11,10 +11,7 @@ import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2018/12/2
- *    desc   : 消息对话框
+ * 消息对话框
  */
 public final class MessageDialog {
 
