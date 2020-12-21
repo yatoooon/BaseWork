@@ -61,7 +61,7 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy<ImageCo
 
         requests = GlideArms.with(ctx);//如果context是activity则自动使用Activity的生命周期
 
-        GlideRequest<Drawable> glideRequest = requests.load(config.getUrl());
+        GlideRequest<Drawable> glideRequest = requests.load(config.getRes());
 
         switch (config.getCacheStrategy()) {
             //缓存策略

@@ -8,9 +8,9 @@
     android:orientation="horizontal"
     android:paddingHorizontal="15dp"
     android:paddingTop="15dp"
-    tools:context=".ui.dialog.AlbumDialog">
+    >
 
-    <com.hjq.widget.view.ScaleImageView
+    <com.yatoooon.baselibrary.widget.view.ScaleImageView
         android:id="@+id/iv_album_icon"
         android:layout_width="80dp"
         android:layout_height="80dp"

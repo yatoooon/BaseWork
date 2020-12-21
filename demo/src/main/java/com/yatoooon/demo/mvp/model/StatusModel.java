@@ -39,7 +39,6 @@ import io.rx_cache2.EvictDynamicKey;
  */
 @FragmentScope
 public class StatusModel extends BaseModel implements StatusContract.Model {
-    public static final int USERS_PER_PAGE = 10;
 
     @Inject
     Gson mGson;
@@ -63,7 +62,7 @@ public class StatusModel extends BaseModel implements StatusContract.Model {
         //使用rxcache缓存,上拉刷新则不读取缓存,加载更多读取缓存
         return Observable.just(mRepositoryManager
                 .obtainRetrofitService(UserService.class)
-                .getUsers(lastIdQueried, USERS_PER_PAGE))
+                .getUsers(lastIdQueried, mPageCount))
                 .flatMap((Function<Observable<List<User>>, ObservableSource<List<User>>>) listObservable -> mRepositoryManager.obtainCacheService(CommonCache.class)
                         .getUsers(listObservable
                                 , new DynamicKey(lastIdQueried)
@@ -72,9 +71,9 @@ public class StatusModel extends BaseModel implements StatusContract.Model {
     }
 
     @Override
-    public List<String> getData(int itemcount) {
+    public List<String> getData(int pageStart) {
         List<String> data = new ArrayList<>();
-        for (int i = itemcount; i < itemcount + 20; i++) {
+        for (int i = pageStart; i < pageStart + mPageCount; i++) {
             data.add("我是第" + i + "条目");
         }
         return data;

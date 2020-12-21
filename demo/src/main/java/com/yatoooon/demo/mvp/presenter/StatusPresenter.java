@@ -60,8 +60,8 @@ public class StatusPresenter extends BasePresenter<StatusContract.Model, StatusC
         this.mApplication = null;
     }
 
-    public void requestData(int itemcount) {
-        List<String> data = mModel.getData(itemcount);
-        mAdapter.setData(data);
+    public void requestData(int pageStart) {
+        List<String> data = mModel.getData(pageStart);
+        mAdapter.addData(data);
     }
 }

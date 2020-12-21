@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activity.StatusActivity">
+    >
 
     <com.hjq.bar.TitleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="界面状态案例" />
 
-    <com.yatoooon.demo.widget.HintLayout
+    <com.yatoooon.demo.app.widget.HintLayout
         android:id="@+id/hl_status_hint"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -23,6 +23,6 @@
             android:layout_height="match_parent"
             tools:ignore="MissingId" />
 
-    </com.yatoooon.demo.widget.HintLayout>
+    </com.yatoooon.demo.app.widget.HintLayout>
 
 </LinearLayout>

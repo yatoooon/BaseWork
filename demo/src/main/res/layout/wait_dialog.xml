@@ -10,7 +10,7 @@
     app:cardBackgroundColor="@color/black85"
     app:cardCornerRadius="15dp"
     app:cardElevation="0px"
-    tools:context=".ui.dialog.WaitDialog">
+    >
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -21,7 +21,7 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <com.yatoooon.demo.widget.ProgressView
+        <com.yatoooon.demo.app.widget.ProgressView
             android:layout_width="60dp"
             android:layout_height="60dp"
             app:barColor="@android:color/white"
@@ -30,7 +30,7 @@
             app:linearProgress="true"
             app:progressIndeterminate="true" />
 
-        <com.hjq.widget.view.SmartTextView
+        <com.yatoooon.baselibrary.widget.view.SmartTextView
             android:id="@+id/tv_wait_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

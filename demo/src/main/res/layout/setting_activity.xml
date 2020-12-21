@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activity.SettingActivity">
+    >
 
     <com.hjq.bar.TitleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="@string/setting_title" />
 
-    <com.hjq.widget.layout.SettingBar
+    <com.yatoooon.baselibrary.widget.layout.SettingBar
         android:id="@+id/sb_setting_language"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
         app:bar_rightIcon="@drawable/arrows_right_ic"
         tools:bar_rightHint="@string/setting_language_simple" />
 
-    <com.hjq.widget.layout.SettingBar
+    <com.yatoooon.baselibrary.widget.layout.SettingBar
         android:id="@+id/sb_setting_update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,9 +40,9 @@
             android:textSize="15sp"
             tools:ignore="HardcodedText" />
 
-    </com.hjq.widget.layout.SettingBar>
+    </com.yatoooon.baselibrary.widget.layout.SettingBar>
 
-    <com.hjq.widget.layout.SettingBar
+    <com.yatoooon.baselibrary.widget.layout.SettingBar
         android:id="@+id/sb_setting_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         app:bar_rightIcon="@drawable/arrows_right_ic"
         tools:bar_rightText="181****1413" />
 
-    <com.hjq.widget.layout.SettingBar
+    <com.yatoooon.baselibrary.widget.layout.SettingBar
         android:id="@+id/sb_setting_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
         app:bar_rightIcon="@drawable/arrows_right_ic"
         tools:bar_rightText="密码强度较低" />
 
-    <com.hjq.widget.layout.SettingBar
+    <com.yatoooon.baselibrary.widget.layout.SettingBar
         android:id="@+id/sb_setting_agreement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,37 +67,37 @@
         app:bar_leftText="@string/setting_agreement"
         app:bar_rightIcon="@drawable/arrows_right_ic" />
 
-    <com.hjq.widget.layout.SettingBar
+    <com.yatoooon.baselibrary.widget.layout.SettingBar
         android:id="@+id/sb_setting_about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:bar_leftText="@string/setting_about"
         app:bar_rightIcon="@drawable/arrows_right_ic" />
 
-    <com.hjq.widget.layout.SettingBar
+    <com.yatoooon.baselibrary.widget.layout.SettingBar
         android:id="@+id/sb_setting_auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         app:bar_leftText="@string/setting_auto">
 
-        <com.hjq.widget.view.SwitchButton
+        <com.yatoooon.baselibrary.widget.view.SwitchButton
             android:id="@+id/sb_setting_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             android:layout_marginHorizontal="15dp" />
 
-    </com.hjq.widget.layout.SettingBar>
+    </com.yatoooon.baselibrary.widget.layout.SettingBar>
 
-    <com.hjq.widget.layout.SettingBar
+    <com.yatoooon.baselibrary.widget.layout.SettingBar
         android:id="@+id/sb_setting_cache"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:bar_leftText="@string/setting_cache"
         app:bar_rightIcon="@drawable/arrows_right_ic" />
 
-    <com.hjq.widget.layout.SettingBar
+    <com.yatoooon.baselibrary.widget.layout.SettingBar
         android:id="@+id/sb_setting_exit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

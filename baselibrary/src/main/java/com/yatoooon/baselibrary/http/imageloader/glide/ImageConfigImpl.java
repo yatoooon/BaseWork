@@ -51,7 +51,7 @@ public class ImageConfigImpl extends ImageConfig {
     private boolean isClearDiskCache;//清理本地缓存
 
     private ImageConfigImpl(Builder builder) {
-        this.url = builder.url;
+        this.res = builder.res;
         this.imageView = builder.imageView;
         this.placeholder = builder.placeholder;
         this.errorPic = builder.errorPic;
@@ -126,7 +126,7 @@ public class ImageConfigImpl extends ImageConfig {
     }
 
     public static final class Builder {
-        private String url;
+        private Object res;  //需要加载的资源  可以是文件  可以是url  可以是别的
         private ImageView imageView;
         private int placeholder;
         private int errorPic;
@@ -150,8 +150,8 @@ public class ImageConfigImpl extends ImageConfig {
         private Builder() {
         }
 
-        public Builder url(String url) {
-            this.url = url;
+        public Builder res(Object res) {
+            this.res = res;
             return this;
         }
 

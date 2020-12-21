@@ -57,7 +57,9 @@ public interface IFragment {
      *
      * @param appComponent
      */
-    void setupFragmentComponent(@NonNull AppComponent appComponent);
+    default void setupFragmentComponent(@NonNull AppComponent appComponent){
+        //空实现    MVP模式下   会模版自动生成这个里面的内容     一些简单的Fragment没有必要用
+    }
 
     /**
      * 是否使用 EventBus

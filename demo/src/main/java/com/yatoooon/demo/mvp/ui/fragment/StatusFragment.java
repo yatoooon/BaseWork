@@ -68,9 +68,9 @@ public class StatusFragment extends MyFragment<StatusPresenter> implements Statu
         headerView.setText("我是头部");
         headerView.setOnClickListener(v -> toast("点击了头部"));
 
-        TextView footerView = rvStatusList.addFooterView(R.layout.picker_item);
-        footerView.setText("我是尾部");
-        footerView.setOnClickListener(v -> toast("点击了尾部"));
+//        TextView footerView = rvStatusList.addFooterView(R.layout.picker_item);
+//        footerView.setText("我是尾部");
+//        footerView.setOnClickListener(v -> toast("点击了尾部"));
 
         rlStatusRefresh.setOnRefreshLoadMoreListener(this);
     }
@@ -88,11 +88,18 @@ public class StatusFragment extends MyFragment<StatusPresenter> implements Statu
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-
+        postDelayed(() -> {
+            mPresenter.requestData(mAdapter.getItemCount());
+            refreshLayout.finishLoadMore();
+        }, 1000);
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-
+        postDelayed(() -> {
+            mAdapter.clearData();
+            mPresenter.requestData(mAdapter.getItemCount());
+            refreshLayout.finishRefresh();
+        }, 1000);
     }
 }

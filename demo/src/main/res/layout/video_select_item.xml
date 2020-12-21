@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hjq.widget.layout.RatioFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.yatoooon.baselibrary.widget.layout.RatioFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:sizeRatio="1"
-    tools:context=".ui.adapter.VideoSelectAdapter">
+    >
 
-    <com.hjq.widget.view.ScaleImageView
+    <com.yatoooon.baselibrary.widget.view.ScaleImageView
         android:id="@+id/iv_video_select_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -65,4 +65,4 @@
             tools:text="10.24M" />
     </FrameLayout>
 
-</com.hjq.widget.layout.RatioFrameLayout>
+</com.yatoooon.baselibrary.widget.layout.RatioFrameLayout>

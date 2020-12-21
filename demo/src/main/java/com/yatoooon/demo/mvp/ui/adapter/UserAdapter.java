@@ -60,7 +60,7 @@ public class UserAdapter extends MyAdapter<User> {
             tvName.setText(getItem(position).getLogin());
             ArmsUtils.obtainAppComponentFromContext(itemView.getContext()).imageLoader()
                     .loadImage(itemView.getContext(),
-                            ImageConfigImpl.builder().url(getItem(position).getAvatarUrl()).imageView(ivAvatar).build());
+                            ImageConfigImpl.builder().res(getItem(position).getAvatarUrl()).imageView(ivAvatar).build());
 
 
         }

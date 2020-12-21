@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal|bottom"
     android:orientation="vertical"
-    tools:context=".ui.dialog.MenuDialog">
+    >
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
         app:cardCornerRadius="@dimen/dialog_ui_round_size"
         app:cardElevation="0px">
 
-        <com.hjq.widget.view.SmartTextView
+        <com.yatoooon.baselibrary.widget.view.SmartTextView
             android:id="@+id/tv_menu_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -22,10 +22,13 @@ package com.yatoooon.baselibrary.mvp;
  * @see BaseModel
  * @see <a href="https://github.com/JessYanCoding/MVPArms/wiki#2.4.3">Model wiki 官方文档</a>
  * Created by JessYan on 15/12/2016 10:45
-
+ * <p>
  * ================================================
  */
 public interface IModel {
+
+    int mPageStart = 1;
+    int mPageCount = 10;
 
     /**
      * 在框架中 {@link BasePresenter#onDestroy()} 时会默认调用 {@link IModel#onDestroy()}

@@ -21,6 +21,7 @@ import com.yatoooon.demo.app.other.KeyboardWatcher;
 import com.yatoooon.demo.di.component.DaggerHomeComponent;
 import com.yatoooon.demo.mvp.contract.HomeContract;
 import com.yatoooon.demo.mvp.presenter.HomePresenter;
+import com.yatoooon.demo.mvp.ui.fragment.FindFragment;
 import com.yatoooon.demo.mvp.ui.fragment.HomeFragment;
 
 import javax.inject.Inject;
@@ -80,7 +81,7 @@ public class HomeActivity extends MyActivity<HomePresenter> implements HomeContr
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         mPagerAdapter.addFragment(HomeFragment.newInstance());
-        mPagerAdapter.addFragment(HomeFragment.newInstance());
+        mPagerAdapter.addFragment(FindFragment.newInstance());
         mPagerAdapter.addFragment(HomeFragment.newInstance());
         mPagerAdapter.addFragment(HomeFragment.newInstance());
         // 设置成懒加载模式

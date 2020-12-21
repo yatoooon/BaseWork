@@ -8,7 +8,7 @@
     android:gravity="center_horizontal"
     android:layoutAnimation="@anim/from_bottom_layout"
     android:orientation="vertical"
-    tools:context=".ui.activity.LoginActivity"
+
     tools:layoutAnimation="@null">
 
     <com.hjq.bar.TitleBar
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.hjq.widget.view.ClearEditText
+        <com.yatoooon.baselibrary.widget.view.ClearEditText
             android:id="@+id/et_login_phone"
             style="@style/EditTextStyle"
             android:layout_width="match_parent"
@@ -49,7 +49,7 @@
             style="@style/HorizontalLineStyle"
             android:layout_marginHorizontal="40dp" />
 
-        <com.hjq.widget.view.PasswordEditText
+        <com.yatoooon.baselibrary.widget.view.PasswordEditText
             android:id="@+id/et_login_password"
             style="@style/EditTextStyle"
             android:layout_width="match_parent"
@@ -123,7 +123,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.hjq.widget.view.ScaleImageView
+        <com.yatoooon.baselibrary.widget.view.ScaleImageView
             android:id="@+id/iv_login_qq"
             android:layout_width="35dp"
             android:layout_height="35dp"
@@ -133,7 +133,7 @@
             app:scaleRatio="1.2"
             app:srcCompat="@drawable/login_qq_ic" />
 
-        <com.hjq.widget.view.ScaleImageView
+        <com.yatoooon.baselibrary.widget.view.ScaleImageView
             android:id="@+id/iv_login_wechat"
             android:layout_width="35dp"
             android:layout_height="35dp"

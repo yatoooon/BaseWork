@@ -36,7 +36,7 @@ import com.yatoooon.baselibrary.integration.cache.LruCache;
  *
  * @see BaseActivity
  * Created by JessYan on 26/04/2017 21:42
-
+ * <p>
  * ================================================
  */
 public interface IActivity {
@@ -56,7 +56,9 @@ public interface IActivity {
      *
      * @param appComponent
      */
-    void setupActivityComponent(@NonNull AppComponent appComponent);
+    default void setupActivityComponent(@NonNull AppComponent appComponent){
+        //默认空实现，MVP模式下，模版会自动生成这个    一些简单的页面没有必要用
+    }
 
     /**
      * 是否使用 EventBus

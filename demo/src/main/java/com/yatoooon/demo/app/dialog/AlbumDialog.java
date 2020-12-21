@@ -123,7 +123,7 @@ public final class AlbumDialog {
                 AlbumInfo info = getItem(position);
 
                 ArmsUtils.obtainAppComponentFromContext(itemView.getContext()).imageLoader()
-                        .loadImage(itemView.getContext(), ImageConfigImpl.builder().url(info.getIcon()).imageView(mIconView).build());
+                        .loadImage(itemView.getContext(), ImageConfigImpl.builder().res(info.getIcon()).imageView(mIconView).build());
 
                 mNameView.setText(info.getName());
                 mRemarkView.setText(info.getRemark());
