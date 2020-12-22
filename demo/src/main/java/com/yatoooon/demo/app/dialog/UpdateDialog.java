@@ -20,6 +20,7 @@ import com.liulishuo.okdownload.StatusUtil;
 import com.liulishuo.okdownload.core.breakpoint.BreakpointInfo;
 import com.liulishuo.okdownload.core.cause.EndCause;
 import com.liulishuo.okdownload.core.cause.ResumeFailedCause;
+import com.liulishuo.okdownload.core.listener.DownloadListener3;
 import com.trello.rxlifecycle2.RxLifecycle;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
@@ -51,7 +52,7 @@ import java.util.Map;
 public final class UpdateDialog {
 
     public static final class Builder
-            extends BaseDialog.Builder<Builder> implements DownloadListener {
+            extends BaseDialog.Builder<Builder> {
 
         private final TextView mNameView;
         private final TextView mContentView;
@@ -175,108 +176,94 @@ public final class UpdateDialog {
             // 创建要下载的文件对象
             mApkFile = new File(DownloadUtil.getParentFile(getContext()), getString(R.string.app_name) + "_v" + BuildConfig.VERSION_CODE + ".apk");
 
-            System.out.println("getAbsolutePath" + mApkFile.getAbsolutePath());
             // 设置对话框不能被取消
             setCancelable(false);
+
+            if (!TextUtils.isEmpty(mFileMd5) && mApkFile.exists() && mApkFile.isFile() && mFileMd5.equalsIgnoreCase(DownloadUtil.getFileMd5(mApkFile))) {
+                installApk();
+                return;
+            }
+
+
             //创建下载任务
             DownloadTask downloadTask = new DownloadTask.Builder(mDownloadUrl, DownloadUtil.getParentFile(getContext()))
                     .setFilename(mApkFile.getName())
                     .setMinIntervalMillisCallbackProcess(16)
-                    .setPassIfAlreadyCompleted(true)    // okdownload里用文件名校验的   没有用md5校验
+                    .setPassIfAlreadyCompleted(false)    // okdownload里用文件名校验的   没有用md5校验
                     .build();
             //开始下载
-            downloadTask.enqueue(this);
-        }
-
-
-        @Override
-        public void taskStart(@NonNull DownloadTask task) {
-            // 标记为下载中
-            mDownloading = true;
-            // 标记成未下载完成
-            mDownloadComplete = false;
-            // 后台更新
-            mCloseView.setVisibility(View.GONE);
-            // 显示进度条
-            mProgressView.setVisibility(View.VISIBLE);
-            mUpdateView.setText(R.string.update_status_starting);
-
-        }
-
-        @Override
-        public void connectTrialStart(@NonNull DownloadTask task, @NonNull Map<String, List<String>> requestHeaderFields) {
-
-        }
-
-        @Override
-        public void connectTrialEnd(@NonNull DownloadTask task, int responseCode, @NonNull Map<String, List<String>> responseHeaderFields) {
-
-        }
-
-        @Override
-        public void downloadFromBeginning(@NonNull DownloadTask task, @NonNull BreakpointInfo info, @NonNull ResumeFailedCause cause) {
-            mUpdateView.setText(R.string.update_status_start);
-        }
-
-        @Override
-        public void downloadFromBreakpoint(@NonNull DownloadTask task, @NonNull BreakpointInfo info) {
-
-        }
-
-        @Override
-        public void connectStart(@NonNull DownloadTask task, int blockIndex, @NonNull Map<String, List<String>> requestHeaderFields) {
-
-        }
-
-        @Override
-        public void connectEnd(@NonNull DownloadTask task, int blockIndex, int responseCode, @NonNull Map<String, List<String>> responseHeaderFields) {
-
-        }
-
-        @Override
-        public void fetchStart(@NonNull DownloadTask task, int blockIndex, long contentLength) {
-
-        }
-
-        @Override
-        public void fetchProgress(@NonNull DownloadTask task, int blockIndex, long increaseBytes) {
-            BreakpointInfo info = StatusUtil.getCurrentInfo(task);
-            mUpdateView.setText(String.format(getString(R.string.update_status_running), DownloadUtil.getDownloadProgress(info.getTotalOffset(), info.getTotalLength())));
-            DownloadUtil.calcProgressToView(mProgressView, info.getTotalOffset(), info.getTotalLength());
-        }
-
-        @Override
-        public void fetchEnd(@NonNull DownloadTask task, int blockIndex, long contentLength) {
-
-        }
-
-        @Override
-        public void taskEnd(@NonNull DownloadTask task, @NonNull EndCause cause, @Nullable Exception realCause) {
-            if (cause == EndCause.COMPLETED) {
-                mUpdateView.setText(R.string.update_status_successful);
-                mDownloadComplete = true;
-                installApk();
-            }
-            if (cause == EndCause.ERROR) {
-                mUpdateView.setText(R.string.update_status_failed);
-                // 删除下载的文件
-                if (task.getFile() != null) {
-                    task.getFile().delete();
+            downloadTask.enqueue(new DownloadListener3() {
+                @Override
+                protected void started(@NonNull DownloadTask task) {
+                    // 标记为下载中
+                    mDownloading = true;
+                    // 标记成未下载完成
+                    mDownloadComplete = false;
+                    // 后台更新
+                    mCloseView.setVisibility(View.GONE);
+                    // 显示进度条
+                    mProgressView.setVisibility(View.VISIBLE);
+                    mUpdateView.setText(R.string.update_status_start);
                 }
-            }
 
-            // 更新进度条
-            mProgressView.setProgress(0);
-            mProgressView.setVisibility(View.GONE);
-            // 标记当前不是下载中
-            mDownloading = false;
-            // 如果当前不是强制更新，对话框就恢复成可取消状态
-            if (!mForceUpdate) {
-                setCancelable(true);
-            }
+                @Override
+                protected void completed(@NonNull DownloadTask task) {
+                    mUpdateView.setText(R.string.update_status_successful);
+                    mDownloadComplete = true;
+                    installApk();
+                    endtask();
+                }
 
+                private void endtask() {
+                    // 更新进度条
+                    mProgressView.setProgress(0);
+                    mProgressView.setVisibility(View.GONE);
+                    // 标记当前不是下载中
+                    mDownloading = false;
+                    // 如果当前不是强制更新，对话框就恢复成可取消状态
+                    if (!mForceUpdate) {
+                        setCancelable(true);
+                    }
+
+                }
+
+                @Override
+                protected void canceled(@NonNull DownloadTask task) {
+                    endtask();
+                }
+
+                @Override
+                protected void error(@NonNull DownloadTask task, @NonNull Exception e) {
+                    mUpdateView.setText(R.string.update_status_failed);
+                    // 删除下载的文件
+                    if (task.getFile() != null) {
+                        task.getFile().delete();
+                    }
+                    endtask();
+                }
+
+                @Override
+                protected void warn(@NonNull DownloadTask task) {
+
+                }
+
+                @Override
+                public void retry(@NonNull DownloadTask task, @NonNull ResumeFailedCause cause) {
+
+                }
+
+                @Override
+                public void connected(@NonNull DownloadTask task, int blockCount, long currentOffset, long totalLength) {
+                }
+
+                @Override
+                public void progress(@NonNull DownloadTask task, long currentOffset, long totalLength) {
+                    BreakpointInfo info = StatusUtil.getCurrentInfo(task);
+                    mUpdateView.setText(String.format(getString(R.string.update_status_running), DownloadUtil.getDownloadProgress(info.getTotalOffset(), info.getTotalLength())));
+                    DownloadUtil.calcProgressToView(mProgressView, info.getTotalOffset(), info.getTotalLength());
+                }
+            });
         }
-
 
         /**
          * 安装 Apk
@@ -296,6 +283,8 @@ public final class UpdateDialog {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             getContext().startActivity(intent);
         }
+
+
     }
 
 }
