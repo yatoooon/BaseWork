@@ -18,7 +18,7 @@
         android:layout_height="match_parent">
 
         <fragment
-            android:name="com.yatoooon.demo.ui.fragment.StatusFragment"
+            android:name="com.yatoooon.demo.mvp.ui.fragment.StatusFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:ignore="MissingId" />

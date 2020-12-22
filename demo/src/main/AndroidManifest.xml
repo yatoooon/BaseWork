@@ -26,6 +26,12 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute,LockedOrientationActivity"
         tools:replace="android:allowBackup,android:supportsRtl"
         tools:targetApi="n">
+        <activity android:name=".mvp.ui.activity.PersonInfoActivity" />
+        <activity android:name=".mvp.ui.activity.PhoneChangeActivity" />
+        <activity android:name=".mvp.ui.activity.PasswordResetActivity" />
+        <activity android:name=".mvp.ui.activity.PasswordForgetActivity" />
+        <activity android:name=".mvp.ui.activity.RegisterActivity" />
+        <activity android:name=".mvp.ui.activity.LoginActivity" />
         <activity android:name=".mvp.ui.activity.HomeActivity" />
         <activity android:name=".mvp.ui.activity.SplashActivity">
 
@@ -39,6 +45,10 @@
         </activity>
         <activity android:name=".mvp.ui.activity.UserActivity" />
         <activity android:name=".mvp.ui.activity.DialogActivity" />
+        <activity android:name=".mvp.ui.activity.StatusActivity" />
+        <activity android:name=".mvp.ui.activity.ImagePreviewActivity" />
+        <activity android:name=".mvp.ui.activity.ImageSelectActivity" />
+        <activity android:name=".mvp.ui.activity.CameraActivity" />
         <!--
  只要依赖 AutoSize 就必须填写设计图尺寸, 否则报错, 不想使用 AutoSize 就不要依赖 AutoSize
         只要填写完设计图的尺寸, AutoSize 就会自动启动, 以下 dp 尺寸是根据公式 px / (dpi / 160) 求出, 运算时使用测试机的 dpi 即可

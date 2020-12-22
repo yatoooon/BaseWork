@@ -9,6 +9,14 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.common.MyFragment;
 import com.yatoooon.demo.mvp.ui.activity.DialogActivity;
+import com.yatoooon.demo.mvp.ui.activity.LoginActivity;
+import com.yatoooon.demo.mvp.ui.activity.PasswordForgetActivity;
+import com.yatoooon.demo.mvp.ui.activity.PasswordResetActivity;
+import com.yatoooon.demo.mvp.ui.activity.PasswordResetActivity_ViewBinding;
+import com.yatoooon.demo.mvp.ui.activity.PersonInfoActivity;
+import com.yatoooon.demo.mvp.ui.activity.PhoneChangeActivity;
+import com.yatoooon.demo.mvp.ui.activity.RegisterActivity;
+import com.yatoooon.demo.mvp.ui.activity.StatusActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -86,18 +94,25 @@ public class MeFragment extends MyFragment {
                 startActivity(DialogActivity.class);
                 break;
             case R.id.btn_me_hint:
+                startActivity(StatusActivity.class);
                 break;
             case R.id.btn_me_login:
+                startActivity(LoginActivity.class);
                 break;
             case R.id.btn_me_register:
+                startActivity(RegisterActivity.class);
                 break;
             case R.id.btn_me_forget:
+                startActivity(PasswordForgetActivity.class);
                 break;
             case R.id.btn_me_reset:
+                startActivity(PasswordResetActivity.class);
                 break;
             case R.id.btn_me_change:
+                startActivity(PhoneChangeActivity.class);
                 break;
             case R.id.btn_me_personal:
+                startActivity(PersonInfoActivity.class);
                 break;
             case R.id.btn_message_setting:
                 break;
