@@ -13,17 +13,15 @@ import com.yatoooon.baselibrary.http.imageloader.glide.ImageConfigImpl;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.yatoooon.baselibrary.widget.layout.SettingBar;
 import com.yatoooon.demo.R;
+import com.yatoooon.demo.app.aop.SingleClick;
 import com.yatoooon.demo.app.common.MyActivity;
-import com.yatoooon.demo.app.dialog.AddressDialog;
-import com.yatoooon.demo.app.dialog.InputDialog;
+import com.yatoooon.demo.mvp.ui.dialog.AddressDialog;
+import com.yatoooon.demo.mvp.ui.dialog.InputDialog;
 import com.yatoooon.demo.di.component.DaggerPersonInfoComponent;
 import com.yatoooon.demo.mvp.contract.PersonInfoContract;
 import com.yatoooon.demo.mvp.presenter.PersonInfoPresenter;
 
-import java.io.File;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -92,7 +90,7 @@ public class PersonInfoActivity extends MyActivity<PersonInfoPresenter> implemen
         sbPersonDataAddress.setRightText(address);
     }
 
-
+    @SingleClick
     @OnClick({R.id.iv_person_data_avatar, R.id.fl_person_data_avatar, R.id.sb_person_data_name, R.id.sb_person_data_address})
     public void onViewClicked(View view) {
         switch (view.getId()) {

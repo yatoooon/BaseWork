@@ -16,6 +16,7 @@ import com.yatoooon.baselibrary.widget.view.CountdownView;
 import com.yatoooon.baselibrary.widget.view.RegexEditText;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.DebugLog;
+import com.yatoooon.demo.app.aop.SingleClick;
 import com.yatoooon.demo.app.common.MyActivity;
 import com.yatoooon.demo.app.helper.InputTextHelper;
 import com.yatoooon.demo.app.other.IntentKey;
@@ -80,7 +81,7 @@ public class PhoneChangeActivity extends MyActivity<PhoneChangePresenter> implem
         mVerifyCode = getString(IntentKey.CODE);
     }
 
-
+    @SingleClick
     @OnClick({R.id.cv_phone_reset_countdown, R.id.btn_phone_reset_commit})
     public void onViewClicked(View view) {
         switch (view.getId()) {

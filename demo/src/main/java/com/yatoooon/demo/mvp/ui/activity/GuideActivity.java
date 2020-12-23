@@ -9,8 +9,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.rd.PageIndicatorView;
 import com.yatoooon.demo.R;
+import com.yatoooon.demo.app.aop.SingleClick;
 import com.yatoooon.demo.app.common.MyActivity;
-import com.yatoooon.demo.app.pager.GuidePagerAdapter;
+import com.yatoooon.demo.mvp.ui.adapter.GuidePagerAdapter;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -74,9 +75,9 @@ public final class GuideActivity extends MyActivity
             btnGuideComplete.setVisibility(vpGuidePager.getCurrentItem() == mPagerAdapter.getCount() - 1 ? View.VISIBLE : View.INVISIBLE);
         }
     }
-
+    @SingleClick
     @OnClick(R.id.btn_guide_complete)
-    public void onViewClicked() {
+    public void onViewClicked(View view) {
         startActivity(HomeActivity.class);
         finish();
     }

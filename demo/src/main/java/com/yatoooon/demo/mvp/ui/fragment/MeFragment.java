@@ -9,6 +9,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.yatoooon.baselibrary.base.BaseActivity;
 import com.yatoooon.demo.R;
+import com.yatoooon.demo.app.aop.SingleClick;
 import com.yatoooon.demo.app.common.MyFragment;
 import com.yatoooon.demo.mvp.ui.activity.AboutActivity;
 import com.yatoooon.demo.mvp.ui.activity.BrowserActivity;
@@ -97,7 +98,7 @@ public class MeFragment extends MyFragment {
         // 使用沉浸式状态栏w
         return !super.isStatusBarEnabled();
     }
-
+    @SingleClick
     @OnClick({R.id.btn_me_dialog, R.id.btn_me_hint, R.id.btn_me_login, R.id.btn_me_register, R.id.btn_me_forget, R.id.btn_me_reset, R.id.btn_me_change, R.id.btn_me_personal, R.id.btn_message_setting, R.id.btn_me_about, R.id.btn_me_guide, R.id.btn_me_browser, R.id.btn_me_image_select, R.id.btn_me_image_preview, R.id.btn_me_video_select, R.id.btn_me_video_play, R.id.btn_me_crash})
     public void onViewClicked(View view) {
         switch (view.getId()) {

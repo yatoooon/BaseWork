@@ -15,6 +15,7 @@ import com.hjq.permissions.XXPermissions;
 import com.yatoooon.baselibrary.http.imageloader.glide.ImageConfigImpl;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.yatoooon.demo.R;
+import com.yatoooon.demo.app.aop.SingleClick;
 import com.yatoooon.demo.app.common.MyActivity;
 import com.yatoooon.demo.app.common.MyFragment;
 
@@ -63,7 +64,7 @@ public class MessageFragment extends MyFragment {
     public void initData(@Nullable Bundle savedInstanceState) {
 
     }
-
+    @SingleClick
     @OnClick({R.id.btn_message_image1, R.id.btn_message_image2, R.id.btn_message_image3, R.id.btn_message_toast, R.id.btn_message_permission, R.id.btn_message_setting, R.id.btn_message_black, R.id.btn_message_white})
     public void onViewClicked(View view) {
         switch (view.getId()) {

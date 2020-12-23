@@ -1,6 +1,7 @@
 package com.yatoooon.demo.mvp.ui.fragment;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -69,7 +70,7 @@ public class FindFragment extends MyFragment implements SwitchButton.OnCheckedCh
 
     @SingleClick
     @OnClick(R.id.cv_find_countdown)
-    public void onViewClicked() {
+    public void onViewClicked(View view) {
         toast(R.string.common_code_send_hint);
         cvFindCountdown.start();
     }

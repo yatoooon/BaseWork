@@ -16,6 +16,7 @@ import com.yatoooon.baselibrary.widget.view.CountdownView;
 import com.yatoooon.baselibrary.widget.view.PasswordEditText;
 import com.yatoooon.baselibrary.widget.view.RegexEditText;
 import com.yatoooon.demo.R;
+import com.yatoooon.demo.app.aop.SingleClick;
 import com.yatoooon.demo.app.common.MyActivity;
 import com.yatoooon.demo.app.helper.InputTextHelper;
 import com.yatoooon.demo.app.other.IntentKey;
@@ -80,7 +81,7 @@ public class RegisterActivity extends MyActivity<RegisterPresenter> implements R
 
     }
 
-
+    @SingleClick
     @OnClick({R.id.cv_register_countdown, R.id.btn_register_commit})
     public void onViewClicked(View view) {
         switch (view.getId()) {

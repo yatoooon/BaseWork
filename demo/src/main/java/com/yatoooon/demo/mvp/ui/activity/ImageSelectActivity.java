@@ -25,7 +25,7 @@ import com.yatoooon.demo.app.aop.DebugLog;
 import com.yatoooon.demo.app.aop.Permissions;
 import com.yatoooon.demo.app.aop.SingleClick;
 import com.yatoooon.demo.app.common.MyActivity;
-import com.yatoooon.demo.app.dialog.AlbumDialog;
+import com.yatoooon.demo.mvp.ui.dialog.AlbumDialog;
 import com.yatoooon.demo.app.other.GridSpaceDecoration;
 import com.yatoooon.demo.app.other.IntentKey;
 import com.yatoooon.demo.app.widget.HintLayout;

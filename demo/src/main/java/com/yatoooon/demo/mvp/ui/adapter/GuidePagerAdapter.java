@@ -1,4 +1,4 @@
-package com.yatoooon.demo.app.pager;
+package com.yatoooon.demo.mvp.ui.adapter;
 
 import android.util.TypedValue;
 import android.view.View;

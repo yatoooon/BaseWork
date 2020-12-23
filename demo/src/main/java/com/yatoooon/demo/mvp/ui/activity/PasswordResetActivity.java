@@ -3,6 +3,7 @@ package com.yatoooon.demo.mvp.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +13,7 @@ import com.yatoooon.baselibrary.di.component.AppComponent;
 import com.yatoooon.baselibrary.widget.view.PasswordEditText;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.DebugLog;
+import com.yatoooon.demo.app.aop.SingleClick;
 import com.yatoooon.demo.app.common.MyActivity;
 import com.yatoooon.demo.app.helper.InputTextHelper;
 import com.yatoooon.demo.app.other.IntentKey;
@@ -77,10 +79,9 @@ public class PasswordResetActivity extends MyActivity<PasswordResetPresenter> im
         mPhoneNumber = getString(IntentKey.PHONE);
         mVerifyCode = getString(IntentKey.CODE);
     }
-
-
+    @SingleClick
     @OnClick(R.id.btn_password_reset_commit)
-    public void onViewClicked() {
+    public void onViewClicked(View view) {
         if (!etPasswordResetPassword1.getText().toString().equals(etPasswordResetPassword2.getText().toString())) {
             toast(R.string.common_password_input_unlike);
             return;

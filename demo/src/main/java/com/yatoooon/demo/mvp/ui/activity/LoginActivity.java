@@ -2,6 +2,8 @@ package com.yatoooon.demo.mvp.ui.activity;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -20,6 +22,8 @@ import com.yatoooon.baselibrary.widget.view.ClearEditText;
 import com.yatoooon.baselibrary.widget.view.PasswordEditText;
 import com.yatoooon.baselibrary.widget.view.ScaleImageView;
 import com.yatoooon.demo.R;
+import com.yatoooon.demo.app.aop.DebugLog;
+import com.yatoooon.demo.app.aop.SingleClick;
 import com.yatoooon.demo.app.common.MyActivity;
 import com.yatoooon.demo.app.helper.InputTextHelper;
 import com.yatoooon.demo.app.other.IntentKey;
@@ -59,6 +63,14 @@ public class LoginActivity extends MyActivity<LoginPresenter> implements LoginCo
     ScaleImageView ivLoginQq;
     @BindView(R.id.iv_login_wechat)
     ScaleImageView ivLoginWechat;
+
+    @DebugLog
+    public static void start(Context context, String phone, String password) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra(IntentKey.PHONE, phone);
+        intent.putExtra(IntentKey.PASSWORD, password);
+        context.startActivity(intent);
+    }
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -128,7 +140,7 @@ public class LoginActivity extends MyActivity<LoginPresenter> implements LoginCo
             }
         });
     }
-
+    @SingleClick
     @OnClick({R.id.tv_login_forget, R.id.btn_login_commit, R.id.iv_login_qq, R.id.iv_login_wechat})
     public void onViewClicked(View view) {
         switch (view.getId()) {

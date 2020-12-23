@@ -16,7 +16,7 @@ import com.yatoooon.demo.app.aop.CheckNet;
 import com.yatoooon.demo.app.aop.DebugLog;
 import com.yatoooon.demo.app.common.MyActivity;
 import com.yatoooon.demo.app.other.IntentKey;
-import com.yatoooon.demo.app.pager.ImagePagerAdapter;
+import com.yatoooon.demo.mvp.ui.adapter.ImagePagerAdapter;
 
 import java.util.ArrayList;
 

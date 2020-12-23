@@ -16,9 +16,12 @@ import android.text.style.UnderlineSpan;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -44,18 +47,44 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/06/27
- *    desc   : 崩溃捕捉界面
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/06/27
+ * desc   : 崩溃捕捉界面
  */
 public final class CrashActivity extends MyActivity {
 
-    /** 报错代码行数正则表达式 */
+    /**
+     * 报错代码行数正则表达式
+     */
     private static final Pattern CODE_REGEX = Pattern.compile("\\(\\w+\\.\\w+:\\d+\\)");
-    /** 显示的时间格式 */
+    /**
+     * 显示的时间格式
+     */
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM-dd HH:mm", Locale.getDefault());
+    @BindView(R.id.iv_crash_info)
+    AppCompatImageView ivCrashInfo;
+    @BindView(R.id.tv_crash_title)
+    AppCompatTextView tvCrashTitle;
+    @BindView(R.id.iv_crash_share)
+    AppCompatImageView ivCrashShare;
+    @BindView(R.id.iv_crash_restart)
+    AppCompatImageView ivCrashRestart;
+    @BindView(R.id.ll_crash_bar)
+    LinearLayout llCrashBar;
+    @BindView(R.id.tv_crash_message)
+    AppCompatTextView tvCrashMessage;
+    @BindView(R.id.tv_crash_info)
+    AppCompatTextView tvCrashInfo;
+    @BindView(R.id.ll_crash_info)
+    LinearLayout llCrashInfo;
+    @BindView(R.id.dl_crash_drawer)
+    DrawerLayout dlCrashDrawer;
 
     @DebugLog
     public static void start(Application application, Throwable throwable) {
@@ -68,10 +97,6 @@ public final class CrashActivity extends MyActivity {
         application.startActivity(intent);
     }
 
-    private TextView mTitleView;
-    private DrawerLayout mDrawerLayout;
-    private TextView mInfoView;
-    private TextView mMessageView;
     private String mStackTrace;
 
     @Override
@@ -81,15 +106,9 @@ public final class CrashActivity extends MyActivity {
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
-        mTitleView = findViewById(R.id.tv_crash_title);
-        mDrawerLayout = findViewById(R.id.dl_crash_drawer);
-        mInfoView = findViewById(R.id.tv_crash_info);
-        mMessageView = findViewById(R.id.tv_crash_message);
-        setOnClickListener(R.id.iv_crash_info, R.id.iv_crash_share, R.id.iv_crash_restart);
-
         // 设置状态栏沉浸
-        ImmersionBar.setTitleBar(this, findViewById(R.id.ll_crash_bar));
-        ImmersionBar.setTitleBar(this, findViewById(R.id.ll_crash_info));
+        ImmersionBar.setTitleBar(this, llCrashBar);
+        ImmersionBar.setTitleBar(this, llCrashInfo);
     }
 
 
@@ -98,21 +117,21 @@ public final class CrashActivity extends MyActivity {
     public void initData(@Nullable Bundle savedInstanceState) {
         Throwable throwable = getSerializable(IntentKey.OTHER);
         if (throwable instanceof NullPointerException) {
-            mTitleView.setText("空指针异常");
+            tvCrashTitle.setText("空指针异常");
         } else if (throwable instanceof ClassCastException) {
-            mTitleView.setText("类型转换异常");
+            tvCrashTitle.setText("类型转换异常");
         } else if (throwable instanceof ActivityNotFoundException) {
-            mTitleView.setText("活动跳转异常");
+            tvCrashTitle.setText("活动跳转异常");
         } else if (throwable instanceof IllegalArgumentException) {
-            mTitleView.setText("非法参数异常");
+            tvCrashTitle.setText("非法参数异常");
         } else if (throwable instanceof IllegalStateException) {
-            mTitleView.setText("非法状态异常");
+            tvCrashTitle.setText("非法状态异常");
         } else if (throwable instanceof WindowManager.BadTokenException) {
-            mTitleView.setText("窗口添加异常");
+            tvCrashTitle.setText("窗口添加异常");
         } else if (throwable instanceof StackOverflowError) {
-            mTitleView.setText("栈溢出");
+            tvCrashTitle.setText("栈溢出");
         } else if (throwable instanceof OutOfMemoryError) {
-            mTitleView.setText("内存溢出");
+            tvCrashTitle.setText("内存溢出");
         }
 
         StringWriter stringWriter = new StringWriter();
@@ -131,7 +150,7 @@ public final class CrashActivity extends MyActivity {
             // 设置下划线
             spannable.setSpan(new UnderlineSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        mMessageView.setText(spannable);
+        tvCrashMessage.setText(spannable);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -234,37 +253,14 @@ public final class CrashActivity extends MyActivity {
                     } catch (UnknownHostException ignored) {
                         builder.append("异常");
                     }
-                    post(() -> mInfoView.setText(builder));
+                    post(() -> tvCrashInfo.setText(builder));
                 }).start();
 
             } else {
-                mInfoView.setText(builder);
+                tvCrashInfo.setText(builder);
             }
 
-        } catch (PackageManager.NameNotFoundException ignored) {}
-    }
-
-    @SingleClick
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_crash_info:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                break;
-            case R.id.iv_crash_share:
-                // 分享文本
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, mStackTrace);
-                startActivity(Intent.createChooser(intent, ""));
-                break;
-            case R.id.iv_crash_restart:
-                // 重启应用
-                startActivity(HomeActivity.class);
-                finish();
-                break;
-            default:
-                break;
+        } catch (PackageManager.NameNotFoundException ignored) {
         }
     }
 
@@ -286,5 +282,28 @@ public final class CrashActivity extends MyActivity {
         return (getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+
+    @SingleClick
+    @OnClick({R.id.iv_crash_info, R.id.iv_crash_share, R.id.iv_crash_restart})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_crash_info:
+                dlCrashDrawer.openDrawer(GravityCompat.START);
+                break;
+            case R.id.iv_crash_share:
+                // 分享文本
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, mStackTrace);
+                startActivity(Intent.createChooser(intent, ""));
+                break;
+            case R.id.iv_crash_restart:
+                // 重启应用
+                startActivity(HomeActivity.class);
+                finish();
+                break;
+        }
     }
 }

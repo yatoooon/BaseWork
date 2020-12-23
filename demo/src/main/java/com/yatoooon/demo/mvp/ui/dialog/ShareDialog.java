@@ -1,4 +1,4 @@
-package com.yatoooon.demo.app.dialog;
+package com.yatoooon.demo.mvp.ui.dialog;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;

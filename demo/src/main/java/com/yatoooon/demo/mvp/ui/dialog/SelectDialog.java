@@ -1,4 +1,4 @@
-package com.yatoooon.demo.app.dialog;
+package com.yatoooon.demo.mvp.ui.dialog;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

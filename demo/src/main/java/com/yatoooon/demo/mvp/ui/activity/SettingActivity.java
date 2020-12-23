@@ -7,7 +7,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.Glide;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.baselibrary.di.component.AppComponent;
 import com.yatoooon.baselibrary.http.imageloader.glide.ImageConfigImpl;
@@ -15,10 +14,11 @@ import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.yatoooon.baselibrary.widget.layout.SettingBar;
 import com.yatoooon.baselibrary.widget.view.SwitchButton;
 import com.yatoooon.demo.R;
+import com.yatoooon.demo.app.aop.SingleClick;
 import com.yatoooon.demo.app.common.MyActivity;
-import com.yatoooon.demo.app.dialog.MenuDialog;
-import com.yatoooon.demo.app.dialog.SafeDialog;
-import com.yatoooon.demo.app.dialog.UpdateDialog;
+import com.yatoooon.demo.mvp.ui.dialog.MenuDialog;
+import com.yatoooon.demo.mvp.ui.dialog.SafeDialog;
+import com.yatoooon.demo.mvp.ui.dialog.UpdateDialog;
 import com.yatoooon.demo.app.helper.ActivityStackManager;
 import com.yatoooon.demo.app.helper.CacheDataManager;
 import com.yatoooon.demo.app.other.AppConfig;
@@ -27,7 +27,6 @@ import com.yatoooon.demo.mvp.contract.SettingContract;
 import com.yatoooon.demo.mvp.presenter.SettingPresenter;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -83,7 +82,7 @@ public class SettingActivity extends MyActivity<SettingPresenter> implements Set
         sbSettingPassword.setRightText("密码强度较低");
     }
 
-
+    @SingleClick
     @OnClick({R.id.sb_setting_language, R.id.sb_setting_update, R.id.sb_setting_phone, R.id.sb_setting_password, R.id.sb_setting_agreement, R.id.sb_setting_about, R.id.sb_setting_auto, R.id.sb_setting_cache, R.id.sb_setting_exit})
     public void onViewClicked(View view) {
         switch (view.getId()) {

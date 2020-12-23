@@ -13,6 +13,7 @@ import com.yatoooon.baselibrary.di.component.AppComponent;
 import com.yatoooon.baselibrary.widget.view.CountdownView;
 import com.yatoooon.baselibrary.widget.view.RegexEditText;
 import com.yatoooon.demo.R;
+import com.yatoooon.demo.app.aop.SingleClick;
 import com.yatoooon.demo.app.common.MyActivity;
 import com.yatoooon.demo.app.helper.InputTextHelper;
 import com.yatoooon.demo.di.component.DaggerPasswordForgetComponent;
@@ -64,7 +65,7 @@ public class PasswordForgetActivity extends MyActivity<PasswordForgetPresenter> 
 
     }
 
-
+    @SingleClick
     @OnClick({R.id.cv_password_forget_countdown, R.id.btn_password_forget_commit})
     public void onViewClicked(View view) {
         switch (view.getId()) {

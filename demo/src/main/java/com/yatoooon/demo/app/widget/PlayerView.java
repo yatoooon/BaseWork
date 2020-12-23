@@ -28,8 +28,8 @@ import com.yatoooon.baselibrary.action.ActivityAction;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.baselibrary.widget.layout.SimpleLayout;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.dialog.HintDialog;
-import com.yatoooon.demo.app.dialog.WaitDialog;
+import com.yatoooon.demo.mvp.ui.dialog.HintDialog;
+import com.yatoooon.demo.mvp.ui.dialog.WaitDialog;
 
 import java.io.File;
 import java.util.Formatter;

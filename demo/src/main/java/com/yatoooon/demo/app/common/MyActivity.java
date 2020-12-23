@@ -17,9 +17,7 @@ import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.action.SwipeAction;
 import com.yatoooon.demo.app.action.TitleBarAction;
 import com.yatoooon.demo.app.action.ToastAction;
-import com.yatoooon.demo.app.dialog.WaitDialog;
-
-import okhttp3.Call;
+import com.yatoooon.demo.mvp.ui.dialog.WaitDialog;
 
 
 public abstract class MyActivity<P extends IPresenter> extends BaseActivity<P>
