@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.yatoooon.baselibrary.base.BaseAdapter;
 import com.yatoooon.baselibrary.base.BaseDialog;
-import com.yatoooon.baselibrary.di.component.AppComponent;
-import com.yatoooon.baselibrary.http.imageloader.ImageConfig;
 import com.yatoooon.baselibrary.http.imageloader.glide.ImageConfigImpl;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.yatoooon.demo.R;
@@ -38,7 +36,7 @@ public final class AlbumDialog {
         public Builder(Context context) {
             super(context);
 
-            setContentView(R.layout.album_dialog);
+            setContentView(R.layout.dialog_album);
             setHeight(getResources().getDisplayMetrics().heightPixels / 2);
 
             mRecyclerView = findViewById(R.id.rv_album_list);
@@ -111,7 +109,7 @@ public final class AlbumDialog {
             private final CheckBox mCheckBox;
 
             private ViewHolder() {
-                super(R.layout.album_item);
+                super(R.layout.item_album);
                 mIconView = (ImageView) findViewById(R.id.iv_album_icon);
                 mNameView = (TextView) findViewById(R.id.tv_album_name);
                 mRemarkView = (TextView) findViewById(R.id.tv_album_remark);

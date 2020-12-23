@@ -4,6 +4,8 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
+import com.yatoooon.demo.mvp.ui.activity.CrashActivity;
+
 
 /**
 
@@ -32,7 +34,7 @@ public final class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     @Override
     public void uncaughtException(@NonNull Thread thread, @NonNull Throwable throwable) {
-//        CrashActivity.start(mApplication, throwable);
+        CrashActivity.start(mApplication, throwable);
         // 不去触发系统的崩溃处理（com.android.internal.os.RuntimeInit$KillApplicationHandler）
         if (mOldHandler != null && !mOldHandler.getClass().getName().startsWith("com.android.internal.os")) {
             mOldHandler.uncaughtException(thread, throwable);

@@ -42,7 +42,7 @@ public final class MenuDialog {
 
         public Builder(Context context) {
             super(context);
-            setContentView(R.layout.menu_dialog);
+            setContentView(R.layout.dialog_menu);
             setAnimStyle(BaseDialog.ANIM_BOTTOM);
 
             mRecyclerView = findViewById(R.id.rv_menu_list);
@@ -194,7 +194,7 @@ public final class MenuDialog {
             private final View mLineView;
 
             ViewHolder() {
-                super(R.layout.menu_item);
+                super(R.layout.item_menu);
                 mTextView = (TextView) findViewById(R.id.tv_menu_text);
                 mLineView = findViewById(R.id.v_menu_line);
             }

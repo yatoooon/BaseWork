@@ -16,7 +16,6 @@
 package com.yatoooon.demo.mvp.ui.adapter;
 
 import android.content.Context;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,7 +49,7 @@ public class UserAdapter extends MyAdapter<User> {
         private final TextView tvName;
 
         public UserItemHolder() {
-            super(R.layout.recycle_list);
+            super(R.layout.list_recycle);
             ivAvatar = (ImageView) findViewById(R.id.iv_avatar);
             tvName = (TextView) findViewById(R.id.tv_name);
         }

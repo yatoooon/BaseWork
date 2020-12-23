@@ -30,7 +30,7 @@ public final class StatusAdapter extends MyAdapter<String> {
         private TextView mTextView;
 
         private ViewHolder() {
-            super(R.layout.status_item);
+            super(R.layout.item_status);
             mTextView = (TextView) findViewById(R.id.tv_status_text);
         }
 

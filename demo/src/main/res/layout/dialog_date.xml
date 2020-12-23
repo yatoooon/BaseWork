@@ -10,27 +10,27 @@
     >
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_time_hour"
+        android:id="@+id/rv_date_year"
         android:layout_width="0px"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.2"
         tools:itemCount="3"
-        tools:listitem="@layout/picker_item" />
+        tools:listitem="@layout/item_picker" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_time_minute"
+        android:id="@+id/rv_date_month"
         android:layout_width="0px"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         tools:itemCount="3"
-        tools:listitem="@layout/picker_item" />
+        tools:listitem="@layout/item_picker" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_time_second"
+        android:id="@+id/rv_date_day"
         android:layout_width="0px"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         tools:itemCount="3"
-        tools:listitem="@layout/picker_item" />
+        tools:listitem="@layout/item_picker" />
 
 </LinearLayout>

@@ -10,8 +10,8 @@
     <com.hjq.bar.TitleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:rightTitle="@string/image_select_all"
-        app:title="@string/image_select_title" />
+        app:rightTitle="@string/video_select_all"
+        app:title="@string/video_select_title" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -19,24 +19,24 @@
         tools:layoutAnimation="@null">
 
         <com.yatoooon.demo.app.widget.HintLayout
-            android:id="@+id/hl_image_select_hint"
+            android:id="@+id/hl_video_select_hint"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_image_select_list"
+                android:id="@+id/rv_video_select_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layoutAnimation="@anim/from_bottom_layout"
                 tools:itemCount="20"
                 tools:layoutManager="GridLayoutManager"
-                tools:listitem="@layout/image_select_item"
+                tools:listitem="@layout/item_video_select"
                 tools:spanCount="3" />
 
         </com.yatoooon.demo.app.widget.HintLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_image_select_floating"
+            android:id="@+id/fab_video_select_floating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
@@ -45,7 +45,7 @@
             app:borderWidth="0px"
             app:elevation="1dp"
             app:fabSize="normal"
-            app:srcCompat="@drawable/camera_ic" />
+            app:srcCompat="@drawable/videocam_ic" />
     </FrameLayout>
 
 </LinearLayout>

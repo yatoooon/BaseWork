@@ -31,7 +31,7 @@ public final class SafeDialog {
         public Builder(Context context) {
             super(context);
             setTitle(R.string.safe_title);
-            setCustomView(R.layout.safe_dialog);
+            setCustomView(R.layout.dialog_safe);
             mPhoneView = findViewById(R.id.tv_safe_phone);
             mCodeView = findViewById(R.id.et_safe_code);
             mCountdownView = findViewById(R.id.cv_safe_countdown);

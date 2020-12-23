@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/menu_item" />
+            tools:listitem="@layout/item_menu" />
 
     </androidx.cardview.widget.CardView>
 

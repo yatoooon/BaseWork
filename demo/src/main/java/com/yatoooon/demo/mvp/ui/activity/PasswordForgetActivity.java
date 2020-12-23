@@ -20,7 +20,6 @@ import com.yatoooon.demo.mvp.contract.PasswordForgetContract;
 import com.yatoooon.demo.mvp.presenter.PasswordForgetPresenter;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -48,7 +47,7 @@ public class PasswordForgetActivity extends MyActivity<PasswordForgetPresenter> 
 
     @Override
     public int getLayoutId() {
-        return R.layout.password_forget_activity;
+        return R.layout.activity_password_forget;
     }
 
     @Override

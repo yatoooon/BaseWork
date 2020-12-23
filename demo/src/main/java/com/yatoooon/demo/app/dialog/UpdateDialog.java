@@ -4,27 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
-import com.liulishuo.okdownload.DownloadListener;
 import com.liulishuo.okdownload.DownloadTask;
 import com.liulishuo.okdownload.StatusUtil;
 import com.liulishuo.okdownload.core.breakpoint.BreakpointInfo;
-import com.liulishuo.okdownload.core.cause.EndCause;
 import com.liulishuo.okdownload.core.cause.ResumeFailedCause;
 import com.liulishuo.okdownload.core.listener.DownloadListener3;
-import com.trello.rxlifecycle2.RxLifecycle;
 import com.yatoooon.baselibrary.base.BaseDialog;
-import com.yatoooon.baselibrary.utils.ArmsUtils;
-import com.yatoooon.baselibrary.utils.RxLifecycleUtils;
 import com.yatoooon.demo.BuildConfig;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.CheckNet;
@@ -33,14 +26,8 @@ import com.yatoooon.demo.app.aop.SingleClick;
 import com.hjq.permissions.Permission;
 import com.yatoooon.demo.app.other.AppConfig;
 import com.yatoooon.demo.app.utils.DownloadUtil;
-import com.yatoooon.demo.mvp.model.api.service.CommonService;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 import java.io.File;
-import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -90,7 +77,7 @@ public final class UpdateDialog {
         public Builder(Context context) {
             super(context);
 
-            setContentView(R.layout.update_dialog);
+            setContentView(R.layout.dialog_update);
             setAnimStyle(BaseDialog.ANIM_BOTTOM);
             setCancelable(false);
 

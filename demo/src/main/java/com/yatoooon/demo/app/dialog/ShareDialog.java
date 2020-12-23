@@ -45,7 +45,7 @@ public final class ShareDialog {
         public Builder(Context context) {
             super(context);
 
-            setContentView(R.layout.share_dialog);
+            setContentView(R.layout.dialog_share);
 
             final List<ShareBean> data = new ArrayList<>();
             data.add(new ShareBean(getDrawable(R.drawable.share_wechat_ic), getString(R.string.share_platform_wechat), Platform.WECHAT));
@@ -130,7 +130,7 @@ public final class ShareDialog {
             private final TextView mTextView;
 
             private ViewHolder() {
-                super(R.layout.share_item);
+                super(R.layout.item_share);
                 mImageView = (ImageView) findViewById(R.id.iv_share_image);
                 mTextView = (TextView) findViewById(R.id.tv_share_text);
             }

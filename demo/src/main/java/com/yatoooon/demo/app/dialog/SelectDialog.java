@@ -37,7 +37,7 @@ public final class SelectDialog {
         public Builder(Context context) {
             super(context);
 
-            setCustomView(R.layout.select_dialog);
+            setCustomView(R.layout.dialog_select);
             RecyclerView recyclerView = findViewById(R.id.rv_select_list);
             recyclerView.setItemAnimator(null);
 
@@ -216,7 +216,7 @@ public final class SelectDialog {
             private final CheckBox mCheckBox;
 
             ViewHolder() {
-                super(R.layout.select_item);
+                super(R.layout.item_select);
                 mTextView = (TextView) findViewById(R.id.tv_select_text);
                 mCheckBox = (CheckBox) findViewById(R.id.tv_select_checkbox);
             }

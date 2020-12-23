@@ -1,5 +1,7 @@
 package com.yatoooon.demo.mvp.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -13,8 +15,10 @@ import com.yatoooon.baselibrary.di.component.AppComponent;
 import com.yatoooon.baselibrary.widget.view.CountdownView;
 import com.yatoooon.baselibrary.widget.view.RegexEditText;
 import com.yatoooon.demo.R;
+import com.yatoooon.demo.app.aop.DebugLog;
 import com.yatoooon.demo.app.common.MyActivity;
 import com.yatoooon.demo.app.helper.InputTextHelper;
+import com.yatoooon.demo.app.other.IntentKey;
 import com.yatoooon.demo.di.component.DaggerPhoneChangeComponent;
 import com.yatoooon.demo.mvp.contract.PhoneChangeContract;
 import com.yatoooon.demo.mvp.presenter.PhoneChangePresenter;
@@ -34,6 +38,17 @@ public class PhoneChangeActivity extends MyActivity<PhoneChangePresenter> implem
     CountdownView cvPhoneResetCountdown;
     @BindView(R.id.btn_phone_reset_commit)
     AppCompatButton btnPhoneResetCommit;
+    /**
+     * 验证码
+     */
+    private String mVerifyCode;
+
+    @DebugLog
+    public static void start(Context context, String code) {
+        Intent intent = new Intent(context, PhoneChangeActivity.class);
+        intent.putExtra(IntentKey.CODE, code);
+        context.startActivity(intent);
+    }
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -62,7 +77,7 @@ public class PhoneChangeActivity extends MyActivity<PhoneChangePresenter> implem
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
+        mVerifyCode = getString(IntentKey.CODE);
     }
 
 

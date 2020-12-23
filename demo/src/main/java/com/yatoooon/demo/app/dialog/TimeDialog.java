@@ -42,7 +42,7 @@ public final class TimeDialog {
         @SuppressWarnings("all")
         public Builder(Context context) {
             super(context);
-            setCustomView(R.layout.time_dialog);
+            setCustomView(R.layout.dialog_time);
             setTitle(R.string.time_title);
 
             mHourView = findViewById(R.id.rv_time_hour);
@@ -229,7 +229,7 @@ public final class TimeDialog {
             private final TextView mPickerView;
 
             ViewHolder() {
-                super(R.layout.picker_item);
+                super(R.layout.item_picker);
                 mPickerView = (TextView) findViewById(R.id.tv_picker_name);
             }
 

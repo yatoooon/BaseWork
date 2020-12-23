@@ -49,7 +49,7 @@ public final class DateDialog {
         public Builder(Context context) {
             super(context);
 
-            setCustomView(R.layout.date_dialog);
+            setCustomView(R.layout.dialog_date);
             setTitle(R.string.time_title);
 
             mYearView = findViewById(R.id.rv_date_year);
@@ -252,7 +252,7 @@ public final class DateDialog {
                 private final TextView mPickerView;
 
                 ViewHolder() {
-                    super(R.layout.picker_item);
+                    super(R.layout.item_picker);
                     mPickerView = (TextView) findViewById(R.id.tv_picker_name);
                 }
 

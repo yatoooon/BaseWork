@@ -1,7 +1,6 @@
 package com.yatoooon.demo.mvp.ui.fragment;
 
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 
@@ -63,11 +62,11 @@ public class StatusFragment extends MyFragment<StatusPresenter> implements Statu
         mAdapter.setOnItemClickListener(this);
         rvStatusList.setAdapter(mAdapter);
 
-        TextView headerView = rvStatusList.addHeaderView(R.layout.picker_item);
+        TextView headerView = rvStatusList.addHeaderView(R.layout.item_picker);
         headerView.setText("我是头部");
         headerView.setOnClickListener(v -> toast("点击了头部"));
 
-//        TextView footerView = rvStatusList.addFooterView(R.layout.picker_item);
+//        TextView footerView = rvStatusList.addFooterView(R.layout.item_picker);
 //        footerView.setText("我是尾部");
 //        footerView.setOnClickListener(v -> toast("点击了尾部"));
 

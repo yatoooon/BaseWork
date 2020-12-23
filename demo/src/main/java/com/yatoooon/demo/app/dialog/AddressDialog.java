@@ -67,7 +67,7 @@ public final class AddressDialog {
         @SuppressWarnings("all")
         public Builder(Context context) {
             super(context);
-            setContentView(R.layout.address_dialog);
+            setContentView(R.layout.dialog_address);
 
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getSystemService(WindowManager.class).getDefaultDisplay().getMetrics(displayMetrics);

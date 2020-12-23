@@ -110,7 +110,7 @@ public final class PlayerView extends SimpleLayout
     public PlayerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
-        LayoutInflater.from(getContext()).inflate(R.layout.widget_player_view, this, true);
+        LayoutInflater.from(getContext()).inflate(R.layout.view_widget_player, this, true);
         mTopLayout = findViewById(R.id.ll_player_view_top);
         mLeftView = findViewById(R.id.iv_player_view_left);
         mTitleView = findViewById(R.id.tv_player_view_title);

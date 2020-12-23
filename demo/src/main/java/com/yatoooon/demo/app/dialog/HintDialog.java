@@ -32,7 +32,7 @@ public final class HintDialog {
 
         public Builder(Context context) {
             super(context);
-            setContentView(R.layout.hint_dialog);
+            setContentView(R.layout.dialog_hint);
             setAnimStyle(BaseDialog.ANIM_TOAST);
             setBackgroundDimEnabled(false);
             setCancelable(false);

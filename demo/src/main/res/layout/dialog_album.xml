@@ -11,4 +11,4 @@
 
     tools:itemCount="4"
     tools:layoutAnimation="@null"
-    tools:listitem="@layout/album_item" />
+    tools:listitem="@layout/item_album" />

@@ -52,7 +52,7 @@ public final class ImagePreviewActivity extends MyActivity {
 
     @Override
     public int getLayoutId() {
-        return R.layout.image_preview_activity;
+        return R.layout.activity_image_preview;
     }
 
     @Override

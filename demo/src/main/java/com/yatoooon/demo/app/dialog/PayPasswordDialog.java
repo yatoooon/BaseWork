@@ -49,7 +49,7 @@ public final class PayPasswordDialog {
 
         public Builder(Context context) {
             super(context);
-            setContentView(R.layout.pay_password_dialog);
+            setContentView(R.layout.dialog_pay_password);
             setCancelable(false);
 
             mTitleView = findViewById(R.id.tv_pay_title);
@@ -193,9 +193,9 @@ public final class PayPasswordDialog {
         public MyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             switch (viewType) {
                 case TYPE_DELETE:
-                    return new MyAdapter.SimpleHolder(R.layout.pay_password_delete_item);
+                    return new MyAdapter.SimpleHolder(R.layout.item_pay_password_delete);
                 case TYPE_EMPTY:
-                    return new MyAdapter.SimpleHolder(R.layout.pay_password_empty_item);
+                    return new MyAdapter.SimpleHolder(R.layout.item_pay_password_empty);
                 default:
                     return new KeyboardAdapter.ViewHolder();
             }
@@ -206,7 +206,7 @@ public final class PayPasswordDialog {
             private final TextView mTextView;
 
             private ViewHolder() {
-                super(R.layout.pay_password_normal_item);
+                super(R.layout.item_pay_password_normal);
                 mTextView = (TextView) getItemView();
             }
 

@@ -15,7 +15,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         app:scaleRatio="1.2"
-        tools:src="@mipmap/launcher_ic" />
+        tools:src="@mipmap/ic_launcher" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_share_text"

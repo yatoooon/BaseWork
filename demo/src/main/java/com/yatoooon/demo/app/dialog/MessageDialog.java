@@ -24,7 +24,7 @@ public final class MessageDialog {
 
         public Builder(Context context) {
             super(context);
-            setCustomView(R.layout.message_dialog);
+            setCustomView(R.layout.dialog_message);
             mMessageView = findViewById(R.id.tv_message_message);
         }
 

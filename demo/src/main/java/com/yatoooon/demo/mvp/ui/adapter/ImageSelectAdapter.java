@@ -44,7 +44,7 @@ public final class ImageSelectAdapter extends MyAdapter<String> {
         private CheckBox mCheckBox;
 
         private ViewHolder() {
-            super(R.layout.image_select_item);
+            super(R.layout.item_image_select);
             mImageView = (ImageView) findViewById(R.id.iv_image_select_image);
             mCheckBox = (CheckBox) findViewById(R.id.iv_image_select_check);
         }

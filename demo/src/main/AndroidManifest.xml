@@ -16,7 +16,7 @@
     <application
         android:name="com.yatoooon.baselibrary.base.BaseApplication"
         android:allowBackup="false"
-        android:icon="@mipmap/arms_logo"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
@@ -26,29 +26,6 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute,LockedOrientationActivity"
         tools:replace="android:allowBackup,android:supportsRtl"
         tools:targetApi="n">
-        <activity android:name=".mvp.ui.activity.PersonInfoActivity" />
-        <activity android:name=".mvp.ui.activity.PhoneChangeActivity" />
-        <activity android:name=".mvp.ui.activity.PasswordResetActivity" />
-        <activity android:name=".mvp.ui.activity.PasswordForgetActivity" />
-        <activity android:name=".mvp.ui.activity.RegisterActivity" />
-        <activity android:name=".mvp.ui.activity.LoginActivity" />
-        <activity android:name=".mvp.ui.activity.HomeActivity" />
-        <activity android:name=".mvp.ui.activity.SplashActivity">
-
-            <!-- 程序入口 -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".mvp.ui.activity.UserActivity" />
-        <activity android:name=".mvp.ui.activity.DialogActivity" />
-        <activity android:name=".mvp.ui.activity.StatusActivity" />
-        <activity android:name=".mvp.ui.activity.ImagePreviewActivity" />
-        <activity android:name=".mvp.ui.activity.ImageSelectActivity" />
-        <activity android:name=".mvp.ui.activity.CameraActivity" />
         <!--
  只要依赖 AutoSize 就必须填写设计图尺寸, 否则报错, 不想使用 AutoSize 就不要依赖 AutoSize
         只要填写完设计图的尺寸, AutoSize 就会自动启动, 以下 dp 尺寸是根据公式 px / (dpi / 160) 求出, 运算时使用测试机的 dpi 即可
@@ -72,6 +49,180 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+
+        <!-- 适配 Android 7.0 文件意图 -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- 闪屏界面 -->
+        <activity
+            android:name=".mvp.ui.activity.SplashActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+
+            <!-- 程序入口 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <!-- 崩溃界面 -->
+        <activity
+            android:name=".mvp.ui.activity.CrashActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
+            android:process=":crash"
+            android:screenOrientation="landscape" />
+
+        <!-- 引导界面 -->
+        <activity
+            android:name=".mvp.ui.activity.GuideActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- App 首页 -->
+        <activity
+            android:name=".mvp.ui.activity.HomeActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <!-- 登录界面 -->
+        <activity
+            android:name=".mvp.ui.activity.LoginActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 注册界面 -->
+        <activity
+            android:name=".mvp.ui.activity.RegisterActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 设置界面 -->
+        <activity
+            android:name=".mvp.ui.activity.SettingActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/setting_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 忘记密码 -->
+        <activity
+            android:name=".mvp.ui.activity.PasswordForgetActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/password_forget_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 重置密码 -->
+        <activity
+            android:name=".mvp.ui.activity.PasswordResetActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/password_reset_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 手机号更换 -->
+        <activity
+            android:name=".mvp.ui.activity.PhoneChangeActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/phone_reset_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 关于我们 -->
+        <activity
+            android:name=".mvp.ui.activity.AboutActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/about_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 个人资料 -->
+        <activity
+            android:name=".mvp.ui.activity.PersonInfoActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/personal_data_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 浏览器 -->
+        <activity
+            android:name=".mvp.ui.activity.BrowserActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/web_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 拍照选择 -->
+        <activity
+            android:name=".mvp.ui.activity.CameraActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 图片选择 -->
+        <activity
+            android:name=".mvp.ui.activity.ImageSelectActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/image_select_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 查看大图 -->
+        <activity
+            android:name=".mvp.ui.activity.ImagePreviewActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 播放视频 -->
+        <activity
+            android:name=".mvp.ui.activity.VideoPlayActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/FullScreenTheme" />
+
+        <!-- 选择视频 -->
+        <activity
+            android:name=".mvp.ui.activity.VideoSelectActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 对话框案例 -->
+        <activity
+            android:name=".mvp.ui.activity.DialogActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 状态案例 -->
+        <activity
+            android:name=".mvp.ui.activity.StatusActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
