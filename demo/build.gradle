@@ -34,7 +34,7 @@ android {
         }
 
         // 混淆配置
-        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-app.pro'
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
     signingConfigs {
         config {
@@ -53,7 +53,7 @@ android {
             // ZipAlign 优化
             zipAlignEnabled false
             // 设置混淆
-            minifyEnabled false
+            minifyEnabled true
             // 开发环境下的 BuglyId
             buildConfigField 'String', 'BUGLY_ID', '\"请自行替换 Bugly 上面的 AppID\"'
             buildConfigField "boolean", "LOG_DEBUG", "true"

@@ -39,7 +39,8 @@
             android:value="640" /> <!-- Arms 配置 -->
         <meta-data
             android:name="com.yatoooon.demo.app.GlobalConfiguration"
-            android:value="ConfigModule" /> <!-- 适配 Android 7.0 文件意图 -->
+            android:value="ConfigModule" />
+        <!-- 适配 Android 7.0 文件意图 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

@@ -53,7 +53,6 @@ import butterknife.Unbinder;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 
-import static com.yatoooon.baselibrary.utils.ThirdViewUtil.convertAutoView;
 
 /**
  * ================================================
@@ -93,11 +92,12 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         return mLifecycleSubject;
     }
 
-    @Override
-    public View onCreateView(String name, Context context, AttributeSet attrs) {
-        View view = convertAutoView(name, context, attrs);
-        return view == null ? super.onCreateView(name, context, attrs) : view;
-    }
+//    @Override
+//    public View onCreateView(String name, Context context, AttributeSet attrs) {
+////        View view = convertAutoView(name, context, attrs);
+//       return super.onCreateView(name, context, attrs);
+////        return view == null ?  : view;
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yatoooon.baselibrary.action.ResourcesAction;
-import com.zhy.autolayout.utils.AutoUtils;
 
 
 

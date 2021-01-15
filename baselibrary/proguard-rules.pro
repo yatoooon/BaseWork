@@ -142,9 +142,7 @@
     <init>(java.lang.Throwable);
 }
 
-################autolayout###############
--keep class com.zhy.autolayout.** { *; }
--keep interface com.zhy.autolayout.** { *; }
+
 
 
 ################RxJava and RxAndroid###############

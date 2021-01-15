@@ -435,8 +435,6 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 
-import com.zhy.autolayout.AutoLayoutInfo;
-import com.zhy.autolayout.utils.AutoLayoutHelper;
 
 /**
  * 此Template用于生成AutoLayout需要的的Auto系列View,如需要使ScrollView适配,使用此Template输入ScrollView,即可生成
