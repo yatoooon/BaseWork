@@ -100,6 +100,13 @@ android {
         exclude 'androidx', 'com.google', 'com.squareup', 'com.alipay', 'com.taobao', 'org.apache'
     }
 
+    // 设置存放 so 文件的目录
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
     applicationVariants.all { variant ->
 
         // Apk 输出文件名配置

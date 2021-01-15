@@ -8,6 +8,7 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.yatoooon.demo.app.popup.ListPopup;
 import com.yatoooon.demo.wxapi.WXEntryActivity;
 import com.yatoooon.umeng.Platform;
 import com.yatoooon.umeng.UmengShare;
@@ -490,5 +491,16 @@ public class DialogActivity extends MyActivity {
                         .show();
                 break;
         }
+    }
+
+    @Override
+    public void onRightClick(View v) {
+        // 菜单弹窗
+        new ListPopup.Builder(this)
+                .setList("选择拍照", "选取相册")
+                .addOnShowListener(popupWindow -> toast("PopupWindow 显示了"))
+                .addOnDismissListener(popupWindow -> toast("PopupWindow 销毁了"))
+                .setListener((ListPopup.OnListener<String>) (popupWindow, position, s) -> toast("点击了：" + s))
+                .showAsDropDown(v);
     }
 }
