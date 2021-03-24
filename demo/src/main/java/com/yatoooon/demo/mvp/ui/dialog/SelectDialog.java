@@ -2,6 +2,8 @@ package com.yatoooon.demo.mvp.ui.dialog;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -14,7 +16,7 @@ import com.yatoooon.baselibrary.base.BaseAdapter;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.common.MyAdapter;
+import com.yatoooon.demo.app.app.AppAdapter;
 import com.hjq.toast.ToastUtils;
 
 import java.util.ArrayList;
@@ -28,21 +30,22 @@ import java.util.List;
 public final class SelectDialog {
 
     public static final class Builder
-            extends UIDialog.Builder<Builder> {
+            extends CommonDialog.Builder<Builder>implements View.OnLayoutChangeListener, Runnable  {
 
         private OnListener mListener;
 
         private final SelectAdapter mAdapter;
+        private final RecyclerView mRecyclerView;
 
         public Builder(Context context) {
             super(context);
 
             setCustomView(R.layout.dialog_select);
-            RecyclerView recyclerView = findViewById(R.id.rv_select_list);
-            recyclerView.setItemAnimator(null);
+            mRecyclerView = findViewById(R.id.rv_select_list);
+            mRecyclerView.setItemAnimator(null);
 
             mAdapter = new SelectAdapter(getContext());
-            recyclerView.setAdapter(mAdapter);
+            mRecyclerView.setAdapter(mAdapter);
         }
 
         public Builder setList(int... ids) {
@@ -60,6 +63,7 @@ public final class SelectDialog {
         @SuppressWarnings("all")
         public Builder setList(List data) {
             mAdapter.setData(data);
+            mRecyclerView.addOnLayoutChangeListener(this);
             return this;
         }
 
@@ -125,10 +129,46 @@ public final class SelectDialog {
                 default:
                     break;
             }
+
+        }
+        /**
+         * {@link View.OnLayoutChangeListener}
+         */
+        @Override
+        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+            mRecyclerView.removeOnLayoutChangeListener(this);
+            // 这里一定要加延迟，如果不加在 Android 9.0 上面会导致 setLayoutParams 无效
+            post(this);
+        }
+
+        @Override
+        public void run() {
+            final ViewGroup.LayoutParams params = mRecyclerView.getLayoutParams();
+            final int maxHeight = getScreenHeight() / 4 * 3;
+            if (mRecyclerView.getHeight() > maxHeight) {
+                if (params.height != maxHeight) {
+                    params.height = maxHeight;
+                    mRecyclerView.setLayoutParams(params);
+                }
+            } else {
+                if (params.height != ViewGroup.LayoutParams.WRAP_CONTENT) {
+                    params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    mRecyclerView.setLayoutParams(params);
+                }
+            }
+        }
+
+        /**
+         *  获取屏幕的高度
+         */
+        private int getScreenHeight() {
+            Resources resources = getResources();
+            DisplayMetrics outMetrics = resources.getDisplayMetrics();
+            return outMetrics.heightPixels;
         }
     }
 
-    private static final class SelectAdapter extends MyAdapter<Object>
+    private static final class SelectAdapter extends AppAdapter<Object>
             implements BaseAdapter.OnItemClickListener {
 
         /** 最小选择数量 */
@@ -210,7 +250,7 @@ public final class SelectDialog {
             }
         }
 
-        private final class ViewHolder extends MyAdapter.ViewHolder {
+        private final class ViewHolder extends AppAdapter.ViewHolder {
 
             private final TextView mTextView;
             private final CheckBox mCheckBox;

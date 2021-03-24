@@ -29,6 +29,8 @@ import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.module.AppGlideModule;
+import com.bumptech.glide.request.RequestOptions;
+import com.yatoooon.baselibrary.R;
 import com.yatoooon.baselibrary.di.component.AppComponent;
 import com.yatoooon.baselibrary.http.OkHttpUrlLoader;
 import com.yatoooon.baselibrary.http.imageloader.BaseImageLoaderStrategy;
@@ -69,6 +71,11 @@ public class GlideConfiguration extends AppGlideModule {
         builder.setMemoryCache(new LruResourceCache(customMemoryCacheSize));
         builder.setBitmapPool(new LruBitmapPool(customBitmapPoolSize));
 
+        builder.setDefaultRequestOptions(new RequestOptions()
+                // 设置默认加载中占位图
+                .placeholder(R.drawable.image_loading_bg)
+                // 设置默认加载出错占位图
+                .error(R.drawable.image_error_bg));
         //将配置 Glide 的机会转交给 GlideImageLoaderStrategy,如你觉得框架提供的 GlideImageLoaderStrategy
         //并不能满足自己的需求,想自定义 BaseImageLoaderStrategy,那请你最好实现 GlideAppliesOptions
         //因为只有成为 GlideAppliesOptions 的实现类,这里才能调用 applyGlideOptions(),让你具有配置 Glide 的权利

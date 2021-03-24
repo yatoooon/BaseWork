@@ -67,10 +67,10 @@ public class FragmentDelegateImpl implements FragmentDelegate {
 
     @Override
     public void onCreateView(@Nullable View view, @Nullable Bundle savedInstanceState) {
-        //绑定到butterknife
-        if (view != null) {
-            mUnbinder = ButterKnife.bind(mFragment, view);
-        }
+//        //绑定到butterknife
+//        if (view != null) {
+//            mUnbinder = ButterKnife.bind(mFragment, view);
+//        }
     }
 
     @Override

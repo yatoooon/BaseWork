@@ -3,6 +3,7 @@ package com.yatoooon.demo.app.other;
 import android.app.Activity;
 import android.app.Application;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -12,7 +13,9 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 
 /**
-
+ *    author : Android 轮子哥
+ *    github : https://github.com/getActivity/AndroidProject
+ *    time   : 2019/07/04
  *    desc   : 软键盘监听类
  */
 public final class KeyboardWatcher implements
@@ -33,7 +36,11 @@ public final class KeyboardWatcher implements
         mActivity = activity;
         mContentView = activity.findViewById(Window.ID_ANDROID_CONTENT);
 
-        mActivity.getApplication().registerActivityLifecycleCallbacks(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            mActivity.registerActivityLifecycleCallbacks(this);
+        } else {
+            mActivity.getApplication().registerActivityLifecycleCallbacks(this);
+        }
         mContentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
         // 获取 status_bar_height 资源的 ID
@@ -107,7 +114,11 @@ public final class KeyboardWatcher implements
     @Override
     public void onActivityDestroyed(@NonNull Activity activity) {
         if (mActivity == activity) {
-            mActivity.getApplication().unregisterActivityLifecycleCallbacks(this);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                mActivity.unregisterActivityLifecycleCallbacks(this);
+            } else {
+                mActivity.getApplication().unregisterActivityLifecycleCallbacks(this);
+            }
             mContentView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
             mActivity = null;
@@ -123,6 +134,7 @@ public final class KeyboardWatcher implements
 
         /**
          * 软键盘弹出了
+         *
          * @param keyboardHeight            软键盘高度
          */
         void onSoftKeyboardOpened(int keyboardHeight);

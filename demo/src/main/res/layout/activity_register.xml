@@ -103,7 +103,7 @@
 
         <View style="@style/HorizontalLineStyle" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.yatoooon.demo.app.widget.SubmitButton
             android:id="@+id/btn_register_commit"
             style="@style/ButtonStyle"
             android:layout_width="match_parent"

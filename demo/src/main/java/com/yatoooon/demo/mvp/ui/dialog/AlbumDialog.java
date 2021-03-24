@@ -12,10 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.yatoooon.baselibrary.base.BaseAdapter;
 import com.yatoooon.baselibrary.base.BaseDialog;
+import com.yatoooon.baselibrary.base.BottomSheetDialog;
 import com.yatoooon.baselibrary.http.imageloader.glide.ImageConfigImpl;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.common.MyAdapter;
+import com.yatoooon.demo.app.app.AppAdapter;
 
 import java.util.List;
 
@@ -37,7 +38,6 @@ public final class AlbumDialog {
             super(context);
 
             setContentView(R.layout.dialog_album);
-            setHeight(getResources().getDisplayMetrics().heightPixels / 2);
 
             mRecyclerView = findViewById(R.id.rv_album_list);
             mAdapter = new AlbumAdapter(context);
@@ -51,6 +51,7 @@ public final class AlbumDialog {
             for (int i = 0; i < data.size(); i++) {
                 if (data.get(i).isSelect()) {
                     mRecyclerView.scrollToPosition(i);
+                    break;
                 }
             }
             return this;
@@ -87,9 +88,17 @@ public final class AlbumDialog {
 
             }, 300);
         }
+
+        @NonNull
+        @Override
+        protected BaseDialog createDialog(Context context, int themeId) {
+            BottomSheetDialog dialog = new BottomSheetDialog(context, themeId);
+            dialog.getBottomSheetBehavior().setPeekHeight(getResources().getDisplayMetrics().heightPixels / 2);
+            return dialog;
+        }
     }
 
-    private static final class AlbumAdapter extends MyAdapter<AlbumInfo> {
+    private static final class AlbumAdapter extends AppAdapter<AlbumInfo> {
 
         private AlbumAdapter(Context context) {
             super(context);
@@ -101,7 +110,7 @@ public final class AlbumDialog {
             return new ViewHolder();
         }
 
-        private final class ViewHolder extends MyAdapter.ViewHolder {
+        private final class ViewHolder extends AppAdapter.ViewHolder {
 
             private final ImageView mIconView;
             private final TextView mNameView;
@@ -121,7 +130,8 @@ public final class AlbumDialog {
                 AlbumInfo info = getItem(position);
 
                 ArmsUtils.obtainAppComponentFromContext(itemView.getContext()).imageLoader()
-                        .loadImage(itemView.getContext(), ImageConfigImpl.builder().res(info.getIcon()).imageView(mIconView).build());
+                        .loadImage(itemView.getContext(), ImageConfigImpl.builder().res(info.getIcon())
+                                .imageView(mIconView).build());
 
                 mNameView.setText(info.getName());
                 mRemarkView.setText(info.getRemark());

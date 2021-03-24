@@ -15,12 +15,13 @@ import com.yatoooon.baselibrary.widget.layout.SettingBar;
 import com.yatoooon.baselibrary.widget.view.SwitchButton;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.common.MyActivity;
+import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.manager.ThreadPoolManager;
 import com.yatoooon.demo.mvp.ui.dialog.MenuDialog;
 import com.yatoooon.demo.mvp.ui.dialog.SafeDialog;
 import com.yatoooon.demo.mvp.ui.dialog.UpdateDialog;
-import com.yatoooon.demo.app.helper.ActivityStackManager;
-import com.yatoooon.demo.app.helper.CacheDataManager;
+import com.yatoooon.demo.app.manager.ActivityManager;
+import com.yatoooon.demo.app.manager.CacheDataManager;
 import com.yatoooon.demo.app.other.AppConfig;
 import com.yatoooon.demo.di.component.DaggerSettingComponent;
 import com.yatoooon.demo.mvp.contract.SettingContract;
@@ -30,7 +31,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class SettingActivity extends MyActivity<SettingPresenter> implements SettingContract.View, SwitchButton.OnCheckedChangeListener {
+public class SettingActivity extends AppActivity<SettingPresenter> implements SettingContract.View, SwitchButton.OnCheckedChangeListener {
 
     @BindView(R.id.sb_setting_language)
     SettingBar sbSettingLanguage;
@@ -111,7 +112,8 @@ public class SettingActivity extends MyActivity<SettingPresenter> implements Set
                             // 更新日志
                             .setUpdateLog("修复Bug\n优化用户体验")
                             // 下载 url
-                            .setDownloadUrl("https://raw.githubusercontent.com/getActivity/AndroidProject/master/AndroidProject.apk")
+                            .setDownloadUrl("https://down.qq.com/qqweb/QQ_1/android_apk/Android_8.5.0.5025_537066738.apk")
+                            .setFileMd5("560017dc94e8f9b65f4ca997c7feb326")
                             .show();
                 } else {
                     toast(R.string.update_no_update);
@@ -139,23 +141,23 @@ public class SettingActivity extends MyActivity<SettingPresenter> implements Set
                 break;
             case R.id.sb_setting_cache:
                 ArmsUtils.obtainAppComponentFromContext(getActivity()).imageLoader().clear(getActivity(), ImageConfigImpl.builder().build());
-                new Thread(() -> {
+                ThreadPoolManager.getInstance().execute(() -> {
                     CacheDataManager.clearAllCache(this);
                     post(() -> {
                         sbSettingCache.setRightText(CacheDataManager.getTotalCacheSize(getActivity()));
                     });
-                }).start();
+                });
                 break;
             case R.id.sb_setting_exit:
                 startActivity(LoginActivity.class);
                 // 进行内存优化，销毁除登录页之外的所有界面
-                ActivityStackManager.getInstance().finishAllActivities(LoginActivity.class);
+                ActivityManager.getInstance().finishAllActivities(LoginActivity.class);
                 break;
         }
     }
 
     @Override
     public void onCheckedChanged(SwitchButton button, boolean isChecked) {
-
+        toast(isChecked);
     }
 }

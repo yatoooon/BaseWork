@@ -2,23 +2,22 @@ package com.yatoooon.demo.mvp.ui.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
-import com.yatoooon.baselibrary.base.BaseActivity;
 import com.yatoooon.baselibrary.di.component.AppComponent;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.common.MyActivity;
+import com.yatoooon.demo.app.app.AppActivity;
 import com.yatoooon.demo.app.other.AppConfig;
+import com.yatoooon.demo.app.widget.SlantedTextView;
 import com.yatoooon.demo.di.component.DaggerSplashComponent;
 import com.yatoooon.demo.mvp.contract.SplashContract;
 import com.yatoooon.demo.mvp.presenter.SplashPresenter;
@@ -32,20 +31,20 @@ import butterknife.ButterKnife;
  * Description:
  * <p>
  * Created by MVPArmsTemplate on 12/18/2020 15:20
-
+ *
  * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
  * <a href="https://github.com/JessYanCoding/MVPArms/wiki">See me</a>
  * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
  */
-public class SplashActivity extends MyActivity<SplashPresenter> implements SplashContract.View {
+public class SplashActivity extends AppActivity<SplashPresenter> implements SplashContract.View {
 
     @BindView(R.id.iv_splash_lottie)
     LottieAnimationView ivSplashLottie;
-    @BindView(R.id.iv_splash_debug)
-    AppCompatImageView ivSplashDebug;
     @BindView(R.id.iv_splash_name)
     AppCompatTextView ivSplashName;
+    @BindView(R.id.iv_splash_debug)
+    SlantedTextView ivSplashDebug;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -57,6 +56,22 @@ public class SplashActivity extends MyActivity<SplashPresenter> implements Splas
                 .inject(this);
     }
 
+    @Override
+    public void initActivity(@Nullable Bundle savedInstanceState) {
+        // 问题及方案：https://www.cnblogs.com/net168/p/5722752.html
+        // 如果当前 Activity 不是任务栈中的第一个 Activity
+        if (!isTaskRoot()) {
+            Intent intent = getIntent();
+            // 如果当前 Activity 是通过桌面图标启动进入的
+            if (intent != null && intent.hasCategory(Intent.CATEGORY_LAUNCHER)
+                    && Intent.ACTION_MAIN.equals(intent.getAction())) {
+                // 对当前 Activity 执行销毁操作，避免重复实例化入口
+                finish();
+                return;
+            }
+        }
+        super.initActivity(savedInstanceState);
+    }
 
     @Override
     public int getLayoutId() {
@@ -70,10 +85,12 @@ public class SplashActivity extends MyActivity<SplashPresenter> implements Splas
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                startActivity(HomeActivity.class);
+                ivSplashLottie.removeAnimatorListener(this);
+                HomeActivity.start(getContext());
                 finish();
             }
         });
+        ivSplashDebug.setText(AppConfig.getBuildType().toUpperCase());
         if (AppConfig.isDebug()) {
             ivSplashDebug.setVisibility(View.VISIBLE);
         } else {
@@ -108,7 +125,6 @@ public class SplashActivity extends MyActivity<SplashPresenter> implements Splas
 
     @Override
     protected void onDestroy() {
-        ivSplashLottie.removeAllAnimatorListeners();
         super.onDestroy();
     }
 

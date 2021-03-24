@@ -2,21 +2,16 @@
 apply from: "config.gradle"
 buildscript {
     repositories {
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://jitpack.io' }
         jcenter()
         google()
-        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'https://jitpack.io' }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-
-
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.2'
         //Gradle Android Maven plugin
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        //Gradle Bintray Plugin
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
-
         // AOP 配置插件：https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx
         classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.10'
         // 资源混淆插件：https://github.com/shwenzhang/AndResGuard
@@ -27,19 +22,28 @@ buildscript {
 
 allprojects {
     repositories {
+        // 阿里云云效仓库，提升编译速度：https://maven.aliyun.com/mvn/guide
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://jitpack.io' }
+        // 友盟仓库：https://bintray.com/umsdk/release
+        maven { url 'https://dl.bintray.com/umsdk/release' }
         jcenter()
         google()
 
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
-        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
-        maven { url 'http://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
-        maven { url 'https://maven.aliyun.com/nexus/content/repositories/central/' }
-        maven { url 'https://dl.bintray.com/getactivity/maven/' }
-        maven { url 'https://dl.bintray.com/umsdk/release' }
-        maven { url 'https://maven.google.com' }
-        maven { url 'https://jitpack.io' }
-
+    }
+    tasks.withType(JavaCompile) {
+        // 设置全局编码
+        options.encoding = 'UTF-8'
+    }
+    tasks.withType(Javadoc) {
+        // 设置文档编码
+        options {
+            encoding 'UTF-8'
+            charSet 'UTF-8'
+            links 'http://docs.oracle.com/javase/7/docs/api'
+        }
     }
 }
 

@@ -90,10 +90,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabRippleColor="@color/transparent"
-            app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicatorColor="@color/common_accent_color"
             app:tabIndicatorFullWidth="false"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabSelectedTextColor="@color/common_accent_color"
             app:tabTextColor="@color/black25" />
 
     </com.google.android.material.appbar.AppBarLayout>

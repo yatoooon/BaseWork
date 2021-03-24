@@ -3,7 +3,6 @@ package com.yatoooon.demo.mvp.ui.fragment;
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.os.Message;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,10 +14,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
-import com.yatoooon.baselibrary.base.BaseFragmentAdapter;
+import com.yatoooon.demo.mvp.ui.adapter.FragmentPagerAdapter;
 import com.yatoooon.baselibrary.di.component.AppComponent;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.common.MyFragment;
+import com.yatoooon.demo.app.app.AppFragment;
 import com.yatoooon.demo.app.widget.XCollapsingToolbarLayout;
 import com.yatoooon.demo.di.component.DaggerHomeComponent;
 import com.yatoooon.demo.mvp.contract.HomeContract;
@@ -29,8 +28,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 
 
-
-public class HomeFragment extends MyFragment<HomePresenter> implements HomeContract.View, XCollapsingToolbarLayout.OnScrimsListener {
+public class HomeFragment extends AppFragment<HomePresenter> implements HomeContract.View, XCollapsingToolbarLayout.OnScrimsListener {
 
     @BindView(R.id.tb_home_title)
     Toolbar tbHomeTitle;
@@ -48,7 +46,7 @@ public class HomeFragment extends MyFragment<HomePresenter> implements HomeContr
     ViewPager vpHomePager;
 
     @Inject
-    BaseFragmentAdapter<MyFragment> mPagerAdapter;
+    FragmentPagerAdapter<AppFragment> mPagerAdapter;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -73,9 +71,9 @@ public class HomeFragment extends MyFragment<HomePresenter> implements HomeContr
 
     @Override
     public void initView() {
-        mPagerAdapter.addFragment(StatusFragment.newInstance(), "列表 A");
-        mPagerAdapter.addFragment(StatusFragment.newInstance(), "列表 B");
-        mPagerAdapter.addFragment(StatusFragment.newInstance(), "列表 C");
+        mPagerAdapter = new FragmentPagerAdapter<>(this);
+        mPagerAdapter.addFragment(StatusFragment.newInstance(), "列表演示");
+        mPagerAdapter.addFragment(BrowserFragment.newInstance("https://github.com/getActivity"), "网页演示");
         vpHomePager.setAdapter(mPagerAdapter);
         tlHomeTab.setupWithViewPager(vpHomePager);
 
@@ -98,7 +96,7 @@ public class HomeFragment extends MyFragment<HomePresenter> implements HomeContr
     }
 
     @Override
-    public boolean statusBarDarkFont() {
+    public boolean isStatusBarDarkFont() {
         return ctlHomeBar.isScrimsShown();
     }
 
@@ -114,7 +112,7 @@ public class HomeFragment extends MyFragment<HomePresenter> implements HomeContr
             tvHomeAddress.setTextColor(ContextCompat.getColor(getAttachActivity(), R.color.black));
             tvHomeHint.setBackgroundResource(R.drawable.home_search_bar_gray_bg);
             tvHomeHint.setTextColor(ContextCompat.getColor(getAttachActivity(), R.color.black60));
-            ivHomeSearch.setSupportImageTintList(ColorStateList.valueOf(getColor(R.color.colorIcon)));
+            ivHomeSearch.setSupportImageTintList(ColorStateList.valueOf(getColor(R.color.common_icon_color)));
             getStatusBarConfig().statusBarDarkFont(true).init();
         } else {
             tvHomeAddress.setTextColor(ContextCompat.getColor(getAttachActivity(), R.color.white));

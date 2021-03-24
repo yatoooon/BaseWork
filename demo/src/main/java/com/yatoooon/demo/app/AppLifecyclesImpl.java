@@ -15,37 +15,47 @@
  */
 package com.yatoooon.demo.app;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.widget.Toast;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.os.Build;
+import android.widget.TextView;
 
-import com.billy.android.swipe.SmartSwipeBack;
 import com.hjq.bar.TitleBar;
-import com.hjq.bar.style.TitleBarLightStyle;
+import com.hjq.bar.initializer.LightBarInitializer;
+import com.hjq.permissions.XXPermissions;
 import com.hjq.toast.ToastInterceptor;
 import com.hjq.toast.ToastUtils;
+import com.hjq.toast.style.ToastBlackStyle;
+import com.scwang.smart.refresh.header.MaterialHeader;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.yatoooon.demo.app.other.DebugLoggerTree;
+import com.yatoooon.demo.app.other.SmartBallPulseFooter;
 import com.yatoooon.umeng.UmengClient;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.yatoooon.baselibrary.base.delegate.AppLifecycles;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.multidex.MultiDex;
 
 import butterknife.ButterKnife;
+
 import com.yatoooon.demo.BuildConfig;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.action.SwipeAction;
-import com.yatoooon.demo.app.helper.ActivityStackManager;
+import com.yatoooon.demo.app.manager.ActivityManager;
 import com.yatoooon.demo.app.other.AppConfig;
 import com.yatoooon.demo.app.other.CrashHandler;
 
+import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
 /**
@@ -53,19 +63,19 @@ import timber.log.Timber;
  * 展示 {@link AppLifecycles} 的用法
  * <p>
  * Created by JessYan on 04/09/2017 17:12
-
+ * <p>
  * ================================================
  */
 public class AppLifecyclesImpl implements AppLifecycles {
 
     @Override
     public void attachBaseContext(@NonNull Context base) {
-          MultiDex.install(base);  //这里比 onCreate 先执行,常用于 MultiDex 初始化,插件化框架的初始化
+        MultiDex.install(base);  //这里比 onCreate 先执行,常用于 MultiDex 初始化,插件化框架的初始化
     }
 
     @Override
     public void onCreate(@NonNull Application application) {
-        if (BuildConfig.LOG_DEBUG) {//Timber初始化
+        if (BuildConfig.DEBUG) {//Timber初始化
             //Timber 是一个日志框架容器,外部使用统一的Api,内部可以动态的切换成任何日志框架(打印策略)进行日志打印
             //并且支持添加多个日志框架(打印策略),做到外部调用一次 Api,内部却可以做到同时使用多个策略
             //比如添加三个策略,一个打印日志,一个将日志保存本地,一个将日志上传服务器
@@ -89,7 +99,6 @@ public class AppLifecyclesImpl implements AppLifecycles {
 //                        , BuildConfig.USE_CANARY ? LeakCanary.install(application) : RefWatcher.DISABLED);
 
 
-
         initSdk(application);
     }
 
@@ -103,34 +112,37 @@ public class AppLifecyclesImpl implements AppLifecycles {
      * 初始化一些第三方框架
      */
     public static void initSdk(Application application) {
-        // 吐司工具类
-        ToastUtils.init(application);
+        // 设置调试模式
+        XXPermissions.setDebugMode(AppConfig.isDebug());
 
-        // 设置 Toast 拦截器
-        ToastUtils.setToastInterceptor(new ToastInterceptor() {
+        // 初始化吐司
+        ToastUtils.init(application, new ToastBlackStyle(application) {
+
             @Override
-            public boolean intercept(Toast toast, CharSequence text) {
-                boolean intercept = super.intercept(toast, text);
-                if (intercept) {
-                    Log.e("Toast", "空 Toast");
-                } else {
-                    Log.i("Toast", text.toString());
-                }
-                return intercept;
+            public int getCornerRadius() {
+                return (int) application.getResources().getDimension(R.dimen.button_round_size);
             }
         });
 
-        // 初始化标题栏全局样式
-        TitleBar.initStyle(new TitleBarLightStyle(application) {
+        // 设置 Toast 拦截器
+        ToastUtils.setToastInterceptor(new ToastInterceptor());
+
+        // 设置标题栏初始化器
+        TitleBar.setDefaultInitializer(new LightBarInitializer() {
 
             @Override
-            public Drawable getBackground() {
-                return new ColorDrawable(ContextCompat.getColor(application, R.color.colorPrimary));
+            public Drawable getBackgroundDrawable(Context context) {
+                return new ColorDrawable(ContextCompat.getColor(application, R.color.common_primary_color));
             }
 
             @Override
-            public Drawable getBackIcon() {
-                return getDrawable(R.drawable.arrows_left_ic);
+            public Drawable getBackIcon(Context context) {
+                return ContextCompat.getDrawable(context, R.drawable.arrows_left_ic);
+            }
+
+            @Override
+            protected TextView createTextView(Context context) {
+                return new AppCompatTextView(context);
             }
         });
 
@@ -144,19 +156,47 @@ public class AppLifecyclesImpl implements AppLifecycles {
         CrashReport.initCrashReport(application, AppConfig.getBuglyId(), AppConfig.isDebug());
 
         // 设置全局的 Header 构建器
-        SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> new ClassicsHeader(context).setEnableLastTime(false));
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) ->
+                new MaterialHeader(context).setColorSchemeColors(ContextCompat.getColor(context, R.color.common_accent_color)));
         // 设置全局的 Footer 构建器
-        SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> new ClassicsFooter(context).setDrawableSize(20));
+        SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> new SmartBallPulseFooter(context));
+        // 设置全局初始化器
+        SmartRefreshLayout.setDefaultRefreshInitializer((context, layout) -> {
+            // 刷新头部是否跟随内容偏移
+            layout.setEnableHeaderTranslationContent(true)
+                    // 刷新尾部是否跟随内容偏移
+                    .setEnableFooterTranslationContent(true)
+                    // 加载更多是否跟随内容偏移
+                    .setEnableFooterFollowWhenNoMoreData(true)
+                    // 内容不满一页时是否可以上拉加载更多
+                    .setEnableLoadMoreWhenContentNotFull(false)
+                    // 仿苹果越界效果开关
+                    .setEnableOverScrollDrag(false);
+        });
 
         // Activity 栈管理初始化
-        ActivityStackManager.getInstance().init(application);
+        ActivityManager.getInstance().init(application);
 
-        // Activity 侧滑返回
-        SmartSwipeBack.activitySlidingBack(application, activity -> {
-            if (activity instanceof SwipeAction) {
-                return ((SwipeAction) activity).isSwipeEnable();
-            }
-            return true;
-        });
+        // 初始化日志打印
+        if (AppConfig.isLogEnable()) {
+            Timber.plant(new DebugLoggerTree());
+        }
+
+        // 注册网络状态变化监听
+        ConnectivityManager connectivityManager = ContextCompat.getSystemService(application, ConnectivityManager.class);
+        if (connectivityManager != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            connectivityManager.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
+                @Override
+                public void onLost(@NonNull Network network) {
+                    Activity topActivity = ActivityManager.getInstance().getTopActivity();
+                    if (topActivity instanceof LifecycleOwner) {
+                        LifecycleOwner lifecycleOwner = ((LifecycleOwner) topActivity);
+                        if (lifecycleOwner.getLifecycle().getCurrentState() == Lifecycle.State.RESUMED) {
+                            ToastUtils.show(R.string.common_network_error);
+                        }
+                    }
+                }
+            });
+        }
     }
 }

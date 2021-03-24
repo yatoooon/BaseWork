@@ -7,13 +7,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.common.MyAdapter;
+import com.yatoooon.demo.app.app.AppAdapter;
 
 
 /**
  *    desc   : 状态数据列表
  */
-public final class StatusAdapter extends MyAdapter<String> {
+public final class StatusAdapter extends AppAdapter<String> {
 
     public StatusAdapter(Context context) {
         super(context);
@@ -25,7 +25,7 @@ public final class StatusAdapter extends MyAdapter<String> {
         return new ViewHolder();
     }
 
-    private final class ViewHolder extends MyAdapter.ViewHolder {
+    private final class ViewHolder extends AppAdapter.ViewHolder {
 
         private TextView mTextView;
 

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.common.MyAdapter;
+import com.yatoooon.demo.app.app.AppAdapter;
 import com.yatoooon.demo.app.other.PickerLayoutManager;
 
 import java.text.SimpleDateFormat;
@@ -26,11 +26,11 @@ import java.util.Locale;
 public final class DateDialog {
 
     public static final class Builder
-            extends UIDialog.Builder<Builder>
+            extends CommonDialog.Builder<Builder>
             implements PickerLayoutManager.OnPickerListener {
 
-        private final int mStartYear = Calendar.getInstance().get(Calendar.YEAR) - 100;
-        private final int mEndYear = Calendar.getInstance().get(Calendar.YEAR);
+        private final int mStartYear;
+
 
         private final RecyclerView mYearView;
         private final RecyclerView mMonthView;
@@ -47,7 +47,16 @@ public final class DateDialog {
         private OnListener mListener;
 
         public Builder(Context context) {
+            this(context, Calendar.getInstance(Locale.CHINA).get(Calendar.YEAR) - 100);
+        }
+
+        public Builder(Context context, int startYear) {
+            this(context, startYear, Calendar.getInstance(Locale.CHINA).get(Calendar.YEAR));
+        }
+
+        public Builder(Context context, int startYear, int endYear) {
             super(context);
+            mStartYear = startYear;
 
             setCustomView(R.layout.dialog_date);
             setTitle(R.string.time_title);
@@ -62,7 +71,7 @@ public final class DateDialog {
 
             // 生产年份
             ArrayList<String> yearData = new ArrayList<>(10);
-            for (int i = mStartYear; i <= mEndYear; i++) {
+            for (int i = mStartYear; i <= endYear; i++) {
                 yearData.add(i + " " + getString(R.string.common_year));
             }
 
@@ -155,6 +164,7 @@ public final class DateDialog {
                 index = mYearAdapter.getItemCount() - 1;
             }
             mYearView.scrollToPosition(index);
+            onPicked(mYearView, index);
             return this;
         }
 
@@ -170,6 +180,7 @@ public final class DateDialog {
                 index = mMonthAdapter.getItemCount() - 1;
             }
             mMonthView.scrollToPosition(index);
+            onPicked(mMonthView, index);
             return this;
         }
 
@@ -185,6 +196,7 @@ public final class DateDialog {
                 index = mDayAdapter.getItemCount() - 1;
             }
             mDayView.scrollToPosition(index);
+            onPicked(mDayView, index);
             return this;
         }
 
@@ -198,11 +210,7 @@ public final class DateDialog {
         public void onPicked(RecyclerView recyclerView, int position) {
             // 获取这个月最多有多少天
             Calendar calendar = Calendar.getInstance(Locale.CHINA);
-            if (recyclerView == mYearView) {
-                calendar.set(mStartYear + position, mMonthManager.getPickedPosition(), 1);
-            } else if (recyclerView == mMonthView) {
-                calendar.set(mStartYear + mYearManager.getPickedPosition(), position, 1);
-            }
+            calendar.set(mStartYear + mYearManager.getPickedPosition(), mMonthManager.getPickedPosition(), 1);
 
             int day = calendar.getActualMaximum(Calendar.DATE);
             if (mDayAdapter.getItemCount() != day) {
@@ -235,7 +243,7 @@ public final class DateDialog {
             }
         }
 
-        private static final class PickerAdapter extends MyAdapter<String> {
+        private static final class PickerAdapter extends AppAdapter<String> {
 
             private PickerAdapter(Context context) {
                 super(context);
@@ -247,7 +255,7 @@ public final class DateDialog {
                 return new ViewHolder();
             }
 
-            private final class ViewHolder extends MyAdapter.ViewHolder {
+            private final class ViewHolder extends AppAdapter.ViewHolder {
 
                 private final TextView mPickerView;
 

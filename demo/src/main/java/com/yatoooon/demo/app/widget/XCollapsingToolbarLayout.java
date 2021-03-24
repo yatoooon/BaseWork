@@ -6,19 +6,17 @@ import android.util.AttributeSet;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 /**
-
- * desc   : 支持监听渐变的 CollapsingToolbarLayout
+ *    author : Android 轮子哥
+ *    github : https://github.com/getActivity/AndroidProject
+ *    time   : 2018/10/18
+ *    desc   : 支持监听渐变的 CollapsingToolbarLayout
  */
 public final class XCollapsingToolbarLayout extends CollapsingToolbarLayout {
 
-    /**
-     * 渐变监听
-     */
+    /** 渐变监听 */
     private OnScrimsListener mListener;
-    /**
-     * 当前渐变状态
-     */
-    private boolean isScrimsShown;
+    /** 当前渐变状态 */
+    private boolean mScrimsShown;
 
     public XCollapsingToolbarLayout(Context context) {
         super(context);
@@ -36,11 +34,11 @@ public final class XCollapsingToolbarLayout extends CollapsingToolbarLayout {
     public void setScrimsShown(boolean shown, boolean animate) {
         super.setScrimsShown(shown, true);
         // 判断渐变状态是否改变了
-        if (isScrimsShown != shown) {
+        if (mScrimsShown != shown) {
             // 如果是就记录并且回调监听器
-            isScrimsShown = shown;
+            mScrimsShown = shown;
             if (mListener != null) {
-                mListener.onScrimsStateChange(this, isScrimsShown);
+                mListener.onScrimsStateChange(this, mScrimsShown);
             }
         }
     }
@@ -49,7 +47,7 @@ public final class XCollapsingToolbarLayout extends CollapsingToolbarLayout {
      * 获取当前的渐变状态
      */
     public boolean isScrimsShown() {
-        return isScrimsShown;
+        return mScrimsShown;
     }
 
     /**
@@ -67,7 +65,7 @@ public final class XCollapsingToolbarLayout extends CollapsingToolbarLayout {
         /**
          * 渐变状态变化
          *
-         * @param shown 渐变开关
+         * @param shown         渐变开关
          */
         void onScrimsStateChange(XCollapsingToolbarLayout layout, boolean shown);
     }

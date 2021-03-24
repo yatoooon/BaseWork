@@ -1,7 +1,9 @@
 package com.yatoooon.demo.app.other;
 
 /**
-
+ *    author : Android 轮子哥
+ *    github : https://github.com/getActivity/AndroidProject
+ *    time   : 2019/05/09
  *    desc   : Intent Key 管理
  */
 public final class IntentKey {
@@ -38,6 +40,8 @@ public final class IntentKey {
     public static final String AMOUNT = "amount";
     /** 总数 */
     public static final String COUNT = "count";
+    /** 标记 */
+    public static final String FLAG = "flag";
     /** 其他 */
     public static final String OTHER = "other";
 

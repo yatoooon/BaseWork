@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.yatoooon.baselibrary.base.BaseAdapter;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.common.MyAdapter;
+import com.yatoooon.demo.app.app.AppAdapter;
 import com.hjq.toast.ToastUtils;
 import com.yatoooon.umeng.Platform;
 import com.yatoooon.umeng.UmengClient;
@@ -112,7 +112,7 @@ public final class ShareDialog {
         }
     }
 
-    private static class ShareAdapter extends MyAdapter<ShareBean> {
+    private static class ShareAdapter extends AppAdapter<ShareBean> {
 
         private ShareAdapter(Context context) {
             super(context);
@@ -124,7 +124,7 @@ public final class ShareDialog {
             return new ViewHolder();
         }
 
-        private final class ViewHolder extends MyAdapter.ViewHolder {
+        private final class ViewHolder extends AppAdapter.ViewHolder {
 
             private final ImageView mImageView;
             private final TextView mTextView;

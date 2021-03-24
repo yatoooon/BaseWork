@@ -1,9 +1,14 @@
 package com.yatoooon.demo.mvp.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,19 +22,19 @@ import com.yatoooon.baselibrary.widget.view.RegexEditText;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.DebugLog;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.common.MyActivity;
-import com.yatoooon.demo.app.helper.InputTextHelper;
+import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.manager.InputTextManager;
 import com.yatoooon.demo.app.other.IntentKey;
 import com.yatoooon.demo.di.component.DaggerPhoneChangeComponent;
 import com.yatoooon.demo.mvp.contract.PhoneChangeContract;
 import com.yatoooon.demo.mvp.presenter.PhoneChangePresenter;
+import com.yatoooon.demo.mvp.ui.dialog.HintDialog;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class PhoneChangeActivity extends MyActivity<PhoneChangePresenter> implements PhoneChangeContract.View {
+public class PhoneChangeActivity extends AppActivity<PhoneChangePresenter> implements PhoneChangeContract.View, TextView.OnEditorActionListener {
 
     @BindView(R.id.et_phone_reset_phone)
     RegexEditText etPhoneResetPhone;
@@ -48,6 +53,9 @@ public class PhoneChangeActivity extends MyActivity<PhoneChangePresenter> implem
     public static void start(Context context, String code) {
         Intent intent = new Intent(context, PhoneChangeActivity.class);
         intent.putExtra(IntentKey.CODE, code);
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
         context.startActivity(intent);
     }
 
@@ -69,7 +77,8 @@ public class PhoneChangeActivity extends MyActivity<PhoneChangePresenter> implem
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
-        InputTextHelper.with(this)
+        etPhoneResetCode.setOnEditorActionListener(this);
+        InputTextManager.with(this)
                 .addView(etPhoneResetPhone)
                 .addView(etPhoneResetCode)
                 .setMain(btnPhoneResetCommit)
@@ -87,6 +96,7 @@ public class PhoneChangeActivity extends MyActivity<PhoneChangePresenter> implem
         switch (view.getId()) {
             case R.id.cv_phone_reset_countdown:
                 if (etPhoneResetPhone.getText().toString().length() != 11) {
+                    etPhoneResetPhone.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.shake_anim));
                     toast(R.string.common_phone_input_error);
                     return;
                 }
@@ -96,6 +106,7 @@ public class PhoneChangeActivity extends MyActivity<PhoneChangePresenter> implem
                 break;
             case R.id.btn_phone_reset_commit:
                 if (etPhoneResetPhone.getText().toString().length() != 11) {
+                    etPhoneResetPhone.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.shake_anim));
                     toast(R.string.common_phone_input_error);
                     return;
                 }
@@ -104,10 +115,27 @@ public class PhoneChangeActivity extends MyActivity<PhoneChangePresenter> implem
                     ToastUtils.show(R.string.common_code_error_hint);
                     return;
                 }
-
-                toast(R.string.phone_reset_commit_succeed);
-                finish();
+                hideKeyboard(getCurrentFocus());
+                new HintDialog.Builder(this)
+                        .setIcon(HintDialog.ICON_FINISH)
+                        .setMessage(R.string.phone_reset_commit_succeed)
+                        .setDuration(2000)
+                        .addOnDismissListener(dialog -> finish())
+                        .show();
                 break;
         }
+    }
+
+    /**
+     * {@link TextView.OnEditorActionListener}
+     */
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_DONE && btnPhoneResetCommit.isEnabled()) {
+            // 模拟点击提交按钮
+            onClick(btnPhoneResetCommit);
+            return true;
+        }
+        return false;
     }
 }

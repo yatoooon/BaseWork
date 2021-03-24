@@ -2,16 +2,19 @@ package com.yatoooon.demo.mvp.ui.activity;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
@@ -24,10 +27,11 @@ import com.yatoooon.baselibrary.widget.view.ScaleImageView;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.DebugLog;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.common.MyActivity;
-import com.yatoooon.demo.app.helper.InputTextHelper;
+import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.manager.InputTextManager;
 import com.yatoooon.demo.app.other.IntentKey;
 import com.yatoooon.demo.app.other.KeyboardWatcher;
+import com.yatoooon.demo.app.widget.SubmitButton;
 import com.yatoooon.demo.di.component.DaggerLoginComponent;
 import com.yatoooon.demo.mvp.contract.LoginContract;
 import com.yatoooon.demo.mvp.presenter.LoginPresenter;
@@ -41,7 +45,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class LoginActivity extends MyActivity<LoginPresenter> implements LoginContract.View, KeyboardWatcher.SoftKeyboardStateListener {
+public class LoginActivity extends AppActivity<LoginPresenter> implements UmengLogin.OnLoginListener, LoginContract.View, KeyboardWatcher.SoftKeyboardStateListener, TextView.OnEditorActionListener {
 
     @BindView(R.id.iv_login_logo)
     AppCompatImageView ivLoginLogo;
@@ -51,8 +55,6 @@ public class LoginActivity extends MyActivity<LoginPresenter> implements LoginCo
     PasswordEditText etLoginPassword;
     @BindView(R.id.tv_login_forget)
     AppCompatTextView tvLoginForget;
-    @BindView(R.id.btn_login_commit)
-    AppCompatButton btnLoginCommit;
     @BindView(R.id.ll_login_body)
     LinearLayout llLoginBody;
     @BindView(R.id.v_login_blank)
@@ -63,12 +65,17 @@ public class LoginActivity extends MyActivity<LoginPresenter> implements LoginCo
     ScaleImageView ivLoginQq;
     @BindView(R.id.iv_login_wechat)
     ScaleImageView ivLoginWechat;
+    @BindView(R.id.btn_login_commit)
+    SubmitButton btnLoginCommit;
 
     @DebugLog
     public static void start(Context context, String phone, String password) {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra(IntentKey.PHONE, phone);
         intent.putExtra(IntentKey.PASSWORD, password);
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
         context.startActivity(intent);
     }
 
@@ -90,17 +97,15 @@ public class LoginActivity extends MyActivity<LoginPresenter> implements LoginCo
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
-        InputTextHelper.with(this)
+        etLoginPassword.setOnEditorActionListener(this);
+        InputTextManager.with(this)
                 .addView(etLoginPhone)
                 .addView(etLoginPassword)
                 .setMain(btnLoginCommit)
                 .build();
         postDelayed(() -> {
-            // 因为在小屏幕手机上面，因为计算规则的因素会导致动画效果特别夸张，所以不在小屏幕手机上面展示这个动画效果
-            if (vLoginBlank.getHeight() > llLoginBody.getHeight()) {
-                // 只有空白区域的高度大于登录框区域的高度才展示动画
-                KeyboardWatcher.with(LoginActivity.this).setListener(LoginActivity.this);
-            }
+            KeyboardWatcher.with(LoginActivity.this)
+                    .setListener(LoginActivity.this);
         }, 500);
     }
 
@@ -139,7 +144,17 @@ public class LoginActivity extends MyActivity<LoginPresenter> implements LoginCo
                 onClick(btnLoginCommit);
             }
         });
+        // 跳转到注册界面
+        RegisterActivity.start(this, etLoginPhone.getText().toString(), etLoginPassword.getText().toString(), (phone, password) -> {
+            // 如果已经注册成功，就执行登录操作
+            etLoginPhone.setText(phone);
+            etLoginPassword.setText(password);
+            etLoginPassword.requestFocus();
+            etLoginPassword.setSelection(etLoginPassword.getText().length());
+            onClick(btnLoginCommit);
+        });
     }
+
     @SingleClick
     @OnClick({R.id.tv_login_forget, R.id.btn_login_commit, R.id.iv_login_qq, R.id.iv_login_wechat})
     public void onViewClicked(View view) {
@@ -152,9 +167,12 @@ public class LoginActivity extends MyActivity<LoginPresenter> implements LoginCo
                     toast(R.string.common_phone_input_error);
                     return;
                 }
-                showDialog();
+                // 隐藏软键盘
+                hideKeyboard(getCurrentFocus());
+                btnLoginCommit.showProgress();
                 postDelayed(() -> {
                     hideDialog();
+                    btnLoginCommit.showSucceed();
                     startActivity(HomeActivity.class);
                     finish();
                 }, 2000);
@@ -228,7 +246,7 @@ public class LoginActivity extends MyActivity<LoginPresenter> implements LoginCo
         int bottom = screenHeight - (y + llLoginBody.getHeight());
         if (keyboardHeight > bottom) {
             // 执行位移动画
-            ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(llLoginBody, "translationY", 0, -(keyboardHeight - bottom));
+            ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(llLoginBody, "translationY", 0, -btnLoginCommit.getHeight());
             objectAnimator.setDuration(mAnimTime);
             objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
             objectAnimator.start();
@@ -239,7 +257,7 @@ public class LoginActivity extends MyActivity<LoginPresenter> implements LoginCo
             AnimatorSet animatorSet = new AnimatorSet();
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(ivLoginLogo, "scaleX", 1.0f, mLogoScale);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(ivLoginLogo, "scaleY", 1.0f, mLogoScale);
-            ObjectAnimator translationY = ObjectAnimator.ofFloat(ivLoginLogo, "translationY", 0.0f, -(keyboardHeight - bottom));
+            ObjectAnimator translationY = ObjectAnimator.ofFloat(ivLoginLogo, "translationY", 0.0f, -btnLoginCommit.getHeight());
             animatorSet.play(translationY).with(scaleX).with(scaleY);
             animatorSet.setDuration(mAnimTime);
             animatorSet.start();
@@ -269,5 +287,70 @@ public class LoginActivity extends MyActivity<LoginPresenter> implements LoginCo
         animatorSet.start();
     }
 
+
+    /**
+     * {@link TextView.OnEditorActionListener}
+     */
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_DONE && btnLoginCommit.isEnabled()) {
+            // 模拟点击登录按钮
+            onClick(btnLoginCommit);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 授权成功的回调
+     *
+     * @param platform 平台名称
+     * @param data     用户资料返回
+     */
+    @Override
+    public void onSucceed(Platform platform, UmengLogin.LoginData data) {
+        if (isFinishing() || isDestroyed()) {
+            // Glide：You cannot start a load for a destroyed activity
+            return;
+        }
+        // 判断第三方登录的平台
+        switch (platform) {
+            case QQ:
+                break;
+            case WECHAT:
+                break;
+            default:
+                break;
+        }
+        ArmsUtils.obtainAppComponentFromContext(getContext()).imageLoader()
+                .loadImage(getContext(), ImageConfigImpl.builder()
+                        .res(data.getAvatar())
+                        .imageView(ivLoginLogo)
+                        .build());
+        toast("昵称：" + data.getName() + "\n" + "性别：" + data.getSex());
+        toast("id：" + data.getId());
+        toast("token：" + data.getToken());
+    }
+
+    /**
+     * 授权失败的回调
+     *
+     * @param platform 平台名称
+     * @param t        错误原因
+     */
+    @Override
+    public void onError(Platform platform, Throwable t) {
+        toast("第三方登录出错：" + t.getMessage());
+    }
+
+    /**
+     * 授权取消的回调
+     *
+     * @param platform 平台名称
+     */
+    @Override
+    public void onCancel(Platform platform) {
+        toast("取消第三方登录");
+    }
 
 }

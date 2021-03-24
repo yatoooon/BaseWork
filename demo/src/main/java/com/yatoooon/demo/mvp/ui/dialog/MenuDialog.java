@@ -1,6 +1,7 @@
 package com.yatoooon.demo.mvp.ui.dialog;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -16,7 +17,7 @@ import com.yatoooon.baselibrary.base.BaseAdapter;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.common.MyAdapter;
+import com.yatoooon.demo.app.app.AppAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public final class MenuDialog {
             extends BaseDialog.Builder<Builder>
             implements BaseAdapter.OnItemClickListener,
             View.OnLayoutChangeListener, Runnable {
-
+        @SuppressWarnings("rawtypes")
         private OnListener mListener;
         private boolean mAutoDismiss = true;
 
@@ -103,7 +104,7 @@ public final class MenuDialog {
             mAutoDismiss = dismiss;
             return this;
         }
-
+        @SuppressWarnings("rawtypes")
         public Builder setListener(OnListener listener) {
             mListener = listener;
             return this;
@@ -169,14 +170,13 @@ public final class MenuDialog {
          *  获取屏幕的高度
          */
         private int getScreenHeight() {
-            WindowManager manager = getSystemService(WindowManager.class);
-            DisplayMetrics outMetrics = new DisplayMetrics();
-            manager.getDefaultDisplay().getMetrics(outMetrics);
+            Resources resources = getResources();
+            DisplayMetrics outMetrics = resources.getDisplayMetrics();
             return outMetrics.heightPixels;
         }
     }
 
-    private static final class MenuAdapter extends MyAdapter<Object> {
+    private static final class MenuAdapter extends AppAdapter<Object> {
 
         private MenuAdapter(Context context) {
             super(context);
@@ -188,7 +188,7 @@ public final class MenuDialog {
             return new ViewHolder();
         }
 
-        private final class ViewHolder extends MyAdapter.ViewHolder {
+        private final class ViewHolder extends AppAdapter.ViewHolder {
 
             private final TextView mTextView;
             private final View mLineView;

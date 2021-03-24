@@ -20,7 +20,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.common.MyAdapter;
+import com.yatoooon.demo.app.app.AppAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,9 +69,7 @@ public final class AddressDialog {
             super(context);
             setContentView(R.layout.dialog_address);
 
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            getSystemService(WindowManager.class).getDefaultDisplay().getMetrics(displayMetrics);
-            setHeight(displayMetrics.heightPixels / 2);
+            setHeight(getResources().getDisplayMetrics().heightPixels / 2);
 
             mViewPager = findViewById(R.id.vp_address_province);
             mAdapter = new RecyclerViewAdapter(context);
@@ -327,7 +325,7 @@ public final class AddressDialog {
         }
     }
 
-    private final static class RecyclerViewAdapter extends MyAdapter<List<AddressBean>> {
+    private final static class RecyclerViewAdapter extends AppAdapter<List<AddressBean>> {
 
         private OnSelectListener mListener;
 
@@ -341,13 +339,14 @@ public final class AddressDialog {
             return new ViewHolder();
         }
 
-        private final class ViewHolder extends MyAdapter.ViewHolder implements OnItemClickListener {
+        private final class ViewHolder extends AppAdapter.ViewHolder implements OnItemClickListener {
 
             private final AddressAdapter mAdapter;
 
             ViewHolder() {
                 super(new RecyclerView(getContext()));
                 RecyclerView recyclerView = (RecyclerView) getItemView();
+                recyclerView.setNestedScrollingEnabled(true);
                 recyclerView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 mAdapter = new AddressAdapter(getContext());
                 mAdapter.setOnItemClickListener(this);
@@ -377,7 +376,7 @@ public final class AddressDialog {
         }
     }
 
-    private static final class AddressAdapter extends MyAdapter<AddressBean> {
+    private static final class AddressAdapter extends AppAdapter<AddressBean> {
 
         private AddressAdapter(Context context) {
             super(context);
@@ -399,7 +398,7 @@ public final class AddressDialog {
             return new ViewHolder(textView);
         }
 
-        private final class ViewHolder extends MyAdapter.ViewHolder {
+        private final class ViewHolder extends AppAdapter.ViewHolder {
 
             private final TextView mTextView;
 

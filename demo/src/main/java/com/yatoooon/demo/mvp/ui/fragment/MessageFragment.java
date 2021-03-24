@@ -9,22 +9,24 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.hjq.permissions.OnPermission;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
+import com.scwang.smart.refresh.layout.util.SmartUtil;
 import com.yatoooon.baselibrary.http.imageloader.glide.ImageConfigImpl;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.yatoooon.demo.R;
+import com.yatoooon.demo.app.aop.Permissions;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.common.MyActivity;
-import com.yatoooon.demo.app.common.MyFragment;
+import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.app.AppFragment;
+import com.yatoooon.demo.mvp.ui.activity.HomeActivity;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MessageFragment extends MyFragment {
+public class MessageFragment extends AppFragment {
     @BindView(R.id.iv_message_image)
     AppCompatImageView ivMessageImage;
     @BindView(R.id.btn_message_image1)
@@ -43,6 +45,8 @@ public class MessageFragment extends MyFragment {
     AppCompatButton btnMessageBlack;
     @BindView(R.id.btn_message_white)
     AppCompatButton btnMessageWhite;
+    @BindView(R.id.btn_message_tab)
+    AppCompatButton btnMessageTab;
 
     public static MessageFragment newInstance() {
         Bundle args = new Bundle();
@@ -50,6 +54,7 @@ public class MessageFragment extends MyFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_message;
@@ -64,17 +69,18 @@ public class MessageFragment extends MyFragment {
     public void initData(@Nullable Bundle savedInstanceState) {
 
     }
+
     @SingleClick
-    @OnClick({R.id.btn_message_image1, R.id.btn_message_image2, R.id.btn_message_image3, R.id.btn_message_toast, R.id.btn_message_permission, R.id.btn_message_setting, R.id.btn_message_black, R.id.btn_message_white})
+    @OnClick({R.id.btn_message_image1, R.id.btn_message_image2, R.id.btn_message_image3, R.id.btn_message_toast, R.id.btn_message_permission, R.id.btn_message_setting, R.id.btn_message_black, R.id.btn_message_white, R.id.btn_message_tab})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_message_image1:
                 ivMessageImage.setVisibility(View.VISIBLE);
                 ArmsUtils.obtainAppComponentFromContext(getContext())
                         .imageLoader().loadImage(getContext(),
-                                ImageConfigImpl.builder()
-                                        .res("https://www.baidu.com/img/bd_logo.png")
-                                        .imageView(ivMessageImage).build());
+                        ImageConfigImpl.builder()
+                                .res("https://www.baidu.com/img/bd_logo.png")
+                                .imageView(ivMessageImage).build());
 
                 break;
             case R.id.btn_message_image2:
@@ -90,57 +96,32 @@ public class MessageFragment extends MyFragment {
                 ArmsUtils.obtainAppComponentFromContext(getContext())
                         .imageLoader().loadImage(getContext(),
                         ImageConfigImpl.builder()
-                                .transformation(new RoundedCorners((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, this.getResources().getDisplayMetrics())))
+                                .imageRadius(SmartUtil.dp2px(10))
                                 .res("https://www.baidu.com/img/bd_logo.png")
-                                .imageView(ivMessageImage).isCircle(true).build());
+                                .imageView(ivMessageImage).build());
 
                 break;
             case R.id.btn_message_toast:
                 toast("我是吐司");
                 break;
             case R.id.btn_message_permission:
-                XXPermissions.with(getAttachActivity())
-                        // 可设置被拒绝后继续申请，直到用户授权或者永久拒绝
-                        //.constantRequest()
-                        // 支持请求6.0悬浮窗权限8.0请求安装权限
-                        //.permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES)
-                        // 不指定权限则自动获取清单中的危险权限
-                        .permission(Permission.CAMERA)
-                        .request(new OnPermission() {
-
-                            @Override
-                            public void hasPermission(List<String> granted, boolean isAll) {
-                                if (isAll) {
-                                    toast("获取权限成功");
-                                } else {
-                                    toast("获取权限成功，部分权限未正常授予");
-                                }
-                            }
-
-                            @Override
-                            public void noPermission(List<String> denied, boolean quick) {
-                                if(quick) {
-                                    toast("被永久拒绝授权，请手动授予权限");
-                                    //如果是被永久拒绝就跳转到应用权限系统设置页面
-                                    XXPermissions.startPermissionActivity(getAttachActivity());
-                                } else {
-                                    toast("获取权限失败");
-                                }
-                            }
-                        });
+                requestPermission();
                 break;
             case R.id.btn_message_setting:
-                XXPermissions.startPermissionActivity(getAttachActivity());
+                XXPermissions.startApplicationDetails(this);
                 break;
             case R.id.btn_message_black:
-                if (getAttachActivity() instanceof MyActivity){
-                    ((MyActivity) getAttachActivity()).getStatusBarConfig().statusBarDarkFont(true).init();
+                if (getAttachActivity() instanceof AppActivity) {
+                    ((AppActivity) getAttachActivity()).getStatusBarConfig().statusBarDarkFont(true).init();
                 }
                 break;
             case R.id.btn_message_white:
-                if (getAttachActivity() instanceof MyActivity){
-                    ((MyActivity) getAttachActivity()).getStatusBarConfig().statusBarDarkFont(false).init();
+                if (getAttachActivity() instanceof AppActivity) {
+                    ((AppActivity) getAttachActivity()).getStatusBarConfig().statusBarDarkFont(false).init();
                 }
+                break;
+            case R.id.btn_message_tab:
+                HomeActivity.start(getActivity(), HomeFragment.class);
                 break;
         }
     }
@@ -149,5 +130,14 @@ public class MessageFragment extends MyFragment {
     public boolean isStatusBarEnabled() {
         // 使用沉浸式状态栏
         return !super.isStatusBarEnabled();
+    }
+
+    @OnClick(R.id.btn_message_tab)
+    public void onViewClicked() {
+    }
+
+    @Permissions(Permission.CAMERA)
+    private void requestPermission() {
+        toast("获取摄像头权限成功");
     }
 }

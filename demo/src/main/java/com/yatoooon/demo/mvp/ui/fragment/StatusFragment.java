@@ -8,14 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.yatoooon.baselibrary.base.BaseAdapter;
 import com.yatoooon.baselibrary.di.component.AppComponent;
 import com.yatoooon.baselibrary.widget.layout.WrapRecyclerView;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.common.MyFragment;
+import com.yatoooon.demo.app.app.AppFragment;
 import com.yatoooon.demo.di.component.DaggerStatusComponent;
 import com.yatoooon.demo.mvp.contract.StatusContract;
 import com.yatoooon.demo.mvp.presenter.StatusPresenter;
@@ -26,7 +26,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 
 
-public class StatusFragment extends MyFragment<StatusPresenter> implements StatusContract.View, BaseAdapter.OnItemClickListener, OnRefreshLoadMoreListener {
+public class StatusFragment extends AppFragment<StatusPresenter> implements StatusContract.View, OnRefreshLoadMoreListener,
+        BaseAdapter.OnItemClickListener {
 
     @BindView(R.id.rv_status_list)
     WrapRecyclerView rvStatusList;
@@ -84,13 +85,6 @@ public class StatusFragment extends MyFragment<StatusPresenter> implements Statu
         toast(mAdapter.getItem(position));
     }
 
-    @Override
-    public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-        postDelayed(() -> {
-            mPresenter.requestData(mAdapter.getItemCount());
-            refreshLayout.finishLoadMore();
-        }, 1000);
-    }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -98,6 +92,14 @@ public class StatusFragment extends MyFragment<StatusPresenter> implements Statu
             mAdapter.clearData();
             mPresenter.requestData(mAdapter.getItemCount());
             refreshLayout.finishRefresh();
+        }, 1000);
+    }
+
+    @Override
+    public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+        postDelayed(() -> {
+            mPresenter.requestData(mAdapter.getItemCount());
+            refreshLayout.finishLoadMore();
         }, 1000);
     }
 }

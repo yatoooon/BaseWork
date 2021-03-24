@@ -6,7 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.common.MyActivity;
+import com.yatoooon.demo.app.app.AppActivity;
 
 /**
  *    author : Android 轮子哥
@@ -14,7 +14,7 @@ import com.yatoooon.demo.app.common.MyActivity;
  *    time   : 2018/10/18
  *    desc   : 关于界面
  */
-public final class AboutActivity extends MyActivity {
+public final class AboutActivity extends AppActivity {
 
     @Override
     public int getLayoutId() {

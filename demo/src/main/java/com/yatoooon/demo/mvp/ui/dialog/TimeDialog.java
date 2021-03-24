@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.common.MyAdapter;
+import com.yatoooon.demo.app.app.AppAdapter;
 import com.yatoooon.demo.app.other.PickerLayoutManager;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.Calendar;
 public final class TimeDialog {
 
     public static final class Builder
-            extends UIDialog.Builder<Builder> implements Runnable {
+            extends CommonDialog.Builder<Builder> implements Runnable {
 
         private final RecyclerView mHourView;
         private final RecyclerView mMinuteView;
@@ -212,7 +212,7 @@ public final class TimeDialog {
         }
     }
 
-    private static final class PickerAdapter extends MyAdapter<String> {
+    private static final class PickerAdapter extends AppAdapter<String> {
 
         private PickerAdapter(Context context) {
             super(context);
@@ -224,7 +224,7 @@ public final class TimeDialog {
             return new ViewHolder();
         }
 
-        private final class ViewHolder extends MyAdapter.ViewHolder {
+        private final class ViewHolder extends AppAdapter.ViewHolder {
 
             private final TextView mPickerView;
 

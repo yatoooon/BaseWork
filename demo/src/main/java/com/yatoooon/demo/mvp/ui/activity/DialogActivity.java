@@ -8,14 +8,12 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 
-import com.yatoooon.demo.app.popup.ListPopup;
-import com.yatoooon.demo.wxapi.WXEntryActivity;
-import com.yatoooon.umeng.Platform;
-import com.yatoooon.umeng.UmengShare;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.common.MyActivity;
+import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.manager.DialogManager;
+import com.yatoooon.demo.app.popup.ListPopup;
 import com.yatoooon.demo.mvp.ui.dialog.AddressDialog;
 import com.yatoooon.demo.mvp.ui.dialog.DateDialog;
 import com.yatoooon.demo.mvp.ui.dialog.HintDialog;
@@ -29,6 +27,9 @@ import com.yatoooon.demo.mvp.ui.dialog.ShareDialog;
 import com.yatoooon.demo.mvp.ui.dialog.TimeDialog;
 import com.yatoooon.demo.mvp.ui.dialog.UpdateDialog;
 import com.yatoooon.demo.mvp.ui.dialog.WaitDialog;
+import com.yatoooon.demo.wxapi.WXEntryActivity;
+import com.yatoooon.umeng.Platform;
+import com.yatoooon.umeng.UmengShare;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,9 +37,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DialogActivity extends MyActivity {
+public class DialogActivity extends AppActivity {
     @BindView(R.id.btn_dialog_message)
     AppCompatButton btnDialogMessage;
     @BindView(R.id.btn_dialog_input)
@@ -75,6 +77,12 @@ public class DialogActivity extends MyActivity {
     AppCompatButton btnDialogSafe;
     @BindView(R.id.btn_dialog_custom)
     AppCompatButton btnDialogCustom;
+    @BindView(R.id.btn_dialog_multi)
+    AppCompatButton btnDialogMulti;
+    /**
+     * 等待对话框
+     */
+    private BaseDialog mWaitDialog;
 
     @Override
     public int getLayoutId() {
@@ -97,7 +105,7 @@ public class DialogActivity extends MyActivity {
     }
 
     @SingleClick
-    @OnClick({R.id.btn_dialog_message, R.id.btn_dialog_input, R.id.btn_dialog_bottom_menu, R.id.btn_dialog_center_menu, R.id.btn_dialog_single_select, R.id.btn_dialog_more_select, R.id.btn_dialog_succeed_toast, R.id.btn_dialog_fail_toast, R.id.btn_dialog_warn_toast, R.id.btn_dialog_wait, R.id.btn_dialog_pay, R.id.btn_dialog_address, R.id.btn_dialog_date, R.id.btn_dialog_time, R.id.btn_dialog_update, R.id.btn_dialog_share, R.id.btn_dialog_safe, R.id.btn_dialog_custom})
+    @OnClick({R.id.btn_dialog_message, R.id.btn_dialog_input, R.id.btn_dialog_bottom_menu, R.id.btn_dialog_center_menu, R.id.btn_dialog_single_select, R.id.btn_dialog_more_select, R.id.btn_dialog_succeed_toast, R.id.btn_dialog_fail_toast, R.id.btn_dialog_warn_toast, R.id.btn_dialog_wait, R.id.btn_dialog_pay, R.id.btn_dialog_address, R.id.btn_dialog_date, R.id.btn_dialog_time, R.id.btn_dialog_update, R.id.btn_dialog_share, R.id.btn_dialog_safe, R.id.btn_dialog_custom, R.id.btn_dialog_multi})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_dialog_message:
@@ -276,12 +284,16 @@ public class DialogActivity extends MyActivity {
                         .show();
                 break;
             case R.id.btn_dialog_wait:
-                // 等待对话框
-                final BaseDialog waitDialog = new WaitDialog.Builder(this)
-                        // 消息文本可以不用填写
-                        .setMessage(getString(R.string.common_loading))
-                        .show();
-                postDelayed(waitDialog::dismiss, 2000);
+                if (mWaitDialog == null) {
+                    mWaitDialog = new WaitDialog.Builder(this)
+                            // 消息文本可以不用填写
+                            .setMessage(getString(R.string.common_loading))
+                            .create();
+                }
+                if (!mWaitDialog.isShowing()) {
+                    mWaitDialog.show();
+                    postDelayed(mWaitDialog::dismiss, 2000);
+                }
                 break;
             case R.id.btn_dialog_pay:
                 // 支付密码输入对话框
@@ -481,6 +493,7 @@ public class DialogActivity extends MyActivity {
                         .setAnimStyle(BaseDialog.ANIM_SCALE)
                         //.setText(id, "我是预设置的文本")
                         .setOnClickListener(R.id.btn_dialog_custom_ok, (BaseDialog.OnClickListener<Button>) (dialog, v) -> dialog.dismiss())
+                        .setOnCreateListener(dialog -> toast("Dialog 创建了"))
                         .addOnShowListener(dialog -> toast("Dialog  显示了"))
                         .addOnCancelListener(dialog -> toast("Dialog 取消了"))
                         .addOnDismissListener(dialog -> toast("Dialog 销毁了"))
@@ -489,6 +502,24 @@ public class DialogActivity extends MyActivity {
                             return false;
                         })
                         .show();
+                break;
+            case R.id.btn_dialog_multi:
+                BaseDialog dialog1 = new MessageDialog.Builder(getActivity())
+                        .setTitle("温馨提示")
+                        .setMessage("我是第一个弹出的对话框")
+                        .setConfirm(getString(R.string.common_confirm))
+                        .setCancel(getString(R.string.common_cancel))
+                        .create();
+
+                BaseDialog dialog2 = new MessageDialog.Builder(getActivity())
+                        .setTitle("温馨提示")
+                        .setMessage("我是第二个弹出的对话框")
+                        .setConfirm(getString(R.string.common_confirm))
+                        .setCancel(getString(R.string.common_cancel))
+                        .create();
+
+                DialogManager.getInstance(this).addShow(dialog1);
+                DialogManager.getInstance(this).addShow(dialog2);
                 break;
         }
     }
@@ -503,4 +534,6 @@ public class DialogActivity extends MyActivity {
                 .setListener((ListPopup.OnListener<String>) (popupWindow, position, s) -> toast("点击了：" + s))
                 .showAsDropDown(v);
     }
+
+
 }

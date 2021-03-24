@@ -3,19 +3,16 @@ package com.yatoooon.demo.di.module;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.yatoooon.baselibrary.base.BaseFragmentAdapter;
+import com.yatoooon.demo.mvp.ui.adapter.FragmentPagerAdapter;
 import com.yatoooon.baselibrary.di.scope.ActivityScope;
 
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
-import com.yatoooon.demo.app.common.MyFragment;
+import com.yatoooon.demo.app.app.AppFragment;
 import com.yatoooon.demo.mvp.contract.HomeContract;
-import com.yatoooon.demo.mvp.contract.UserContract;
 import com.yatoooon.demo.mvp.model.HomeModel;
-import com.yatoooon.demo.mvp.ui.activity.HomeActivity;
 
 
 /**
@@ -37,11 +34,11 @@ public abstract class HomeModule {
 
     @ActivityScope
     @Provides
-    static BaseFragmentAdapter<MyFragment> providePagerAdapter(HomeContract.View view) {
+    static FragmentPagerAdapter<AppFragment> providePagerAdapter(HomeContract.View view) {
         if (view instanceof FragmentActivity) {
-            return new BaseFragmentAdapter<>((FragmentActivity) view);
+            return new FragmentPagerAdapter<>((FragmentActivity) view);
         } else if (view instanceof Fragment) {
-            return new BaseFragmentAdapter<>(((Fragment) view));
+            return new FragmentPagerAdapter<>(((Fragment) view));
         }
         return null;
     }

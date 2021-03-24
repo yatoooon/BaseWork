@@ -1,31 +1,46 @@
 package com.yatoooon.demo.mvp.ui.activity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.content.FileProvider;
 
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.yatoooon.baselibrary.di.component.AppComponent;
 import com.yatoooon.baselibrary.http.imageloader.glide.ImageConfigImpl;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.yatoooon.baselibrary.widget.layout.SettingBar;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.common.MyActivity;
+import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.other.AppConfig;
 import com.yatoooon.demo.mvp.ui.dialog.AddressDialog;
 import com.yatoooon.demo.mvp.ui.dialog.InputDialog;
 import com.yatoooon.demo.di.component.DaggerPersonInfoComponent;
 import com.yatoooon.demo.mvp.contract.PersonInfoContract;
 import com.yatoooon.demo.mvp.presenter.PersonInfoPresenter;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class PersonInfoActivity extends MyActivity<PersonInfoPresenter> implements PersonInfoContract.View {
+public class PersonInfoActivity extends AppActivity<PersonInfoPresenter> implements PersonInfoContract.View {
 
     @BindView(R.id.iv_person_data_avatar)
     AppCompatImageView ivPersonDataAvatar;
@@ -86,6 +101,8 @@ public class PersonInfoActivity extends MyActivity<PersonInfoPresenter> implemen
                         .res(R.drawable.avatar_placeholder_ic)
                         .imageView(ivPersonDataAvatar)
                         .isCircle(true).build());
+        sbPersonDataId.setRightText("880634");
+        sbPersonDataName.setRightText("Android 轮子哥");
         String address = mProvince + mCity + mArea;
         sbPersonDataAddress.setRightText(address);
     }
@@ -105,13 +122,8 @@ public class PersonInfoActivity extends MyActivity<PersonInfoPresenter> implemen
                 break;
             case R.id.fl_person_data_avatar:
                 ImageSelectActivity.start(this, data -> {
-                    mAvatarUrl = data.get(0);
-                    ArmsUtils.obtainAppComponentFromContext(getActivity()).imageLoader()
-                            .loadImage(getActivity(), ImageConfigImpl.builder()
-                                    .res(mAvatarUrl)
-                                    .imageView(ivPersonDataAvatar)
-                                    .isCircle(true)
-                                    .build());
+                    // 裁剪头像
+                    cropImage(new File(data.get(0)));
                 });
                 break;
             case R.id.sb_person_data_name:
@@ -153,5 +165,99 @@ public class PersonInfoActivity extends MyActivity<PersonInfoPresenter> implemen
                         .show();
                 break;
         }
+    }
+
+
+    /**
+     * 裁剪图片
+     */
+    private void cropImage(File sourceFile) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            uri = FileProvider.getUriForFile(getContext(), AppConfig.getPackageName() + ".provider", sourceFile);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        } else {
+            uri = Uri.fromFile(sourceFile);
+        }
+
+        String regex = "^(.+)(\\..+)$";
+        String fileName = sourceFile.getName().replaceFirst(regex, "$1_crop_" + new SimpleDateFormat("HHmmss", Locale.getDefault()).format(new Date()) + "$2");
+
+        File outputFile = new File(sourceFile.getParent(), fileName);
+        if (outputFile.exists()) {
+            outputFile.delete();
+        }
+
+        intent.setDataAndType(uri, "image/*");
+        // 是否进行裁剪
+        intent.putExtra("crop", String.valueOf(true));
+        // 宽高裁剪比例
+        if (Build.MANUFACTURER.toUpperCase().contains("HUAWEI")) {
+            // 华为手机特殊处理，否则不会显示正方形裁剪区域，而是显示圆形裁剪区域
+            // https://blog.csdn.net/wapchief/article/details/80669647
+            intent.putExtra("aspectX", 9998);
+            intent.putExtra("aspectY", 9999);
+        } else {
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+        }
+        // 是否裁剪成圆形（注：在华为手机上没有任何效果）
+        // intent.putExtra("circleCrop", false);
+        // 宽高裁剪大小
+        // intent.putExtra("outputX", 200);
+        // intent.putExtra("outputY", 200);
+        // 是否保持比例不变
+        intent.putExtra("scale", true);
+        // 裁剪区域小于输出大小时，是否放大图像
+        intent.putExtra("scaleUpIfNeeded", true);
+        // 是否将数据以 Bitmap 的形式保存
+        intent.putExtra("return-data", false);
+        // 设置裁剪后保存的文件路径
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outputFile));
+        // 设置裁剪后保存的文件格式
+        intent.putExtra("outputFormat", getImageFormat(sourceFile).toString());
+
+        // 判断手机是否有裁剪功能
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, (resultCode, data) -> {
+                if (resultCode == RESULT_OK) {
+                    updateImage(outputFile, true);
+                }
+            });
+            return;
+        }
+
+        // 没有的话就不裁剪，直接上传原图片
+        // 但是这种情况极其少见，可以忽略不计
+        updateImage(sourceFile, false);
+    }
+
+
+    /**
+     * 上传图片
+     */
+    private void updateImage(File file, boolean deleteFile) {
+        mAvatarUrl = file.getPath();
+        ArmsUtils.obtainAppComponentFromContext(getActivity()).imageLoader()
+                .loadImage(getActivity(), ImageConfigImpl.builder()
+                        .res(mAvatarUrl)
+                        .imageView(ivPersonDataAvatar)
+                        .isCircle(true)
+                        .build());
+        return;
+    }
+
+    /**
+     * 获取图片文件的格式
+     */
+    private Bitmap.CompressFormat getImageFormat(File file) {
+        String fileName = file.getName().toLowerCase();
+        if (fileName.endsWith(".png")) {
+            return Bitmap.CompressFormat.PNG;
+        } else if (fileName.endsWith(".webp")) {
+            return Bitmap.CompressFormat.WEBP;
+        }
+        return Bitmap.CompressFormat.JPEG;
     }
 }

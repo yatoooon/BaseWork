@@ -1,26 +1,30 @@
 package com.yatoooon.demo.mvp.ui.fragment;
 
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
-import com.yatoooon.baselibrary.di.component.AppComponent;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.scwang.smart.refresh.layout.util.SmartUtil;
 import com.yatoooon.baselibrary.http.imageloader.glide.ImageConfigImpl;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.yatoooon.baselibrary.widget.view.CountdownView;
 import com.yatoooon.baselibrary.widget.view.SwitchButton;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.common.MyFragment;
+import com.yatoooon.demo.app.app.AppFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class FindFragment extends MyFragment implements SwitchButton.OnCheckedChangeListener {
+public class FindFragment extends AppFragment implements SwitchButton.OnCheckedChangeListener {
 
     @BindView(R.id.iv_find_circle)
     AppCompatImageView ivFindCircle;
@@ -28,6 +32,8 @@ public class FindFragment extends MyFragment implements SwitchButton.OnCheckedCh
     SwitchButton sbFindSwitch;
     @BindView(R.id.cv_find_countdown)
     CountdownView cvFindCountdown;
+    @BindView(R.id.iv_find_corner)
+    AppCompatImageView ivFindCorner;
 
     public static FindFragment newInstance() {
         FindFragment fragment = new FindFragment();
@@ -46,9 +52,26 @@ public class FindFragment extends MyFragment implements SwitchButton.OnCheckedCh
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        // 显示圆形的 ImageView
         ArmsUtils.obtainAppComponentFromContext(getContext()).imageLoader()
                 .loadImage(getContext(),
-                        ImageConfigImpl.builder().placeholder(R.drawable.example_bg).res(R.drawable.example_bg).imageView(ivFindCircle).isCircle(true).build());
+                        ImageConfigImpl.builder()
+                                .placeholder(R.drawable.example_bg)
+                                .res(R.drawable.example_bg)
+                                .imageView(ivFindCircle)
+                                .isCircle(true)
+                                .build());
+
+        // 显示圆角的 ImageView
+        ArmsUtils.obtainAppComponentFromContext(getContext())
+                .imageLoader().loadImage(getContext(),
+                ImageConfigImpl.builder()
+                        .placeholder(R.drawable.example_bg)
+                        .res(R.drawable.example_bg)
+                        .imageRadius(SmartUtil.dp2px(90))
+                        .imageView(ivFindCorner)
+                        .build());
+
     }
 
 

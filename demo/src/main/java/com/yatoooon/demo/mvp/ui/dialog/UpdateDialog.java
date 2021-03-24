@@ -1,15 +1,21 @@
 package com.yatoooon.demo.mvp.ui.dialog;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.FileProvider;
 
 import com.liulishuo.okdownload.DownloadTask;
@@ -158,8 +164,37 @@ public final class UpdateDialog {
          * 下载 Apk
          */
         @CheckNet
-        @Permissions({Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE})
+        @Permissions({Permission.MANAGE_EXTERNAL_STORAGE})
         private void downloadApk() {
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            int notificationId = getContext().getApplicationInfo().uid;
+            String channelId = "";
+            // 适配 Android 8.0 通知渠道新特性
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel(getString(R.string.update_notification_channel_id), getString(R.string.update_notification_channel_name), NotificationManager.IMPORTANCE_HIGH);
+                channel.enableLights(false);
+                channel.enableVibration(false);
+                channel.setVibrationPattern(new long[]{0});
+                channel.setSound(null, null);
+                notificationManager.createNotificationChannel(channel);
+                channelId = channel.getId();
+            }
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getContext(), channelId)
+                    .setWhen(System.currentTimeMillis())
+                    // 设置通知标题
+                    .setContentTitle(getString(R.string.app_name))
+                    // 设置通知小图标
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    // 设置通知大图标
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                    // 设置通知静音
+                    .setDefaults(NotificationCompat.FLAG_ONLY_ALERT_ONCE)
+                    .setVibrate(new long[]{0})
+                    .setSound(null)
+                    // 设置通知的优先级
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+
             // 创建要下载的文件对象
             mApkFile = new File(DownloadUtil.getParentFile(getContext()), getString(R.string.app_name) + "_v" + BuildConfig.VERSION_CODE + ".apk");
 
@@ -195,6 +230,17 @@ public final class UpdateDialog {
 
                 @Override
                 protected void completed(@NonNull DownloadTask task) {
+                    // 显示下载成功通知
+                    notificationManager.notify(notificationId, notificationBuilder
+                            // 设置通知的文本
+                            .setContentText(String.format(getString(R.string.update_status_successful), 100))
+                            // 设置下载的进度
+                            .setProgress(100, 100, false)
+                            // 设置通知点击之后的意图
+                            .setContentIntent(PendingIntent.getActivity(getContext(), 1, getInstallIntent(), Intent.FILL_IN_ACTION))
+                            // 设置点击通知后是否自动消失
+                            .setAutoCancel(true)
+                            .build());
                     mUpdateView.setText(R.string.update_status_successful);
                     mDownloadComplete = true;
                     installApk();
@@ -221,6 +267,8 @@ public final class UpdateDialog {
 
                 @Override
                 protected void error(@NonNull DownloadTask task, @NonNull Exception e) {
+                    // 清除通知
+                    notificationManager.cancel(notificationId);
                     mUpdateView.setText(R.string.update_status_failed);
                     // 删除下载的文件
                     if (task.getFile() != null) {
@@ -248,6 +296,16 @@ public final class UpdateDialog {
                     BreakpointInfo info = StatusUtil.getCurrentInfo(task);
                     mUpdateView.setText(String.format(getString(R.string.update_status_running), DownloadUtil.getDownloadProgress(info.getTotalOffset(), info.getTotalLength())));
                     DownloadUtil.calcProgressToView(mProgressView, info.getTotalOffset(), info.getTotalLength());
+                    // 更新下载通知
+                    notificationManager.notify(notificationId, notificationBuilder
+                            // 设置通知的文本
+                            .setContentText(String.format(getString(R.string.update_status_running), DownloadUtil.getDownloadProgress(info.getTotalOffset(), info.getTotalLength())))
+                            // 设置下载的进度
+                            .setProgress(100, DownloadUtil.getDownloadProgress(info.getTotalOffset(), info.getTotalLength()), false)
+                            // 设置点击通知后是否自动消失
+                            .setAutoCancel(false)
+                            // 重新创建新的通知对象
+                            .build());
                 }
             });
         }
@@ -257,6 +315,13 @@ public final class UpdateDialog {
          */
         @Permissions({Permission.REQUEST_INSTALL_PACKAGES})
         private void installApk() {
+            getContext().startActivity(getInstallIntent());
+        }
+
+        /**
+         * 获取安装意图
+         */
+        private Intent getInstallIntent() {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_VIEW);
             Uri uri;
@@ -268,7 +333,7 @@ public final class UpdateDialog {
             }
             intent.setDataAndType(uri, "application/vnd.android.package-archive");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            getContext().startActivity(intent);
+            return intent;
         }
 
 

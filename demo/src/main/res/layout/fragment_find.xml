@@ -36,19 +36,13 @@
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/example_bg" />
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_find_corner"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:layout_marginStart="20dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="0px">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/example_bg" />
-                </androidx.cardview.widget.CardView>
+                    app:srcCompat="@drawable/example_bg"
+                    tools:scaleType="centerCrop" />
 
                 <com.yatoooon.baselibrary.widget.view.ScaleImageView
                     android:layout_width="80dp"
@@ -288,7 +282,7 @@
             <com.yatoooon.baselibrary.widget.layout.RatioFrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
+                android:background="@color/common_accent_color"
                 app:sizeRatio="2">
 
                 <androidx.appcompat.widget.AppCompatTextView

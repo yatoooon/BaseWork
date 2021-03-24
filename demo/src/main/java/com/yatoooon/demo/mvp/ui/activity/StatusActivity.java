@@ -7,15 +7,15 @@ import androidx.core.content.ContextCompat;
 
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.action.StatusAction;
-import com.yatoooon.demo.app.common.MyActivity;
+import com.yatoooon.demo.app.app.AppActivity;
 import com.yatoooon.demo.mvp.ui.dialog.MenuDialog;
-import com.yatoooon.demo.app.widget.HintLayout;
+import com.yatoooon.demo.app.widget.StatusLayout;
 
 import butterknife.BindView;
 
-public class StatusActivity extends MyActivity implements StatusAction {
+public class StatusActivity extends AppActivity implements StatusAction {
     @BindView(R.id.hl_status_hint)
-    HintLayout hlStatusHint;
+    StatusLayout hlStatusHint;
 
     @Override
     public int getLayoutId() {
@@ -48,7 +48,7 @@ public class StatusActivity extends MyActivity implements StatusAction {
                             showEmpty();
                             break;
                         case 3:
-                            showLayout(ContextCompat.getDrawable(getActivity(), R.drawable.hint_order_ic), "暂无订单", null);
+                            showLayout(ContextCompat.getDrawable(getActivity(), R.drawable.status_order_ic), "暂无订单", null);
                             break;
                         default:
                             break;
@@ -59,7 +59,7 @@ public class StatusActivity extends MyActivity implements StatusAction {
 
 
     @Override
-    public HintLayout getHintLayout() {
+    public StatusLayout getStatusLayout() {
         return hlStatusHint;
     }
 }

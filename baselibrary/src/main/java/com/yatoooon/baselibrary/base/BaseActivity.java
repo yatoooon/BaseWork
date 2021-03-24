@@ -20,7 +20,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.InflateException;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -31,11 +33,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
 
 import com.yatoooon.baselibrary.action.ActivityAction;
 import com.yatoooon.baselibrary.action.BundleAction;
 import com.yatoooon.baselibrary.action.ClickAction;
 import com.yatoooon.baselibrary.action.HandlerAction;
+import com.yatoooon.baselibrary.action.KeyboardAction;
 import com.yatoooon.baselibrary.base.delegate.IActivity;
 import com.yatoooon.baselibrary.integration.cache.Cache;
 import com.yatoooon.baselibrary.integration.cache.CacheType;
@@ -44,6 +48,7 @@ import com.yatoooon.baselibrary.mvp.IPresenter;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
@@ -64,12 +69,16 @@ import io.reactivex.subjects.Subject;
  * @see <a href="https://github.com/JessYanCoding/MVPArms/wiki/Issues">常见 Issues, 踩坑必看!</a>
  * @see <a href="https://github.com/JessYanCoding/ArmsComponent/wiki">MVPArms 官方组件化方案 ArmsComponent, 进阶指南!</a>
  * Created by JessYan on 22/03/2016
-
+ * <p>
  * ================================================
  */
-public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivity implements IActivity, ActivityLifecycleable, ActivityAction, ClickAction, HandlerAction, BundleAction {
+public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivity implements IActivity, ActivityLifecycleable, ActivityAction, ClickAction, HandlerAction, BundleAction, KeyboardAction {
     protected final String TAG = this.getClass().getSimpleName();
     private final BehaviorSubject<ActivityEvent> mLifecycleSubject = BehaviorSubject.create();
+    /**
+     * Activity 回调集合
+     */
+    private SparseArray<OnActivityCallback> mActivityCallbacks;
     @Inject
     @Nullable
     protected P mPresenter;//如果当前页面逻辑简单, Presenter 可以为 null
@@ -102,6 +111,10 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initActivity(savedInstanceState);
+    }
+
+    public void initActivity(@Nullable Bundle savedInstanceState) {
         initLayout();
         initView(savedInstanceState);
         initData(savedInstanceState);
@@ -131,7 +144,10 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
      */
     protected void initSoftKeyboard() {
         // 点击外部隐藏软键盘，提升用户体验
-        getContentView().setOnClickListener(v -> hideSoftKeyboard());
+        getContentView().setOnClickListener(v -> {
+            // 隐藏软键，避免内存泄漏
+            hideKeyboard(getCurrentFocus());
+        });
     }
 
     /**
@@ -198,7 +214,8 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
 
     @Override
     public void finish() {
-        hideSoftKeyboard();
+        // 隐藏软键，避免内存泄漏
+        hideKeyboard(getCurrentFocus());
         super.finish();
     }
 
@@ -239,32 +256,52 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     }
 
     public void startActivityForResult(Intent intent, @Nullable Bundle options, OnActivityCallback callback) {
-        // 回调还没有结束，所以不能再次调用此方法，这个方法只适合一对一回调，其他需求请使用原生的方法实现
-        if (mActivityCallback == null) {
-            mActivityCallback = callback;
-            // 随机生成请求码，这个请求码必须在 2 的 16 次幂以内，也就是 0 - 65535
-            mActivityRequestCode = new Random().nextInt((int) Math.pow(2, 16));
-            startActivityForResult(intent, mActivityRequestCode, options);
+        if (mActivityCallbacks == null) {
+            mActivityCallbacks = new SparseArray<>(1);
         }
+        // 请求码必须在 2 的 16 次方以内
+        int requestCode = new Random().nextInt((int) Math.pow(2, 16));
+        mActivityCallbacks.put(requestCode, callback);
+        startActivityForResult(intent, requestCode, options);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (mActivityCallback != null && mActivityRequestCode == requestCode) {
-            mActivityCallback.onActivityResult(resultCode, data);
-            mActivityCallback = null;
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
+        OnActivityCallback callback;
+        if (mActivityCallbacks != null && (callback = mActivityCallbacks.get(requestCode)) != null) {
+            callback.onActivityResult(resultCode, data);
+            mActivityCallbacks.remove(requestCode);
+            return;
         }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        for (Fragment fragment : fragments) {
+            // 这个 Fragment 必须是 BaseFragment 的子类，并且处于可见状态
+            if (!(fragment instanceof BaseFragment) ||
+                    fragment.getLifecycle().getCurrentState() != Lifecycle.State.RESUMED) {
+                continue;
+            }
+            // 将按键事件派发给 Fragment 进行处理
+            if (((BaseFragment<?>) fragment).dispatchKeyEvent(event)) {
+                // 如果 Fragment 拦截了这个事件，那么就不交给 Activity 处理
+                return true;
+            }
+        }
+        return super.dispatchKeyEvent(event);
     }
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        hideSoftKeyboard();
+        // 隐藏软键，避免内存泄漏
+        hideKeyboard(getCurrentFocus());
         // 查看源码得知 startActivity 最终也会调用 startActivityForResult
         super.startActivityForResult(intent, requestCode, options);
     }
-
 
     public interface OnActivityCallback {
 

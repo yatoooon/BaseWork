@@ -17,7 +17,7 @@ import com.hjq.toast.ToastUtils;
 public final class SafeDialog {
 
     public static final class Builder
-            extends UIDialog.Builder<Builder> {
+            extends CommonDialog.Builder<Builder> {
 
         private final TextView mPhoneView;
         private final EditText mCodeView;

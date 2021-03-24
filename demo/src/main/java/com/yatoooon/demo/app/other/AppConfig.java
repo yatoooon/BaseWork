@@ -3,15 +3,32 @@ package com.yatoooon.demo.app.other;
 import com.yatoooon.demo.BuildConfig;
 
 /**
- * App 配置管理类
+ *    author : Android 轮子哥
+ *    github : https://github.com/getActivity/AndroidProject
+ *    time   : 2019/09/02
+ *    desc   : App 配置管理类
  */
 public final class AppConfig {
 
     /**
-     * 当前是否为 Debug 模式
+     * 当前是否为调试模式
      */
     public static boolean isDebug() {
         return BuildConfig.DEBUG;
+    }
+
+    /**
+     * 获取当前构建的模式
+     */
+    public static String getBuildType() {
+        return BuildConfig.BUILD_TYPE;
+    }
+
+    /**
+     * 当前是否要开启日志打印功能
+     */
+    public static boolean isLogEnable() {
+        return BuildConfig.LOG_ENABLE;
     }
 
     /**
@@ -36,9 +53,16 @@ public final class AppConfig {
     }
 
     /**
-     * 获取 BuglyId
+     * 获取 Bugly Id
      */
     public static String getBuglyId() {
         return BuildConfig.BUGLY_ID;
+    }
+
+    /**
+     * 获取服务器主机地址
+     */
+    public static String getHostUrl() {
+        return BuildConfig.HOST_URL;
     }
 }

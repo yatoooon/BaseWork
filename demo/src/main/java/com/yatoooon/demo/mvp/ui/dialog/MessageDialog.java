@@ -16,7 +16,7 @@ import com.yatoooon.demo.app.aop.SingleClick;
 public final class MessageDialog {
 
     public static final class Builder
-            extends UIDialog.Builder<Builder> {
+            extends CommonDialog.Builder<Builder> {
 
         private OnListener mListener;
 

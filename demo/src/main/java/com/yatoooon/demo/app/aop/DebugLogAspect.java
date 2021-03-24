@@ -18,8 +18,10 @@ import org.aspectj.lang.reflect.MethodSignature;
 
 import java.util.concurrent.TimeUnit;
 
+import timber.log.Timber;
+
 /**
- *Debug 日志打印
+ * Debug 日志打印
  */
 @Aspect
 public class DebugLogAspect {
@@ -28,13 +30,15 @@ public class DebugLogAspect {
      * 构造方法切入点
      */
     @Pointcut("execution(@com.yatoooon.demo.app.aop.DebugLog *.new(..))")
-    public void constructor() {}
+    public void constructor() {
+    }
 
     /**
      * 方法切入点
      */
     @Pointcut("execution(@com.yatoooon.demo.app.aop.DebugLog * *(..))")
-    public void method() {}
+    public void method() {
+    }
 
     /**
      * 在连接点进行方法替换
@@ -80,10 +84,10 @@ public class DebugLogAspect {
     /**
      * 获取方法的日志信息
      *
-     * @param className         类名
-     * @param methodName        方法名
-     * @param parameterNames    方法参数名集合
-     * @param parameterValues   方法参数值集合
+     * @param className       类名
+     * @param methodName      方法名
+     * @param parameterNames  方法参数名集合
+     * @param parameterValues 方法参数值集合
      */
     @NonNull
     private StringBuilder getMethodLogInfo(String className, String methodName, String[] parameterNames, Object[] parameterValues) {
@@ -111,14 +115,10 @@ public class DebugLogAspect {
     /**
      * 方法执行完毕，切出
      *
-     * @param result            方法执行后的结果
-     * @param lengthMillis      执行方法所需要的时间
+     * @param result       方法执行后的结果
+     * @param lengthMillis 执行方法所需要的时间
      */
     private void exitMethod(ProceedingJoinPoint joinPoint, DebugLog debugLog, Object result, long lengthMillis) {
-        if (!AppConfig.isDebug()) {
-            return;
-        }
-
         Trace.endSection();
 
         Signature signature = joinPoint.getSignature();
@@ -144,6 +144,7 @@ public class DebugLogAspect {
     }
 
     private void log(String tag, String msg) {
-        Log.d(tag, msg);
+        Timber.tag(tag);
+        Timber.d(msg);
     }
 }

@@ -1,18 +1,13 @@
 package com.yatoooon.demo.di.module;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
-import com.yatoooon.baselibrary.base.BaseFragmentAdapter;
-import com.yatoooon.baselibrary.di.scope.ActivityScope;
 import com.yatoooon.baselibrary.di.scope.FragmentScope;
 
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
-import com.yatoooon.demo.app.common.MyFragment;
-import com.yatoooon.demo.mvp.contract.HomeContract;
 import com.yatoooon.demo.mvp.contract.StatusContract;
 import com.yatoooon.demo.mvp.model.StatusModel;
 import com.yatoooon.demo.mvp.ui.adapter.StatusAdapter;

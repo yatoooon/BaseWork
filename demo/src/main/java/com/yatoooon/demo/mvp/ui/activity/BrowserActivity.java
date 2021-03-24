@@ -1,8 +1,10 @@
 package com.yatoooon.demo.mvp.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -13,17 +15,17 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.action.StatusAction;
 import com.yatoooon.demo.app.aop.CheckNet;
 import com.yatoooon.demo.app.aop.DebugLog;
-import com.yatoooon.demo.app.common.MyActivity;
+import com.yatoooon.demo.app.app.AppActivity;
 import com.yatoooon.demo.app.other.IntentKey;
 import com.yatoooon.demo.app.widget.BrowserView;
-import com.yatoooon.demo.app.widget.HintLayout;
+import com.yatoooon.demo.app.widget.StatusLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import butterknife.BindView;
 
@@ -33,7 +35,7 @@ import butterknife.BindView;
  * time   : 2018/10/18
  * desc   : 浏览器界面
  */
-public final class BrowserActivity extends MyActivity
+public final class BrowserActivity extends AppActivity
         implements StatusAction, OnRefreshListener {
 
     @BindView(R.id.pb_browser_progress)
@@ -43,7 +45,7 @@ public final class BrowserActivity extends MyActivity
     @BindView(R.id.sl_browser_refresh)
     SmartRefreshLayout slBrowserRefresh;
     @BindView(R.id.hl_browser_hint)
-    HintLayout hlBrowserHint;
+    StatusLayout hlBrowserHint;
 
     @CheckNet
     @DebugLog
@@ -53,6 +55,9 @@ public final class BrowserActivity extends MyActivity
         }
         Intent intent = new Intent(context, BrowserActivity.class);
         intent.putExtra(IntentKey.URL, url);
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
         context.startActivity(intent);
     }
 
@@ -63,6 +68,8 @@ public final class BrowserActivity extends MyActivity
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
+        // 设置 WebView 生命管控
+        wvBrowserView.setLifecycleOwner(this);
         // 设置网页刷新监听
         slBrowserRefresh.setOnRefreshListener(this);
     }
@@ -74,13 +81,12 @@ public final class BrowserActivity extends MyActivity
         wvBrowserView.setBrowserViewClient(new MyBrowserViewClient());
         wvBrowserView.setBrowserChromeClient(new MyBrowserChromeClient(wvBrowserView));
 
-        String url = getString(IntentKey.URL);
-        wvBrowserView.loadUrl(url);
+        wvBrowserView.loadUrl(getString(IntentKey.URL));
     }
 
 
     @Override
-    public HintLayout getHintLayout() {
+    public StatusLayout getStatusLayout() {
         return hlBrowserHint;
     }
 
@@ -99,23 +105,6 @@ public final class BrowserActivity extends MyActivity
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    protected void onResume() {
-        wvBrowserView.onResume();
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        wvBrowserView.onPause();
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        wvBrowserView.onDestroy();
-        super.onDestroy();
-    }
 
     /**
      * 重新加载当前页
@@ -180,6 +169,14 @@ public final class BrowserActivity extends MyActivity
                 setTitle(title);
             }
         }
+
+        @Override
+        public void onReceivedIcon(WebView view, Bitmap icon) {
+            if (icon != null) {
+                setRightIcon(new BitmapDrawable(getResources(), icon));
+            }
+        }
+
 
         /**
          * 收到加载进度变化

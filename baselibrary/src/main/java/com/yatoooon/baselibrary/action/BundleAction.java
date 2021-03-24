@@ -8,7 +8,12 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
+/**
+ *    author : Android 轮子哥
+ *    github : https://github.com/getActivity/AndroidProject
+ *    time   : 2019/10/23
+ *    desc   : 参数意图
+ */
 public interface BundleAction {
 
     @Nullable
@@ -19,7 +24,11 @@ public interface BundleAction {
     }
 
     default int getInt(String name, int defaultValue) {
-        return getBundle() == null ? defaultValue : getBundle().getInt(name, defaultValue);
+        Bundle bundle = getBundle();
+        if (bundle == null) {
+            return defaultValue;
+        }
+        return bundle.getInt(name, defaultValue);
     }
 
     default long getLong(String name) {
@@ -27,7 +36,11 @@ public interface BundleAction {
     }
 
     default long getLong(String name, int defaultValue) {
-        return getBundle() == null ? defaultValue : getBundle().getLong(name, defaultValue);
+        Bundle bundle = getBundle();
+        if (bundle == null) {
+            return defaultValue;
+        }
+        return bundle.getLong(name, defaultValue);
     }
 
     default float getFloat(String name) {
@@ -35,7 +48,11 @@ public interface BundleAction {
     }
 
     default float getFloat(String name, int defaultValue) {
-        return getBundle() == null ? defaultValue : getBundle().getFloat(name, defaultValue);
+        Bundle bundle = getBundle();
+        if (bundle == null) {
+            return defaultValue;
+        }
+        return bundle.getFloat(name, defaultValue);
     }
 
     default double getDouble(String name) {
@@ -43,7 +60,11 @@ public interface BundleAction {
     }
 
     default double getDouble(String name, int defaultValue) {
-        return getBundle() == null ? defaultValue : getBundle().getDouble(name, defaultValue);
+        Bundle bundle = getBundle();
+        if (bundle == null) {
+            return defaultValue;
+        }
+        return bundle.getDouble(name, defaultValue);
     }
 
     default boolean getBoolean(String name) {
@@ -51,27 +72,51 @@ public interface BundleAction {
     }
 
     default boolean getBoolean(String name, boolean defaultValue) {
-        return getBundle() == null ? defaultValue : getBundle().getBoolean(name, defaultValue);
+        Bundle bundle = getBundle();
+        if (bundle == null) {
+            return defaultValue;
+        }
+        return bundle.getBoolean(name, defaultValue);
     }
 
     default String getString(String name) {
-        return getBundle() == null ? null : getBundle().getString(name);
+        Bundle bundle = getBundle();
+        if (bundle == null) {
+            return null;
+        }
+        return bundle.getString(name);
     }
 
     default <P extends Parcelable> P getParcelable(String name) {
-        return getBundle() == null ? null : getBundle().getParcelable(name);
+        Bundle bundle = getBundle();
+        if (bundle == null) {
+            return null;
+        }
+        return bundle.getParcelable(name);
     }
 
     @SuppressWarnings("unchecked")
     default <S extends Serializable> S getSerializable(String name) {
-        return (S) (getBundle() == null ? null : getBundle().getSerializable(name));
+        Bundle bundle = getBundle();
+        if (bundle == null) {
+            return null;
+        }
+        return (S) (bundle.getSerializable(name));
     }
 
     default ArrayList<String> getStringArrayList(String name) {
-        return getBundle() == null ? null : getBundle().getStringArrayList(name);
+        Bundle bundle = getBundle();
+        if (bundle == null) {
+            return null;
+        }
+        return bundle.getStringArrayList(name);
     }
 
     default ArrayList<Integer> getIntegerArrayList(String name) {
-        return getBundle() == null ? null : getBundle().getIntegerArrayList(name);
+        Bundle bundle = getBundle();
+        if (bundle == null) {
+            return null;
+        }
+        return bundle.getIntegerArrayList(name);
     }
 }

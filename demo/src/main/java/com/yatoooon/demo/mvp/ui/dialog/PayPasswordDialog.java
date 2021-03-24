@@ -15,7 +15,7 @@ import com.yatoooon.baselibrary.base.BaseAdapter;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.common.MyAdapter;
+import com.yatoooon.demo.app.app.AppAdapter;
 import com.yatoooon.demo.app.widget.PasswordView;
 
 import java.util.Arrays;
@@ -138,8 +138,9 @@ public final class PayPasswordDialog {
                                 for (String s : mRecordList) {
                                     password.append(s);
                                 }
-                                mListener.onCompleted(getDialog(), password.toString());
-
+                                if (mListener != null) {
+                                    mListener.onCompleted(getDialog(), password.toString());
+                                }
                             }, 300);
                         }
                     }
@@ -163,7 +164,7 @@ public final class PayPasswordDialog {
         }
     }
 
-    private static final class KeyboardAdapter extends MyAdapter<String> {
+    private static final class KeyboardAdapter extends AppAdapter<String> {
 
         /** 数字按钮条目 */
         private static final int TYPE_NORMAL = 0;
@@ -190,18 +191,18 @@ public final class PayPasswordDialog {
 
         @NonNull
         @Override
-        public MyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public AppAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             switch (viewType) {
                 case TYPE_DELETE:
-                    return new MyAdapter.SimpleHolder(R.layout.item_pay_password_delete);
+                    return new AppAdapter.SimpleHolder(R.layout.item_pay_password_delete);
                 case TYPE_EMPTY:
-                    return new MyAdapter.SimpleHolder(R.layout.item_pay_password_empty);
+                    return new AppAdapter.SimpleHolder(R.layout.item_pay_password_empty);
                 default:
                     return new KeyboardAdapter.ViewHolder();
             }
         }
 
-        private final class ViewHolder extends MyAdapter.ViewHolder {
+        private final class ViewHolder extends AppAdapter.ViewHolder {
 
             private final TextView mTextView;
 

@@ -25,13 +25,13 @@ import androidx.annotation.NonNull;
 import com.yatoooon.baselibrary.http.imageloader.glide.ImageConfigImpl;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.common.MyAdapter;
+import com.yatoooon.demo.app.app.AppAdapter;
 import com.yatoooon.demo.mvp.model.entity.User;
 
 import java.util.List;
 
 
-public class UserAdapter extends MyAdapter<User> {
+public class UserAdapter extends AppAdapter<User> {
     public UserAdapter(@NonNull Context context, List<User> list) {
         super(context);
         setData(list);
@@ -43,7 +43,7 @@ public class UserAdapter extends MyAdapter<User> {
         return new UserItemHolder();
     }
 
-    class UserItemHolder extends MyAdapter.ViewHolder {
+    class UserItemHolder extends AppAdapter.ViewHolder {
 
         private final ImageView ivAvatar;
         private final TextView tvName;

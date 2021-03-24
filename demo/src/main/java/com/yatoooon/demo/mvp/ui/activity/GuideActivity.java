@@ -5,16 +5,16 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.rd.PageIndicatorView;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.common.MyActivity;
-import com.yatoooon.demo.mvp.ui.adapter.GuidePagerAdapter;
+import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.mvp.ui.adapter.GuideAdapter;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.relex.circleindicator.CircleIndicator3;
 
 /**
  * author : Android 轮子哥
@@ -22,18 +22,15 @@ import butterknife.OnClick;
  * time   : 2019/09/21
  * desc   : APP 引导页
  */
-public final class GuideActivity extends MyActivity
-        implements ViewPager.OnPageChangeListener {
+public final class GuideActivity extends AppActivity {
 
     @BindView(R.id.vp_guide_pager)
-    ViewPager vpGuidePager;
-    @BindView(R.id.pv_guide_indicator)
-    PageIndicatorView pvGuideIndicator;
+    ViewPager2 vpGuidePager;
+    @BindView(R.id.cv_guide_indicator)
+    CircleIndicator3 cvGuideIndicator;
     @BindView(R.id.btn_guide_complete)
     AppCompatButton btnGuideComplete;
-    
-
-    private GuidePagerAdapter mPagerAdapter;
+    private GuideAdapter mAdapter;
 
     @Override
     public int getLayoutId() {
@@ -42,43 +39,52 @@ public final class GuideActivity extends MyActivity
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
-        pvGuideIndicator.setViewPager(vpGuidePager);
-        mPagerAdapter = new GuidePagerAdapter();
-        vpGuidePager.setAdapter(mPagerAdapter);
-        vpGuidePager.addOnPageChangeListener(this);
+        setOnClickListener(btnGuideComplete);
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
+        mAdapter = new GuideAdapter(this);
+        mAdapter.addItem(R.drawable.guide_1_bg);
+        mAdapter.addItem(R.drawable.guide_2_bg);
+        mAdapter.addItem(R.drawable.guide_3_bg);
+        vpGuidePager.setAdapter(mAdapter);
+        vpGuidePager.registerOnPageChangeCallback(mCallback);
+        cvGuideIndicator.setViewPager(vpGuidePager);
     }
 
-    /**
-     * {@link ViewPager.OnPageChangeListener}
-     */
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (vpGuidePager.getCurrentItem() == mPagerAdapter.getCount() - 1 && positionOffsetPixels > 0) {
-            btnGuideComplete.setVisibility(View.INVISIBLE);
+    private final ViewPager2.OnPageChangeCallback mCallback = new ViewPager2.OnPageChangeCallback() {
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            if (vpGuidePager.getCurrentItem() == mAdapter.getItemCount() - 1 && positionOffsetPixels > 0) {
+                cvGuideIndicator.setVisibility(View.VISIBLE);
+                btnGuideComplete.setVisibility(View.INVISIBLE);
+            }
         }
-    }
 
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-        if (state == ViewPager.SCROLL_STATE_IDLE) {
-            btnGuideComplete.setVisibility(vpGuidePager.getCurrentItem() == mPagerAdapter.getCount() - 1 ? View.VISIBLE : View.INVISIBLE);
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                boolean last = vpGuidePager.getCurrentItem() == mAdapter.getItemCount() - 1;
+                cvGuideIndicator.setVisibility(last ? View.INVISIBLE : View.VISIBLE);
+                btnGuideComplete.setVisibility(last ? View.VISIBLE : View.INVISIBLE);
+            }
         }
-    }
+    };
+
     @SingleClick
     @OnClick(R.id.btn_guide_complete)
     public void onViewClicked(View view) {
         startActivity(HomeActivity.class);
         finish();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        vpGuidePager.unregisterOnPageChangeCallback(mCallback);
+    }
+
 }

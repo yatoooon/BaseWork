@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.yatoooon.baselibrary.http.imageloader.glide.ImageConfigImpl;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.common.MyAdapter;
+import com.yatoooon.demo.app.app.AppAdapter;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
  *    time   : 2019/07/24
  *    desc   : 图片选择适配器
  */
-public final class ImageSelectAdapter extends MyAdapter<String> {
+public final class ImageSelectAdapter extends AppAdapter<String> {
 
     private final List<String> mSelectImages;
 
@@ -38,7 +38,7 @@ public final class ImageSelectAdapter extends MyAdapter<String> {
         return new ViewHolder();
     }
 
-    private final class ViewHolder extends MyAdapter.ViewHolder {
+    private final class ViewHolder extends AppAdapter.ViewHolder {
 
         private ImageView mImageView;
         private CheckBox mCheckBox;

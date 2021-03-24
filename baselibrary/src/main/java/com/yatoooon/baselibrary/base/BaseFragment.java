@@ -28,11 +28,13 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 
 import com.yatoooon.baselibrary.action.ActivityAction;
 import com.yatoooon.baselibrary.action.BundleAction;
 import com.yatoooon.baselibrary.action.ClickAction;
 import com.yatoooon.baselibrary.action.HandlerAction;
+import com.yatoooon.baselibrary.action.KeyboardAction;
 import com.yatoooon.baselibrary.action.ResourcesAction;
 import com.yatoooon.baselibrary.base.delegate.IActivity;
 import com.yatoooon.baselibrary.base.delegate.IFragment;
@@ -43,10 +45,13 @@ import com.yatoooon.baselibrary.mvp.IPresenter;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 
@@ -60,10 +65,10 @@ import io.reactivex.subjects.Subject;
  * @see <a href="https://github.com/JessYanCoding/MVPArms/wiki/Issues">常见 Issues, 踩坑必看!</a>
  * @see <a href="https://github.com/JessYanCoding/ArmsComponent/wiki">MVPArms 官方组件化方案 ArmsComponent, 进阶指南!</a>
  * Created by JessYan on 22/03/2016
-
+ * <p>
  * ================================================
  */
-public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IFragment, FragmentLifecycleable, ActivityAction, ResourcesAction, HandlerAction, ClickAction, BundleAction {
+public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IFragment, FragmentLifecycleable, ActivityAction, ResourcesAction, HandlerAction, ClickAction, BundleAction, KeyboardAction {
     protected final String TAG = this.getClass().getSimpleName();
     private final BehaviorSubject<FragmentEvent> mLifecycleSubject = BehaviorSubject.create();
     @Inject
@@ -74,7 +79,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     /**
      * Activity 对象
      */
-    private Activity mActivity;
+    private BaseActivity mActivity;
     /**
      * 根布局
      */
@@ -83,6 +88,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
      * 当前是否加载过
      */
     private boolean mLoading;
+    private Unbinder unbinder;
 
     @NonNull
     @Override
@@ -105,7 +111,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     public void onAttach(Context context) {
         super.onAttach(context);
         // 获得全局的 Activity
-        mActivity = requireActivity();
+        mActivity = (BaseActivity) requireActivity();
     }
 
     @Nullable
@@ -115,6 +121,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         if (getLayoutId() > 0) {
             mRootView = inflater.inflate(getLayoutId(), container, false);
             mRootView.setTag(getLayoutId(), savedInstanceState);  //在这里用布局的id做了key
+            unbinder = ButterKnife.bind(this, mRootView);
             return mRootView;
         } else {
             return null;
@@ -122,9 +129,15 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView();
+    }
+
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mLoading = false;
         mRootView = null;
     }
 
@@ -133,8 +146,34 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         super.onResume();
         if (!mLoading) {
             mLoading = true;
-            initFragment();
+            Bundle savedInstanceState = null;
+            if (mRootView != null) {
+                savedInstanceState = (Bundle) mRootView.getTag(getLayoutId());
+            }
+            initData(savedInstanceState);
+            onFragmentResume(true);
+            return;
         }
+
+        if (mActivity != null && mActivity.getLifecycle().getCurrentState() == Lifecycle.State.STARTED) {
+            onActivityResume();
+        } else {
+            onFragmentResume(false);
+        }
+    }
+
+    /**
+     * Fragment 可见回调
+     *
+     * @param first 是否首次调用
+     */
+    protected void onFragmentResume(boolean first) {
+    }
+
+    /**
+     * Activity 可见回调
+     */
+    protected void onActivityResume() {
     }
 
     /**
@@ -153,18 +192,10 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     /**
      * 获取绑定的 Activity，防止出现 getActivity 为空
      */
-    public Activity getAttachActivity() {
+    public BaseActivity getAttachActivity() {
         return mActivity;
     }
 
-    protected void initFragment() {
-        initView();
-        Bundle savedInstanceState = null;
-        if (mRootView != null) {
-            savedInstanceState = (Bundle) mRootView.getTag(getLayoutId());
-        }
-        initData(savedInstanceState);
-    }
 
     /**
      * 根据资源 id 获取一个 View 对象
@@ -186,22 +217,20 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     private BaseActivity.OnActivityCallback mActivityCallback;
     private int mActivityRequestCode;
 
+    /**
+     * startActivityForResult 方法优化
+     */
+
     public void startActivityForResult(Class<? extends Activity> clazz, BaseActivity.OnActivityCallback callback) {
-        startActivityForResult(new Intent(mActivity, clazz), null, callback);
+        getAttachActivity().startActivityForResult(clazz, callback);
     }
 
     public void startActivityForResult(Intent intent, BaseActivity.OnActivityCallback callback) {
-        startActivityForResult(intent, null, callback);
+        getAttachActivity().startActivityForResult(intent, null, callback);
     }
 
     public void startActivityForResult(Intent intent, Bundle options, BaseActivity.OnActivityCallback callback) {
-        // 回调还没有结束，所以不能再次调用此方法，这个方法只适合一对一回调，其他需求请使用原生的方法实现
-        if (mActivityCallback == null) {
-            mActivityCallback = callback;
-            // 随机生成请求码，这个请求码必须在 2 的 16 次幂以内，也就是 0 - 65535
-            mActivityRequestCode = new Random().nextInt((int) Math.pow(2, 16));
-            startActivityForResult(intent, mActivityRequestCode, options);
-        }
+        getAttachActivity().startActivityForResult(intent, options, callback);
     }
 
     @Override
@@ -218,8 +247,36 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
      * 销毁当前 Fragment 所在的 Activity
      */
     public void finish() {
-        if (mActivity != null && !mActivity.isFinishing()) {
-            mActivity.finish();
+        if (mActivity == null || mActivity.isFinishing() || mActivity.isDestroyed()) {
+            return;
+        }
+        mActivity.finish();
+    }
+
+    /**
+     * Fragment 按键事件派发
+     */
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        List<Fragment> fragments = getChildFragmentManager().getFragments();
+        for (Fragment fragment : fragments) {
+            // 这个子 Fragment 必须是 BaseFragment 的子类，并且处于可见状态
+            if (!(fragment instanceof BaseFragment) ||
+                    fragment.getLifecycle().getCurrentState() != Lifecycle.State.RESUMED) {
+                continue;
+            }
+            // 将按键事件派发给子 Fragment 进行处理
+            if (((BaseFragment<?>) fragment).dispatchKeyEvent(event)) {
+                // 如果子 Fragment 拦截了这个事件，那么就不交给父 Fragment 处理
+                return true;
+            }
+        }
+        switch (event.getAction()) {
+            case KeyEvent.ACTION_DOWN:
+                return onKeyDown(event.getKeyCode(), event);
+            case KeyEvent.ACTION_UP:
+                return onKeyUp(event.getKeyCode(), event);
+            default:
+                return false;
         }
     }
 
@@ -231,6 +288,14 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         return false;
     }
 
+    /**
+     * 按键抬起事件回调
+     */
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        // 默认不拦截按键事件
+        return false;
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -238,12 +303,14 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
             mPresenter.onDestroy();//释放资源
         }
         this.mPresenter = null;
+        mLoading = false;
+        removeCallbacks();
+        unbinder = null;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        removeCallbacks();
         mActivity = null;
     }
 

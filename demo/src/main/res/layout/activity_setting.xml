@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        app:bar_leftText="@string/setting_language"
+        app:bar_leftText="@string/setting_language_switchover"
         app:bar_rightIcon="@drawable/arrows_right_ic"
         tools:bar_rightHint="@string/setting_language_simple" />
 

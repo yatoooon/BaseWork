@@ -15,7 +15,7 @@ import com.yatoooon.baselibrary.action.AnimAction;
 import com.yatoooon.baselibrary.base.BaseAdapter;
 import com.yatoooon.baselibrary.base.BasePopupWindow;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.common.MyAdapter;
+import com.yatoooon.demo.app.app.AppAdapter;
 import com.yatoooon.demo.app.other.ArrowDrawable;
 
 import java.util.ArrayList;
@@ -117,7 +117,7 @@ public final class ListPopup {
         }
     }
 
-    private static final class MenuAdapter extends MyAdapter<Object> {
+    private static final class MenuAdapter extends AppAdapter<Object> {
 
         private MenuAdapter(Context context) {
             super(context);
@@ -129,7 +129,7 @@ public final class ListPopup {
             return new ViewHolder();
         }
 
-        private final class ViewHolder extends MyAdapter.ViewHolder {
+        private final class ViewHolder extends AppAdapter.ViewHolder {
 
             private final TextView mTextView;
 
