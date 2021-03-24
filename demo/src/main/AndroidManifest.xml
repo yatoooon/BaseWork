@@ -32,6 +32,7 @@
         tools:ignore="AllowBackup,LockedOrientationActivity"
         tools:replace="android:allowBackup,android:supportsRtl"
         tools:targetApi="n">
+        <activity android:name=".mvp.ui.activity.TestActivity" />
         <!--
  只要依赖 AutoSize 就必须填写设计图尺寸, 否则报错, 不想使用 AutoSize 就不要依赖 AutoSize
         只要填写完设计图的尺寸, AutoSize 就会自动启动, 以下 dp 尺寸是根据公式 px / (dpi / 160) 求出, 运算时使用测试机的 dpi 即可
@@ -46,6 +47,7 @@
         <meta-data
             android:name="com.yatoooon.demo.app.GlobalConfiguration"
             android:value="ConfigModule" /> <!-- 适配 Android 7.0 文件意图 -->
+        <!-- 适配 Android 7.0 文件意图 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -54,17 +56,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider> <!-- 适配 Android 7.0 文件意图 -->
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-        <!-- 闪屏界面 -->
+        </provider> <!-- 闪屏界面 -->
         <activity
             android:name=".mvp.ui.activity.SplashActivity"
             android:launchMode="singleTop"
@@ -83,12 +75,11 @@
             android:name=".mvp.ui.activity.CrashActivity"
             android:launchMode="singleTop"
             android:process=":crash"
-            android:screenOrientation="landscape" />
-        <!-- 重启应用（必须在独立进程） -->
+            android:screenOrientation="landscape" /> <!-- 重启应用（必须在独立进程） -->
         <activity
             android:name=".mvp.ui.activity.RestartActivity"
             android:launchMode="singleTop"
-            android:process=":restart" /><!-- 引导界面 -->
+            android:process=":restart" /> <!-- 引导界面 -->
         <activity
             android:name=".mvp.ui.activity.GuideActivity"
             android:launchMode="singleTop"
@@ -97,7 +88,7 @@
             android:name=".mvp.ui.activity.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/> <!-- 登录界面 -->
+            android:windowSoftInputMode="adjustPan" /> <!-- 登录界面 -->
         <activity
             android:name=".mvp.ui.activity.LoginActivity"
             android:launchMode="singleTop"

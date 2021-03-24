@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.yatoooon.baselibrary.http.imageloader.glide.ImageConfigImpl;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.app.AppAdapter;
+import com.yatoooon.demo.app.common.AppAdapter;
 
 import java.util.List;
 

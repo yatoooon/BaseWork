@@ -1,4 +1,4 @@
-package com.yatoooon.demo.app.app;
+package com.yatoooon.demo.app.common;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -9,7 +9,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.common.AppActivity;
 import com.yatoooon.demo.mvp.ui.adapter.GuideAdapter;
 
 import butterknife.BindView;
@@ -83,8 +83,8 @@ public final class GuideActivity extends AppActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         vpGuidePager.unregisterOnPageChangeCallback(mCallback);
+        super.onDestroy();
     }
 
 }

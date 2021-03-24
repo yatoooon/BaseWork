@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,7 +28,7 @@ import com.yatoooon.baselibrary.widget.view.ScaleImageView;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.DebugLog;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.common.AppActivity;
 import com.yatoooon.demo.app.manager.InputTextManager;
 import com.yatoooon.demo.app.other.IntentKey;
 import com.yatoooon.demo.app.other.KeyboardWatcher;
@@ -41,7 +42,6 @@ import com.yatoooon.umeng.UmengClient;
 import com.yatoooon.umeng.UmengLogin;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -164,6 +164,8 @@ public class LoginActivity extends AppActivity<LoginPresenter> implements UmengL
                 break;
             case R.id.btn_login_commit:
                 if (etLoginPhone.getText().toString().length() != 11) {
+                    etLoginPhone.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.shake_anim));
+                    btnLoginCommit.showError(3000);
                     toast(R.string.common_phone_input_error);
                     return;
                 }

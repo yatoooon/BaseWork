@@ -8,7 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.common.AppActivity;
 import com.yatoooon.baselibrary.di.component.AppComponent;
 
 import com.yatoooon.demo.di.component.DaggerRestartComponent;

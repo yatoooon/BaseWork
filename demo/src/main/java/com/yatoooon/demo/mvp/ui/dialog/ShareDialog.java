@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.yatoooon.baselibrary.base.BaseAdapter;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.app.AppAdapter;
+import com.yatoooon.demo.app.common.AppAdapter;
 import com.hjq.toast.ToastUtils;
 import com.yatoooon.umeng.Platform;
 import com.yatoooon.umeng.UmengClient;

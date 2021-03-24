@@ -1,16 +1,11 @@
 package com.yatoooon.demo.mvp.ui.fragment;
 
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
-import com.bumptech.glide.load.MultiTransformation;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.scwang.smart.refresh.layout.util.SmartUtil;
 import com.yatoooon.baselibrary.http.imageloader.glide.ImageConfigImpl;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
@@ -18,7 +13,7 @@ import com.yatoooon.baselibrary.widget.view.CountdownView;
 import com.yatoooon.baselibrary.widget.view.SwitchButton;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.app.AppFragment;
+import com.yatoooon.demo.app.common.AppFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;

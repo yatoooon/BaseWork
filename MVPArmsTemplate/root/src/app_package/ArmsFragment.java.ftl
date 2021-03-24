@@ -5,7 +5,7 @@ import android.os.Message;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import ${packageName}.app.common.MyFragment;
+import ${packageName}.app.common.AppFragment;
 import ${baselibraryName}.di.component.AppComponent;
 
 import ${componentPackageName}.Dagger${pageName}Component;
@@ -15,7 +15,7 @@ import ${presenterPackageName}.${pageName}Presenter;
 import ${packageName}.R;
 
 
-public class ${pageName}Fragment extends MyFragment<${pageName}Presenter> implements ${pageName}Contract.View{
+public class ${pageName}Fragment extends AppFragment<${pageName}Presenter> implements ${pageName}Contract.View{
 
     public static ${pageName}Fragment newInstance() {
         ${pageName}Fragment fragment = new ${pageName}Fragment();

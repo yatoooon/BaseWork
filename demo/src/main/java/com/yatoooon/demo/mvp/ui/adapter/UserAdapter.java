@@ -25,7 +25,7 @@ import androidx.annotation.NonNull;
 import com.yatoooon.baselibrary.http.imageloader.glide.ImageConfigImpl;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.app.AppAdapter;
+import com.yatoooon.demo.app.common.AppAdapter;
 import com.yatoooon.demo.mvp.model.entity.User;
 
 import java.util.List;

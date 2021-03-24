@@ -8,7 +8,7 @@
     public static ** valueOf(java.lang.String);
 }
 
--keep public class [com.hjq.umeng].R$*{
+-keep public class [com.yatoooon.umeng].R$*{
     public static final int *;
 }
 

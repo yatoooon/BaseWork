@@ -15,7 +15,7 @@ import com.yatoooon.baselibrary.action.AnimAction;
 import com.yatoooon.baselibrary.base.BaseAdapter;
 import com.yatoooon.baselibrary.base.BasePopupWindow;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.app.AppAdapter;
+import com.yatoooon.demo.app.common.AppAdapter;
 import com.yatoooon.demo.app.other.ArrowDrawable;
 
 import java.util.ArrayList;

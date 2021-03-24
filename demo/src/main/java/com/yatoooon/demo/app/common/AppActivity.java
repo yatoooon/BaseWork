@@ -1,4 +1,4 @@
-package com.yatoooon.demo.app.app;
+package com.yatoooon.demo.app.common;
 
 import android.content.Intent;
 import android.os.Bundle;

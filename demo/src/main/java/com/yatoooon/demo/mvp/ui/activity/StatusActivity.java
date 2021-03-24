@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.action.StatusAction;
-import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.common.AppActivity;
 import com.yatoooon.demo.mvp.ui.dialog.MenuDialog;
 import com.yatoooon.demo.app.widget.StatusLayout;
 

@@ -9,7 +9,7 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.yatoooon.baselibrary.http.imageloader.glide.ImageConfigImpl;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.app.AppAdapter;
+import com.yatoooon.demo.app.common.AppAdapter;
 
 /**
  *    author : Android 轮子哥
@@ -42,7 +42,7 @@ public final class ImagePreviewAdapter extends AppAdapter<String> {
         public void onBindView(int position) {
             ArmsUtils.obtainAppComponentFromContext(getContext()).imageLoader()
                     .loadImage(getContext(), ImageConfigImpl.builder()
-                            .res(position)
+                            .res(getItem(position))
                             .imageView(mPhotoView)
                             .build());
         }

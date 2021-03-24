@@ -10,7 +10,7 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
-import com.yatoooon.demo.app.app.AppFragment;
+import com.yatoooon.demo.app.common.AppFragment;
 import com.yatoooon.demo.mvp.contract.HomeContract;
 import com.yatoooon.demo.mvp.model.HomeModel;
 

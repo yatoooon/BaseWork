@@ -6,7 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.common.AppActivity;
 
 /**
  *    author : Android 轮子哥

@@ -2,12 +2,10 @@ package com.yatoooon.demo.mvp.ui.dialog;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +18,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.app.AppAdapter;
+import com.yatoooon.demo.app.common.AppAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,14 +1,12 @@
 package com.yatoooon.demo.mvp.ui.fragment;
 
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageView;
 
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.scwang.smart.refresh.layout.util.SmartUtil;
@@ -17,11 +15,9 @@ import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.Permissions;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.app.AppActivity;
-import com.yatoooon.demo.app.app.AppFragment;
+import com.yatoooon.demo.app.common.AppActivity;
+import com.yatoooon.demo.app.common.AppFragment;
 import com.yatoooon.demo.mvp.ui.activity.HomeActivity;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;

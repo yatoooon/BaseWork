@@ -15,7 +15,7 @@ import com.yatoooon.baselibrary.base.BaseAdapter;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.app.AppAdapter;
+import com.yatoooon.demo.app.common.AppAdapter;
 import com.yatoooon.demo.app.widget.PasswordView;
 
 import java.util.Arrays;

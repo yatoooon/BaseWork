@@ -17,7 +17,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.yatoooon.demo.mvp.ui.adapter.FragmentPagerAdapter;
 import com.yatoooon.baselibrary.di.component.AppComponent;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.app.AppFragment;
+import com.yatoooon.demo.app.common.AppFragment;
 import com.yatoooon.demo.app.widget.XCollapsingToolbarLayout;
 import com.yatoooon.demo.di.component.DaggerHomeComponent;
 import com.yatoooon.demo.mvp.contract.HomeContract;

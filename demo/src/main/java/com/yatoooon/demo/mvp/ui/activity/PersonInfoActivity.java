@@ -14,16 +14,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.FileProvider;
 
-import com.bumptech.glide.load.MultiTransformation;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.yatoooon.baselibrary.di.component.AppComponent;
 import com.yatoooon.baselibrary.http.imageloader.glide.ImageConfigImpl;
 import com.yatoooon.baselibrary.utils.ArmsUtils;
 import com.yatoooon.baselibrary.widget.layout.SettingBar;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.common.AppActivity;
 import com.yatoooon.demo.app.other.AppConfig;
 import com.yatoooon.demo.mvp.ui.dialog.AddressDialog;
 import com.yatoooon.demo.mvp.ui.dialog.InputDialog;

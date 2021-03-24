@@ -15,7 +15,7 @@ import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 import com.yatoooon.baselibrary.di.component.AppComponent;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.common.AppActivity;
 import com.yatoooon.demo.app.other.AppConfig;
 import com.yatoooon.demo.app.widget.SlantedTextView;
 import com.yatoooon.demo.di.component.DaggerSplashComponent;
@@ -23,7 +23,6 @@ import com.yatoooon.demo.mvp.contract.SplashContract;
 import com.yatoooon.demo.mvp.presenter.SplashPresenter;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 /**

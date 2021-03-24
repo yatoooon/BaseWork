@@ -19,7 +19,7 @@ import com.yatoooon.baselibrary.base.BaseAdapter;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.CheckNet;
 import com.yatoooon.demo.app.aop.DebugLog;
-import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.common.AppActivity;
 import com.yatoooon.demo.app.other.IntentKey;
 import com.yatoooon.demo.mvp.ui.adapter.ImagePreviewAdapter;
 import com.yatoooon.demo.mvp.ui.adapter.RecyclerPagerAdapter;

@@ -22,7 +22,7 @@ import com.yatoooon.baselibrary.widget.view.RegexEditText;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.DebugLog;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.common.AppActivity;
 import com.yatoooon.demo.app.manager.InputTextManager;
 import com.yatoooon.demo.app.other.IntentKey;
 import com.yatoooon.demo.app.widget.SubmitButton;
@@ -31,7 +31,6 @@ import com.yatoooon.demo.mvp.contract.RegisterContract;
 import com.yatoooon.demo.mvp.presenter.RegisterPresenter;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 

@@ -2,7 +2,6 @@ package com.yatoooon.demo.mvp.ui.activity;
 
 import android.Manifest;
 import android.app.Application;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -10,20 +9,15 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -31,9 +25,8 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.aop.DebugLog;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.common.AppActivity;
 import com.yatoooon.demo.app.manager.ThreadPoolManager;
 import com.yatoooon.demo.app.other.AppConfig;
 import com.yatoooon.demo.app.other.IntentKey;
@@ -49,9 +42,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * author : Android 轮子哥

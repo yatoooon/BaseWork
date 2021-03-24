@@ -10,7 +10,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.yatoooon.baselibrary.base.BaseActivity;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.app.AppFragment;
+import com.yatoooon.demo.app.common.AppFragment;
 import com.yatoooon.demo.mvp.ui.activity.AboutActivity;
 import com.yatoooon.demo.mvp.ui.activity.BrowserActivity;
 import com.yatoooon.demo.mvp.ui.activity.DialogActivity;

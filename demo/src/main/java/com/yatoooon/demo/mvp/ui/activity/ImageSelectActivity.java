@@ -24,7 +24,7 @@ import com.yatoooon.demo.app.action.StatusAction;
 import com.yatoooon.demo.app.aop.DebugLog;
 import com.yatoooon.demo.app.aop.Permissions;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.common.AppActivity;
 import com.yatoooon.demo.app.manager.ThreadPoolManager;
 import com.yatoooon.demo.mvp.ui.dialog.AlbumDialog;
 import com.yatoooon.demo.app.other.GridSpaceDecoration;

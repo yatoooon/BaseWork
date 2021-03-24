@@ -17,12 +17,11 @@ import com.yatoooon.baselibrary.base.BaseActivity;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.DebugLog;
 import com.yatoooon.demo.app.aop.Permissions;
-import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.common.AppActivity;
 import com.yatoooon.demo.app.other.AppConfig;
 import com.yatoooon.demo.app.other.IntentKey;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;

@@ -11,7 +11,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.demo.R;
 import com.yatoooon.demo.app.aop.SingleClick;
-import com.yatoooon.demo.app.app.AppActivity;
+import com.yatoooon.demo.app.common.AppActivity;
 import com.yatoooon.demo.app.manager.DialogManager;
 import com.yatoooon.demo.app.popup.ListPopup;
 import com.yatoooon.demo.mvp.ui.dialog.AddressDialog;
@@ -37,7 +37,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DialogActivity extends AppActivity {
