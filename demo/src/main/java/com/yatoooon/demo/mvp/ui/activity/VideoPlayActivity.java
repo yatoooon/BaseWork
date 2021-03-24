@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.action.SwipeAction;
 import com.yatoooon.demo.app.common.AppActivity;
 import com.yatoooon.demo.app.other.IntentKey;
 import com.yatoooon.demo.app.widget.PlayerView;
@@ -27,7 +26,7 @@ import java.io.File;
  * desc   : 视频播放界面
  */
 public final class VideoPlayActivity extends AppActivity
-        implements SwipeAction, PlayerView.onPlayListener {
+        implements  PlayerView.onPlayListener {
 
     private PlayerView mPlayerView;
     private VideoPlayActivity.Builder mBuilder;
@@ -92,10 +91,6 @@ public final class VideoPlayActivity extends AppActivity
                 .hideBar(BarHide.FLAG_HIDE_BAR);
     }
 
-    @Override
-    public boolean isSwipeEnable() {
-        return false;
-    }
 
     /**
      * 播放参数构建

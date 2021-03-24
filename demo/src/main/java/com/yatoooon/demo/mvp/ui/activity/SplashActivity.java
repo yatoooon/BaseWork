@@ -116,16 +116,5 @@ public class SplashActivity extends AppActivity<SplashPresenter> implements Spla
         //super.onBackPressed();
     }
 
-    @Override
-    public boolean isSwipeEnable() {
-        return false;
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
 
 }

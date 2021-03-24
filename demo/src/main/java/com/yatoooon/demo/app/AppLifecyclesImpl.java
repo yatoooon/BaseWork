@@ -50,12 +50,10 @@ import butterknife.ButterKnife;
 
 import com.yatoooon.demo.BuildConfig;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.action.SwipeAction;
 import com.yatoooon.demo.app.manager.ActivityManager;
 import com.yatoooon.demo.app.other.AppConfig;
 import com.yatoooon.demo.app.other.CrashHandler;
 
-import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
 /**

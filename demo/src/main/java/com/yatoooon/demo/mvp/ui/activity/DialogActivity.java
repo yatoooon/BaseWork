@@ -98,10 +98,6 @@ public class DialogActivity extends AppActivity {
 
     }
 
-    @Override
-    public boolean isSwipeEnable() {
-        return true;
-    }
 
     @SingleClick
     @OnClick({R.id.btn_dialog_message, R.id.btn_dialog_input, R.id.btn_dialog_bottom_menu, R.id.btn_dialog_center_menu, R.id.btn_dialog_single_select, R.id.btn_dialog_more_select, R.id.btn_dialog_succeed_toast, R.id.btn_dialog_fail_toast, R.id.btn_dialog_warn_toast, R.id.btn_dialog_wait, R.id.btn_dialog_pay, R.id.btn_dialog_address, R.id.btn_dialog_date, R.id.btn_dialog_time, R.id.btn_dialog_update, R.id.btn_dialog_share, R.id.btn_dialog_safe, R.id.btn_dialog_custom, R.id.btn_dialog_multi})

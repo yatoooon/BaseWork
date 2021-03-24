@@ -177,9 +177,10 @@ public class HomeActivity extends AppActivity<HomePresenter> implements HomeCont
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         vpHomePager.setAdapter(null);
         bvHomeNavigation.setOnNavigationItemSelectedListener(null);
+        super.onDestroy();
+
     }
 
 

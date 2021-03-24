@@ -244,10 +244,7 @@ public final class CrashActivity extends AppActivity {
         }
     }
 
-    @Override
-    public boolean isSwipeEnable() {
-        return false;
-    }
+
 
     @Override
     public void onBackPressed() {

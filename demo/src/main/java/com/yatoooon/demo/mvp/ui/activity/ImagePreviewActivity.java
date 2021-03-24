@@ -163,8 +163,8 @@ public final class ImagePreviewActivity extends AppActivity implements ViewPager
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mViewPager.removeOnPageChangeListener(this);
+        super.onDestroy();
     }
 
     /**

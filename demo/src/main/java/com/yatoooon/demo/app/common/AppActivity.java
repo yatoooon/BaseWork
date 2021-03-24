@@ -14,14 +14,13 @@ import com.yatoooon.baselibrary.base.BaseActivity;
 import com.yatoooon.baselibrary.base.BaseDialog;
 import com.yatoooon.baselibrary.mvp.IPresenter;
 import com.yatoooon.demo.R;
-import com.yatoooon.demo.app.action.SwipeAction;
 import com.yatoooon.demo.app.action.TitleBarAction;
 import com.yatoooon.demo.app.action.ToastAction;
 import com.yatoooon.demo.mvp.ui.dialog.WaitDialog;
 
 
 public abstract class AppActivity<P extends IPresenter> extends BaseActivity<P>
-        implements ToastAction, TitleBarAction, SwipeAction {
+        implements ToastAction, TitleBarAction {
 
     /**
      * 标题栏对象
