@@ -14,7 +14,7 @@ import com.yatoooon.demo.mvp.presenter.TestPresenter;
 
 import com.yatoooon.demo.R;
 
-//测试模版的activity
+
 public class TestActivity extends AppActivity<TestPresenter> implements TestContract.View {
 
     @Override

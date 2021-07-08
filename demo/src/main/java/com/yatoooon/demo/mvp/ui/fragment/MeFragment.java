@@ -25,6 +25,7 @@ import com.yatoooon.demo.mvp.ui.activity.PhoneChangeActivity;
 import com.yatoooon.demo.mvp.ui.activity.RegisterActivity;
 import com.yatoooon.demo.mvp.ui.activity.SettingActivity;
 import com.yatoooon.demo.mvp.ui.activity.StatusActivity;
+import com.yatoooon.demo.mvp.ui.activity.TestActivity;
 import com.yatoooon.demo.mvp.ui.activity.VideoPlayActivity;
 import com.yatoooon.demo.mvp.ui.activity.VideoSelectActivity;
 import com.yatoooon.demo.mvp.ui.dialog.InputDialog;
@@ -70,6 +71,8 @@ public class MeFragment extends AppFragment {
     AppCompatButton btnMeVideoPlay;
     @BindView(R.id.btn_me_crash)
     AppCompatButton btnMeCrash;
+    @BindView(R.id.btn_me_test)
+    AppCompatButton btnMeTest;
 
 
     public static MeFragment newInstance() {
@@ -101,7 +104,7 @@ public class MeFragment extends AppFragment {
     }
 
     @SingleClick
-    @OnClick({R.id.btn_me_dialog, R.id.btn_me_hint, R.id.btn_me_login, R.id.btn_me_register, R.id.btn_me_forget, R.id.btn_me_reset, R.id.btn_me_change, R.id.btn_me_personal, R.id.btn_message_setting, R.id.btn_me_about, R.id.btn_me_guide, R.id.btn_me_browser, R.id.btn_me_image_select, R.id.btn_me_image_preview, R.id.btn_me_video_select, R.id.btn_me_video_play, R.id.btn_me_crash})
+    @OnClick({R.id.btn_me_dialog, R.id.btn_me_hint, R.id.btn_me_login, R.id.btn_me_register, R.id.btn_me_forget, R.id.btn_me_reset, R.id.btn_me_change, R.id.btn_me_personal, R.id.btn_message_setting, R.id.btn_me_about, R.id.btn_me_guide, R.id.btn_me_browser, R.id.btn_me_image_select, R.id.btn_me_image_preview, R.id.btn_me_video_select, R.id.btn_me_video_play, R.id.btn_me_crash, R.id.btn_me_test})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_me_dialog:
@@ -185,10 +188,14 @@ public class MeFragment extends AppFragment {
                         .setVideoSource("http://vfx.mtime.cn/Video/2019/06/29/mp4/190629004821240734.mp4")
                         .start(getAttachActivity());
                 break;
+            case R.id.btn_me_test:
+                startActivity(TestActivity.class);
+                break;
             case R.id.btn_me_crash:
                 // 关闭 Bugly 异常捕捉
                 CrashReport.closeBugly();
                 throw new IllegalStateException("are you ok?");
+
         }
     }
 }

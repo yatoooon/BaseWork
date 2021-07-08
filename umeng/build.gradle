@@ -50,16 +50,13 @@ dependencies {
     implementation fileTree(include: ['*.aar'], dir: 'libs')
 
     
-    // 友盟基础组件：https://bintray.com/umsdk/release/common
-    implementation 'com.umeng.umsdk:common:2.2.5'
+    implementation  'com.umeng.umsdk:common:9.3.8'// 必选
+    implementation  'com.umeng.umsdk:asms:1.2.2'// 必选
 
-    // 友盟统计：https://bintray.com/umsdk/release/analytics
-    implementation 'com.umeng.umsdk:analytics:8.1.6'
+    implementation  'com.umeng.umsdk:share-core:7.1.4'//分享核心库，必选
+    implementation  'com.umeng.umsdk:share-qq:7.1.4'
+    implementation  'com.tencent.tauth:qqopensdk:3.51.2'//QQ官方SDK依赖库
+    implementation  'com.umeng.umsdk:share-wx:7.1.4'
+    implementation  'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.6.5'//微信官方SDK依赖库
 
-    // 友盟社会化：https://bintray.com/umsdk/release/share-core
-    //implementation 'com.umeng.umsdk:share-core:6.9.8'
-    // QQ SDK：https://bintray.com/umsdk/release/share-qq
-    //implementation 'com.umeng.umsdk:share-qq:6.9.8'
-    // 微信 SDK：https://bintray.com/umsdk/release/share-wx
-    //implementation 'com.umeng.umsdk:share-wx:6.9.8'
 }

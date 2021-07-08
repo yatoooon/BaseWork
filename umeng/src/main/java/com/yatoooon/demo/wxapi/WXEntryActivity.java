@@ -1,5 +1,6 @@
 package com.yatoooon.demo.wxapi;
 
+
 import com.umeng.socialize.weixin.view.WXCallbackActivity;
 
 /**

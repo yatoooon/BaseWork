@@ -15,7 +15,7 @@ import com.yatoooon.demo.mvp.presenter.TestPresenter;
 
 import com.yatoooon.demo.R;
 
-//测试模版的测试模版的fragment
+
 public class TestFragment extends AppFragment<TestPresenter> implements TestContract.View {
 
     public static TestFragment newInstance() {

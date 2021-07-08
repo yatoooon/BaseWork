@@ -5,6 +5,7 @@ buildscript {
         maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
         maven { url 'https://jitpack.io' }
+        maven { url 'https://repo1.maven.org/maven2/' }
         jcenter()
         google()
     }
@@ -28,7 +29,7 @@ allprojects {
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://jitpack.io' }
         // 友盟仓库：https://bintray.com/umsdk/release
-        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url 'https://repo1.maven.org/maven2/' }
         jcenter()
         google()
 
